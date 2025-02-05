@@ -30,7 +30,7 @@ all: $(NAME)
 #to create a program:
 $(NAME): $(OBJS) $(LIBFT_LIBRARY)
 	$(CC) $(CFLAGS) $^ -o $@ $(RLFLAG)
-	@echo -- prog created, try it by using ./cub3D
+	@echo -- prog created, try it by using ./cub3D \"*.cub\"
 
 #%.o rule will compile one .c file to its correspondig object (.o) file: without this rule it would not update correctly
 #automatic variables: $@ = the file name of the target of the rule, $< = the name of the prerequisite
