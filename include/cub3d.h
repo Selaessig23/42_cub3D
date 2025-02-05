@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/05 17:12:04 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:38:40 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 //to provide a standardized way to report and interpret error conditions
 #include <errno.h>
 
-int	ft_extension_check(char *input);
+//command_line_input_check.c
+int     ft_extension_check(char *input);
+//error_handling.c
+void	ft_error_handling(int err);
 
 # endif
