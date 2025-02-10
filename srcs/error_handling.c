@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/05 17:36:25 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:59:55 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@
 void	ft_error_handling(int err)
 {
 	if (err == 0)
-		dprintf(2, "please enter valid no of arguments for gaming fun (==1) \n");
+		dprintf(2, "Please enter valid no of arguments for gaming fun (==1) \n");
 	else if (err == 1)
-		dprintf(2, "wrong file format, please use extension \".cub\"\n");
+		dprintf(2, "Wrong file format, please use extension \".cub\"\n");
+	else if (err == 2)
+		dprintf(2, "Unable to open the file: %s.\n", strerror(errno));
+	else if (err == 3)
+		dprintf(2, "Unable to read from the file: %s.\n", strerror(errno));
 	exit (1);
 }

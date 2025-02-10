@@ -1,20 +1,22 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    .gitignore                                         :+:      :+:    :+:    #
+#    .gitignore_global                                  :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: mstracke <mstracke@student.42berlin.d      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:52:14 by mstracke          #+#    #+#              #
-#    Updated: 2025/02/05 15:54:24 by mstracke         ###   ########.fr        #
+#    Updated: 2025/02/10 10:50:20 by mstracke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ignore pdf subject
 subject_cub3D.pdf
 
-# ignore all files with extension .test that serve for testprints or testinputs
+# ignore all files with extension .test that serve for testprints or testinputs as well as directory /test
 *.test
+/test
+# ignore all object-files
 *.o
 /obj
 /libft/objs*
