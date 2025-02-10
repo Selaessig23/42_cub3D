@@ -20,6 +20,9 @@ CFLAGS += -I$(MLX_PATH)
 SRCS =	main.c \
 			command_line_input_check.c \
 			error_handling.c \
+			initiate_data.c \
+			free.c \
+			test.c
 
 #variable substitution		
 OBJS = $(SRCS:%.c=obj/%.o)

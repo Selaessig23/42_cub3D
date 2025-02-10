@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/10 11:59:57 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:33:03 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,34 @@
 //to provide a standardized way to report and interpret error conditions
 # include <errno.h>
 
+typedef struct s_color {
+	int	red;
+	int	green;
+	int	blue;
+}		t_color;
+
+typedef struct s_gamedata {
+	int		fd_north;
+	int		fd_south;
+	int		fd_east;
+	int		fd_west;
+	t_color	*floor;
+	t_color	*ceiling;
+	char	*map;
+}		t_gamedata;
+
 //command_line_input_check.c
 int			ft_access_check(char *inputfile);
 int			ft_extension_check(char *input);
 //error_handling.c
 void		ft_error_handling(int err);
+//initiate_data.c
+t_gamedata	*ft_initiate_data(int fd);
+//free.c
+void	ft_free_config(t_gamedata *config);
+
+
+//test.c
+void		ft_testprint(t_gamedata *config);
 
 #endif
