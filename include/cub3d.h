@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/12 15:01:24 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:22:35 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 //check https://harm-smits.github.io/42docs/libs/minilibx/
 //getting_started.html#installation
 //for good documentation of the minilibx-library
-# include "../mlx42/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 //to communicate with X server / X Window System (X11)
 # include <X11/X.h>
 //well documented at https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h
@@ -30,6 +30,11 @@
 # include <stdbool.h>
 //to provide a standardized way to report and interpret error conditions
 # include <errno.h>
+
+typedef struct s_cub3d
+{
+	mlx_t* mlx;
+} t_cub3d;
 
 //command_line_input_check.c
 int			ft_access_check(char *inputfile);
