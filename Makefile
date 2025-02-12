@@ -15,6 +15,7 @@ MLX_PATH = $(CUR_DIR)/MLX42
 MLX42 = $(CUR_DIR)/MLX42/build/libmlx42.a
 CFLAGS += -I$(MLX_PATH)
 
+LDFLAGS = -lglfw
 #sources
 SRCS =	main.c \
 			command_line_input_check.c \
@@ -26,9 +27,9 @@ OBJS = $(SRCS:%.c=obj/%.o)
 #This target depends on $(NAME), making it the default target to build everything.
 all: $(NAME)
 
-#to create a program:
+# Modify the linking rule to include LDFLAGS
 $(NAME): $(OBJS) $(LIBFT_LIBRARY) $(MLX42)
-	$(CC) $(CFLAGS) $^ -o $@ $(RLFLAG)
+	$(CC) $(OBJS) $(LIBFT_LIBRARY) $(MLX42) $(LDFLAGS) -o $@
 	@echo -- prog created, try it by using ./cub3D \"*.cub\"
 
 #%.o rule will compile one .c file to its correspondig object (.o) file: without this rule it would not update correctly
