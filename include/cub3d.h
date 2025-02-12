@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/10 17:33:03 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:27:03 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ typedef struct s_gamedata {
 int			ft_access_check(char *inputfile);
 int			ft_extension_check(char *input);
 //error_handling.c
-void		ft_error_handling(int err);
+void		ft_error_handling(int err, char *addinfo, t_gamedata *config);
 //initiate_data.c
 t_gamedata	*ft_initiate_data(int fd);
+//create_texture.c
+void		ft_create_texture(t_gamedata **p_config, char *line);
 //free.c
-void	ft_free_config(t_gamedata *config);
-
-
+void		ft_free_config(t_gamedata *config);
 //test.c
 void		ft_testprint(t_gamedata *config);
 

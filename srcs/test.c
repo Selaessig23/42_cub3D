@@ -1,7 +1,9 @@
 #include "cub3d.h"
 
-
-void		ft_testprint(t_gamedata *config)
+/**
+ * @brief test function to print the input of game config struct
+ */
+void	ft_testprint(t_gamedata *config)
 {
 	t_color	*floor_print;
 	t_color	*ceiling_print;
@@ -19,5 +21,5 @@ void		ft_testprint(t_gamedata *config)
 	ft_printf("floor red: %i\n", floor_print->red);
 	ft_printf("floor green: %i\n", floor_print->green);
 	ft_printf("floor blue: %i\n", floor_print->blue);
-	ft_printf("map: %s\n", config->map);
+	ft_printf("map:\n%s\n", config->map);
 }

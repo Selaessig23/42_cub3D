@@ -2,16 +2,22 @@
 
 int	ft_config_set_complete(t_gamedata *config)
 {
-	if (config->fd_north 
-		&& config->fd_south
-		&& config->fd_east
-		&& config->fd_west
-		&& config->floor
-		&& config->ceiling
-		&& config->map)
-		return (1);
-	else
-		return (0);
+	if (!config->fd_north)
+		ft_error_handling(5, ft_strdup("Path north texture"), config);
+	if (!config->fd_south)
+		ft_error_handling(5, ft_strdup("Path south texture"), config);
+	if (!config->fd_east)
+		ft_error_handling(5, ft_strdup("Path east texture"), config);
+	if (!config->fd_west)
+		ft_error_handling(5, ft_strdup("Path west texture"), config);
+	if (!config->floor)
+		ft_error_handling(5, ft_strdup("Floor color"), config); 
+	if (!config->ceiling)
+		ft_error_handling(5, ft_strdup("Ceiling color"), config); 
+	if (!config->map)
+		ft_error_handling(5, ft_strdup("Map"), config);
+	//ft_dprintf(1, "%i\n", config->fd_east);
+	return (1);
 }
 
 /**
@@ -27,27 +33,41 @@ static int	ft_search_map(t_gamedata **p_config, char *line, int fd)
 	temp1 = NULL;
 	temp2 = NULL;
 	config = *p_config;
-	if (!line)
-		return (0);
-	if (!ft_strncmp(line, "O", 1)
-		&& !ft_strncmp(line, "1", 1)
-		&& !ft_strncmp(line, "S", 1)
-		&& !ft_strncmp(line, "N", 1)
-		&& !ft_strncmp(line, "E", 1)
-		&& !ft_strncmp(line, "W", 1))
+	// if (!line)
+	// 	return (0);
+	// if (ft_strncmp(line, "O", 1)
+	// 	&& ft_strncmp(line, "1", 1)
+	// 	&& ft_strncmp(line, "S", 1)
+	// 	&& ft_strncmp(line, "N", 1)
+	// 	&& ft_strncmp(line, "E", 1)
+	// 	&& ft_strncmp(line, "W", 1))
+	// 	return (0);
+	if (*line != 'O'
+		&& *line != '1'
+		&& *line != 'S'
+		&& *line != 'N'
+		&& *line != 'E'
+		&& *line != 'W')
 		return (0);
 	temp1 = ft_strdup(line);
+	if (!temp1)
+		ft_error_handling(9, NULL, *p_config);
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
 		temp2 = temp1;
-		temp1 = ft_strjoin(line, temp2);
+		temp1 = ft_strjoin(temp2, line);
 		free(temp2);
 		free(line);
+		// printf("hello 2\n");
+		if (!temp1)
+			ft_error_handling(9, NULL, *p_config);
 	}
 	config->map = temp1;
+	// printf("hello 3\n");
+	return (1);
 }
 
 /**
@@ -67,20 +87,47 @@ static void	ft_set_color(t_gamedata **p_config, char *content, char c)
 	config = *p_config;
 	color = ft_calloc(1, sizeof(t_color));
 	if (!color)
-		ft_error_handling(9);
+		ft_error_handling(9, NULL, *p_config);
 	while (ft_isdigit(content[j]))
 		j += 1;
-	color->red = ft_substr(content, 0, j);
+	temp = ft_substr(content, 0, j);
+	if (!temp)
+	{
+		free(color);
+		free(content);
+		//free(line);
+		ft_error_handling(9, NULL, *p_config);
+	}
+	color->red = ft_atoi(temp);
+	free(temp);
 	j += 1;
 	i = j;
 	while (ft_isdigit(content[j]))
 		j += 1;
-	color->green = ft_substr(content, 0, j);
+	temp = ft_substr(content, i, j);
+	if (!temp)
+	{
+		free(color);
+		free(content);
+		//free(line);
+		ft_error_handling(9, NULL, *p_config);
+	}
+	color->green = ft_atoi(temp);
+	free(temp);
 	j += 1;
 	i = j;
 	while (ft_isdigit(content[j]))
 		j += 1;
-	color->blue = ft_substr(content, 0, j);
+	temp = ft_substr(content, i, j);
+	if (!temp)
+	{
+		free(color);
+		free(content);
+		//free(line);
+		ft_error_handling(9, NULL, *p_config);
+	}
+	color->blue = ft_atoi(temp);
+	free(temp);
 	if (c == 'C')
 		config->ceiling = color;
 	else
@@ -93,63 +140,46 @@ static void	ft_set_color(t_gamedata **p_config, char *content, char c)
  */
 static void	ft_search_colors(t_gamedata **p_config, char *line)
 {
-	t_gamedata	*config;
+	// t_gamedata	*config;
 	int			i;
-	char		temp;
+	char		*temp;
 
 	temp = NULL;
-	config = *p_config;
+	// config = *p_config;
 	i = 1;
-	if (!line)
-		return ;
+	// if (!line)
+	// 	return ;
 	if (!ft_strncmp(line, "F", 1)
-		|| !ft_strncmp(line, "C", 2))
+		|| !ft_strncmp(line, "C", 1))
 		while (ft_isdigit(line[i]))
 			i += 1;
+	else
+		return ;
 	if (!line[i])
 		return ;
 	temp = ft_strdup(&line[i]);
 	if (!temp)
-		ft_error_handling(0);
+		ft_error_handling(9, NULL, *p_config);
 	if (!ft_strncmp(line, "F", 1))
 		ft_set_color(p_config, temp, 'F');
-	else if (!ft_strncmp(line, "C", 2))
+	else if (!ft_strncmp(line, "C", 1))
 		ft_set_color(p_config, temp, 'C');
 }
+
 
 /**
  * @brief function that searches in input file for textures
  * identifiers
  */
-void	ft_search_textures(t_gamedata **p_config, char *line)
+static int	ft_search_textures(char *line)
 {
-	t_gamedata	*config;
-	int			i;
-	char		*temp;
-
-	config = *p_config;
-	i = 2;
-	temp = NULL;
-	if (!line)
-		return ;
 	if (!ft_strncmp(line, "NO", 2)
 		|| (!ft_strncmp(line, "SO", 2))
 		|| (!ft_strncmp(line, "WE", 2))
 		|| (!ft_strncmp(line, "EA", 2)))
-		while (ft_strncmp(&line[i], "./", 2))
-			i += 1;
-	temp = ft_strdup(&line[i]);
-	if (!temp)
-		ft_error_handling(9);
-	if (!ft_strncmp(line, "NO", 2))
-		config->fd_north = open(temp);
-	else if (!ft_strncmp(line, "SO", 2))
-		config->fd_south = open(temp);
-	else if (!ft_strncmp(line, "WE", 2))
-		config->fd_west = open(temp);
-	else if (!ft_strncmp(line, "EA", 2))
-		config->fd_east = open(temp);
-	free(temp);
+		return (1);
+	else
+		return (0);
 }
 
 /**
@@ -175,7 +205,7 @@ t_gamedata	*ft_initiate_data(int fd)
 	line_cpy = NULL;
 	config = ft_calloc(1, sizeof(t_gamedata));
 	if (!config)
-		ft_error_handling(9);
+		ft_error_handling(9, NULL, NULL);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -186,12 +216,21 @@ t_gamedata	*ft_initiate_data(int fd)
 			&& ((*line == ' ')
 				|| (*line >= 9 && *line <= 12)))
 			line += 1;
-		ft_search_textures(&config, line);
-		ft_search_colors(&config, line);
-		if (ft_search_map(&config, line, fd))
-			break ;
+		if (line)
+		{
+			if (ft_search_textures(line))
+				ft_create_texture(&config, line);
+			else if (ft_search_map(&config, line, fd))
+				break ;
+			else
+				ft_search_colors(&config, line);
+			// printf("test2\n");
+		}
 		free(line_cpy);
 	}
+	// printf("test3\n");
 	if (!ft_config_set_complete(config))
 		return (NULL);
+	else
+		return (config);
 }

@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:58:33 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/10 17:38:40 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:51:09 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ int	main(int ac, char *av[])
 		dprintf(1, "correct no of arguments and correct extension "
 			"for gaming fun, fd: %i\n", fd);
 		config = ft_initiate_data(fd);
+		// printf("test x\n");
 		close (fd);
 		ft_testprint(config);
 		ft_free_config(config);
 		return (0);
 	}
-	ft_error_handling(0);
+	ft_error_handling(0, NULL, NULL);
 }
