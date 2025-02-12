@@ -55,7 +55,7 @@ static int	ft_search_map(t_gamedata **p_config, char *line, int fd)
 	while (1)
 	{
 		line = get_next_line(fd);
-		if (!line)
+		if (!line || *line == '\n')
 			break ;
 		temp2 = temp1;
 		temp1 = ft_strjoin(temp2, line);
