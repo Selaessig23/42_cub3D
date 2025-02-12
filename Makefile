@@ -10,10 +10,9 @@ CFLAGS = -Wall -Wextra -Werror -g -Iinclude -Isrcs
 LIBFT = libft.a
 LIBFT_PATH = $(CUR_DIR)/libft
 LIBFT_LIBRARY = $(CUR_DIR)/libft/libft.a
-LIBFT_CREATE = libft.a
 CFLAGS += -Ilibft
-MLX_PATH = ../mlx_linux
-MLX_LIBRARY = ../mlx_linux/libmlx_Linux.a
+MLX_PATH = $(CUR_DIR)/MLX42
+MLX42 = $(CUR_DIR)/MLX42/build/libmlx42.a
 CFLAGS += -I$(MLX_PATH)
 
 #sources
@@ -28,7 +27,7 @@ OBJS = $(SRCS:%.c=obj/%.o)
 all: $(NAME)
 
 #to create a program:
-$(NAME): $(OBJS) $(LIBFT_LIBRARY)
+$(NAME): $(OBJS) $(LIBFT_LIBRARY) $(MLX42)
 	$(CC) $(CFLAGS) $^ -o $@ $(RLFLAG)
 	@echo -- prog created, try it by using ./cub3D \"*.cub\"
 
@@ -37,17 +36,19 @@ $(NAME): $(OBJS) $(LIBFT_LIBRARY)
 #-p (parent option): This option tells mkdir to create the directory and any necessary parent directories if they do not already exist. It also suppresses error messages if the directory already exists.
 #$(@D) is a special variable: if target is a file located in some directory, $(@D) will extract just the directory path from the target, 
 #otherwise If the target doesn’t include a directory (i.e., it's in the current directory), $(@D) expands to . (representing the current directory).
-$(OBJS): obj%.o : srcs%.c 
+obj/%.o: srcs/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 #The -C option is used to change the directory to the specified path before executing make. In this context, it ensures that make operates in the subfolder, not the current directory.
-$(LIBFT_LIBRARY): $(LIBFT_CREATE)
+$(LIBFT_LIBRARY):
 	make -C $(LIBFT_PATH)
 
-$(LIBFT_CREATE):
-#	make -C $(LIBFT_PATH)
-#	@echo -- UPDATE
+$(MLX42): 
+	@if [ ! -d "$(MLX_PATH)/build" ]; then \
+		cmake $(MLX_PATH) -B $(MLX_PATH)/build; \
+	fi
+	@cmake --build $(MLX_PATH)/build -j4
 
 #clean: This target removes the object files ($(OFILES)).
 #f: "force" -->prevents the command from prompting for confirmation

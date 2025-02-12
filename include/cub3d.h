@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/10 11:59:57 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:01:24 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 //check https://harm-smits.github.io/42docs/libs/minilibx/
 //getting_started.html#installation
 //for good documentation of the minilibx-library
-# include "../mlx_linux/mlx.h"
+# include "../mlx42/include/MLX42/MLX42.h"
 //to communicate with X server / X Window System (X11)
 # include <X11/X.h>
 //well documented at https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h
