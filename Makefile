@@ -22,7 +22,10 @@ SRCS =	main.c \
 			error_handling.c \
 			initiate_data.c \
 			create_texture.c \
+			create_color.c \
+			create_map.c \
 			free.c \
+			utils.c \
 			test.c
 
 #variable substitution		

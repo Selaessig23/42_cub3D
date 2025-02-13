@@ -12,6 +12,11 @@
 
 #include "libft.h"
 
+/**
+ * @brief checks if int c is a number according to ascii
+ * 
+ * @return 1 if digit, 0 if not
+ */
 int	ft_isdigit(int c)
 {
 	if (c >= 48 && c <= 57)

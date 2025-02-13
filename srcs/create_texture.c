@@ -1,5 +1,13 @@
 #include "cub3d.h"
 
+
+/**
+ * DESCRIPTION:
+ * this file assigns paths for the textures and checks if
+ * the path is correct and file is readable,
+ * otherwise it will print an error message
+ */
+
 /**
  * @brief function to get fd of texture and assign it to 
  * the corresponding (direction) texture
@@ -10,11 +18,7 @@ static void	ft_open_texture(t_gamedata **p_config, char *line, char *temp)
 	int			fd;
 
 	config = *p_config;
-	// printf("%s\n", temp);
-	// printf("%s\n", "/home/mstracke/development/cub3D/test/blue_stone.xpm");
-	// fd = open("/home/mstracke/development/cub3D/test/blue_stone.xpm", O_RDONLY);
 	fd = open(temp, O_RDONLY);
-	// printf("%i\n", fd);
 	if (fd < 0)
 	{
 		free(line);
@@ -22,8 +26,8 @@ static void	ft_open_texture(t_gamedata **p_config, char *line, char *temp)
 	}
 	if (read(fd, NULL, 0) < 0)
 	{
-			free(line);
-			ft_error_handling(3, temp, *p_config);
+		free(line);
+		ft_error_handling(3, temp, *p_config);
 	}
 	if (!ft_strncmp(line, "NO", 2))
 		config->fd_north = fd;
@@ -45,12 +49,10 @@ static void	ft_open_texture(t_gamedata **p_config, char *line, char *temp)
 
 void	ft_create_texture(t_gamedata **p_config, char *line)
 {
-	// t_gamedata	*config;
 	int			i;
 	int			j;
 	char		*temp;
 
-	// config = *p_config;
 	i = 2;
 	j = 0;
 	temp = NULL;
@@ -59,7 +61,7 @@ void	ft_create_texture(t_gamedata **p_config, char *line)
 	//while (line[i] && ft_strncmp(&line[i], "./", 2))
 	//what about tabs? line[i] >= 9 && line[i] <= 12
 	while (line[i] && line[i] == ' ')
-			i += 1;
+		i += 1;
 	// printf("test0 A: %s -> %s\n", line, &line[i]);
 	if (!&line[i])
 	{

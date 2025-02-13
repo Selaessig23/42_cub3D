@@ -51,7 +51,8 @@ static char	*ft_strncpy(char *dest, const char *src, size_t n)
 	}
 	return (dest);
 }
-
+//part of libft
+/*
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*r;
@@ -66,6 +67,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ft_strncpy(r, &s[start], len);
 	return (r);
 }
+*/
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

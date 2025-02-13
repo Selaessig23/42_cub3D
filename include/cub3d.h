@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/12 14:27:03 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:36:14 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,18 @@ int			ft_extension_check(char *input);
 void		ft_error_handling(int err, char *addinfo, t_gamedata *config);
 //initiate_data.c
 t_gamedata	*ft_initiate_data(int fd);
+int			ft_search_map(char *line);
 //create_texture.c
 void		ft_create_texture(t_gamedata **p_config, char *line);
+//create_color.c
+void		ft_set_color(t_gamedata **p_config, 
+				char *content, int start, char c);
+//creta_map.c
+int			ft_set_map(t_gamedata **p_config, char *line, int fd);
 //free.c
 void		ft_free_config(t_gamedata *config);
+//utils.c
+int			ft_startjumper(char *str);
 //test.c
 void		ft_testprint(t_gamedata *config);
 

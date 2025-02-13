@@ -6,10 +6,14 @@
  */
 void	ft_free_config(t_gamedata *config)
 {
-	close(config->fd_east);
-	close(config->fd_north);
-	close(config->fd_south);
-	close(config->fd_west);
+	if (config->fd_east > 2)
+		close(config->fd_east);
+	if (config->fd_north > 2)
+		close(config->fd_north);
+	if (config->fd_south > 2)
+		close(config->fd_south);
+	if (config->fd_west > 2)
+		close(config->fd_west);
 	free(config->floor);
 	free(config->ceiling);
 	free(config->map);
