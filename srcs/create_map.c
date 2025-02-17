@@ -31,7 +31,7 @@ static int	ft_map_valid_check(char *line)
 	{
 		if (*line == '\n')
 			return (1);
-		if (!ft_search_map(line) )
+		if (!ft_search_map(line))
 			return (0);
 		line += 1;
 	}
@@ -73,9 +73,7 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		else if (*line == '\n' || *line == '\0'
-			// || !ft_search_map(line)
-		)
+		else if (*line == '\n' || *line == '\0')
 		{
 			ft_freeing_support(fd, line);
 			break ;
@@ -104,58 +102,11 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
-	// char		*temp1;
-	// char		*temp2;
-	// !har	*temp3;
 
 	config = *p_config;
-	// temp2 = NULL;
-	// temp1 = ft_strdup(line);
-	//than I do not need to free gnl-line in initiate_data-function
-	// temp1 = line;
-	// line = NULL;
-	// if (!temp1)
-	// {
-	// 	free(line);
-	// 	ft_error_handling(9, NULL, *p_config);
-	// }
-	// printf("hi\n");
 	config->map = ft_gnl_maploop(line, fd, p_config);
 	if (!ft_wall_check(*p_config))
 		ft_error_handling(8, NULL, *p_config);
-	// while (1)
-	// {
-	// 	line = get_next_line(fd);
-	// 	if (line == NULL)
-	// 		break ;
-	// 	else if (*line == '\n' || *line == '\0'
-	// 		|| !ft_search_map(line))
-	// 	{
-	// 		ft_freeing_support(fd, line);
-	// 		break ;
-	// 	}
-	// 	else if (!ft_map_valid_check(line))
-	// 	{
-	// 		ft_freeing_support(fd, line);
-	// 		free(temp1);
-	// 		temp1 = NULL;
-	// 		ft_error_handling(7, NULL, *p_config);
-	// 	}
-	// 	else
-	// 	{
-	// 		// maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
-	// 		//(difficult without being able to use realloc)
-	// 		// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));
-	// 		temp2 = temp1;
-	// 		temp1 = ft_strjoin(temp2, line);
-	// 		free(temp2);
-	// 		free(line);
-	// 		// pr!ntf("hello 2\n");
-	// 		if (!temp1)
-	// 			ft_error_handling(9, NULL, *p_config);
-	// 	}
-	// }
-	// config->map = temp1;
 	// printf("hello 3\n");
 	return (1);
 }
