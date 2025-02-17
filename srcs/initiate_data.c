@@ -62,7 +62,6 @@ int	ft_search_map(char *line)
 	int			i;
 
 	i = ft_startjumper(line);
-	// printf("map check: line(%i): $%c$\n", i, line[i]);
 	if (line[i] != '0'
 		&& line[i] != '1'
 		&& line[i] != 'S'
@@ -76,8 +75,7 @@ int	ft_search_map(char *line)
 
 /**
  * @brief function that searches in input file for floor and ceiling 
- * identifier and if yes sends the corresponding value to
- * ft_set_color for assigning it to game config data
+ * identifier ("F" / "C")
  * 
  * @param line the line of the input file to check for color identifiers
  */
@@ -91,7 +89,6 @@ static int	ft_search_colors(char *line)
 		return (1);
 	else 
 		return (0);
-
 	// i += 1;
 	// while (!ft_isdigit(line[i]))
 	// 	i += 1;
@@ -127,6 +124,34 @@ static int	ft_search_textures(char *line)
 		return (0);
 }
 
+void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
+{
+	char	*line;
+
+	line = NULL;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		// if (*line)
+		// {
+		if (ft_search_textures(line))
+			ft_set_texture(p_config, line, fd);
+		else if (ft_search_map(line))
+		{
+			ft_set_map(p_config, line, fd);
+			// free(line);
+			break ;
+		}
+		else if (ft_search_colors(line))
+			ft_set_color(p_config, line, fd);
+		// printf("test2\n");
+		// }
+		free(line);
+	}
+}
+
 /**
  * @brief function that sets the game config by reading from
  * input file (of command line argument) and sorting content 
@@ -140,33 +165,34 @@ static int	ft_search_textures(char *line)
 t_gamedata	*ft_initiate_data(int fd)
 {
 	t_gamedata	*config;
-	char		*line;
+	// char		*line;
 
-	line = NULL;
+	// line = NULL;
 	config = ft_calloc(1, sizeof(t_gamedata));
 	if (!config)
 		ft_error_handling(9, NULL, NULL);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		// if (*line)
-		// {
-		if (ft_search_textures(line))
-			ft_create_texture(&config, line, fd);
-		else if (ft_search_map(line))
-		{
-			ft_set_map(&config, line, fd);
-			// free(line);
-			break ;
-		}
-		else if (ft_search_colors(line))
-			ft_set_color(&config, line, fd);
-		// printf("test2\n");
-		// }
-		free(line);
-	}
+	ft_gnl_infileloop(fd, &config);
+	// while (1)
+	// {
+	// 	line = get_next_line(fd);
+	// 	if (line == NULL)
+	// 		break ;
+	// 	// if (*line)
+	// 	// {
+	// 	if (ft_search_textures(line))
+	// 		ft_create_texture(&config, line, fd);
+	// 	else if (ft_search_map(line))
+	// 	{
+	// 		ft_set_map(&config, line, fd);
+	// 		// free(line);
+	// 		break ;
+	// 	}
+	// 	else if (ft_search_colors(line))
+	// 		ft_set_color(&config, line, fd);
+	// 	// printf("test2\n");
+	// 	// }
+	// 	free(line);
+	// }
 	// printf("test3\n");
 	if (!ft_config_set_complete(config))
 		return (NULL);

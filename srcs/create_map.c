@@ -11,6 +11,14 @@
  * --> correct / desired behaviour?
  */
 
+static int	ft_wall_check(t_gamedata *config)
+{
+	if (config)
+		return (1);
+	else
+		return (0);
+}
+
 /**
  * @brief function to check the line of map for valid characters
  * 
@@ -29,6 +37,61 @@ static int	ft_map_valid_check(char *line)
 	}
 	return (1);
 }
+/**
+ * @brief adds a new line of input (gnl) to existing string
+ */
+
+char	*ft_concat(char *str_old, char *str_toadd, t_gamedata **p_config)
+{
+	char	*temp;
+	char	*str_new;
+	// maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
+	//(difficult without being able to use realloc)
+	// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));
+	temp = str_old;
+	str_new = ft_strjoin(str_old, str_toadd);
+	free(temp);
+	free(str_toadd);
+	// pr!ntf("hello 2\n");
+	if (!str_new)
+		ft_error_handling(9, NULL, *p_config);
+	return (str_new);
+}
+
+/**
+ * @brief function to loop through the end of input file,
+ * which has to be the map input, and use each line for
+ * map char creation until eol or invalid character
+ */
+static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
+{
+	char	*line;
+
+	line = NULL;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		else if (*line == '\n' || *line == '\0'
+			// || !ft_search_map(line)
+		)
+		{
+			ft_freeing_support(fd, line);
+			break ;
+		}
+		else if (!ft_map_valid_check(line))
+		{
+			ft_freeing_support(fd, line);
+			free(map);
+			map = NULL;
+			ft_error_handling(7, NULL, *p_config);
+		}
+		else
+			map = ft_concat(map, line, p_config);
+	}
+	return (map);
+}
 
 
 /**
@@ -41,56 +104,58 @@ static int	ft_map_valid_check(char *line)
 int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
-	char		*temp1;
-	char		*temp2;
+	// char		*temp1;
+	// char		*temp2;
 	// !har	*temp3;
 
 	config = *p_config;
-	temp2 = NULL;
+	// temp2 = NULL;
 	// temp1 = ft_strdup(line);
 	//than I do not need to free gnl-line in initiate_data-function
-	temp1 = line;
-	line = NULL;
-	if (!temp1)
-	{
-		free(line);
-		ft_error_handling(9, NULL, *p_config);
-	}
+	// temp1 = line;
+	// line = NULL;
+	// if (!temp1)
+	// {
+	// 	free(line);
+	// 	ft_error_handling(9, NULL, *p_config);
+	// }
 	// printf("hi\n");
-	while (1)	
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		else if (*line == 'a' || *line == 'b'
-			|| !ft_search_map(line)
-			)
-		{
-			ft_freeing_support(fd, line);
-			break ;
-		}
-		else if (!ft_map_valid_check(line))
-		{
-			ft_freeing_support(fd, line);
-			free(temp1);
-			temp1 = NULL;
-			ft_error_handling(7, NULL, *p_config);
-		}
-		else
-		{
-			// maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
-			//(difficult without being able to use realloc)
-			// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));
-			temp2 = temp1;
-			temp1 = ft_strjoin(temp2, line);
-			free(temp2);
-			free(line);
-			// pr!ntf("hello 2\n");
-			if (!temp1)
-				ft_error_handling(9, NULL, *p_config);
-		}
-	}
-	config->map = temp1;
+	config->map = ft_gnl_maploop(line, fd, p_config);
+	if (!ft_wall_check(*p_config))
+		ft_error_handling(8, NULL, *p_config);
+	// while (1)
+	// {
+	// 	line = get_next_line(fd);
+	// 	if (line == NULL)
+	// 		break ;
+	// 	else if (*line == '\n' || *line == '\0'
+	// 		|| !ft_search_map(line))
+	// 	{
+	// 		ft_freeing_support(fd, line);
+	// 		break ;
+	// 	}
+	// 	else if (!ft_map_valid_check(line))
+	// 	{
+	// 		ft_freeing_support(fd, line);
+	// 		free(temp1);
+	// 		temp1 = NULL;
+	// 		ft_error_handling(7, NULL, *p_config);
+	// 	}
+	// 	else
+	// 	{
+	// 		// maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
+	// 		//(difficult without being able to use realloc)
+	// 		// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));
+	// 		temp2 = temp1;
+	// 		temp1 = ft_strjoin(temp2, line);
+	// 		free(temp2);
+	// 		free(line);
+	// 		// pr!ntf("hello 2\n");
+	// 		if (!temp1)
+	// 			ft_error_handling(9, NULL, *p_config);
+	// 	}
+	// }
+	// config->map = temp1;
 	// printf("hello 3\n");
 	return (1);
 }

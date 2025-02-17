@@ -3,7 +3,7 @@
 
 /**
  * DESCRIPTION:
- * this file assigns paths for the textures and checks if
+ * this file assigns fd for texture-paths if
  * the path is correct and file is readable,
  * otherwise it will print an error message
  */
@@ -43,12 +43,12 @@ static void	ft_open_texture(t_gamedata **p_config,
 }
 
 /**
- * @brief function that checks for the path of the file of the 
- * texture and sends this to ft_open_texture(p_config, line, temp)
- * to check the file and assign a fd to the config struct
+ * @brief function that checks for the path of the texture in
+ * input file and sends the path to ft_open_texture(p_config, line, temp)
+ * to check accessibility of the file and assign a fd to the config struct
  */
 
-void	ft_create_texture(t_gamedata **p_config, char *line, int fd)
+void	ft_set_texture(t_gamedata **p_config, char *line, int fd)
 {
 	int			i;
 	int			j;

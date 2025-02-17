@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/17 10:42:11 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:43:54 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_error_handling(int err, char *addinfo, t_gamedata *config)
 		ft_dprintf(2, "Color values are wrong\n");
 	else if (err == 7)
 		ft_dprintf(2, "Map input is wrong. Wrong character(s).\n");
+	else if (err == 8)
+		ft_dprintf(2, "The map is not surrounded by walls.\n");
 	else if (err == 9)
 		ft_dprintf(2, "Malloc problems.\n");
 	free(addinfo);
