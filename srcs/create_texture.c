@@ -12,33 +12,34 @@
  * @brief function to get fd of texture and assign it to 
  * the corresponding (direction) texture
  */
-static void	ft_open_texture(t_gamedata **p_config, char *line, char *temp)
+static void	ft_open_texture(t_gamedata **p_config, 
+		char *line, char *temp, int fd_infile)
 {
 	t_gamedata	*config;
-	int			fd;
+	int			fd_texture;
 
 	config = *p_config;
-	fd = open(temp, O_RDONLY);
-	if (fd < 0)
+	fd_texture = open(temp, O_RDONLY);
+	if (fd_texture < 0)
 	{
-		free(line);
+		ft_freeing_support(fd_infile, line);
 		ft_error_handling(2, temp, *p_config);
 	}
-	if (read(fd, NULL, 0) < 0)
+	if (read(fd_texture, NULL, 0) < 0)
 	{
-		free(line);
+		ft_freeing_support(fd_infile, line);
 		ft_error_handling(3, temp, *p_config);
 	}
 	if (!ft_strncmp(line, "NO", 2))
-		config->fd_north = fd;
+		config->fd_north = fd_texture;
 	else if (!ft_strncmp(line, "SO", 2))
-		config->fd_south = fd;
+		config->fd_south = fd_texture;
 	else if (!ft_strncmp(line, "WE", 2))
-		config->fd_west = fd;
+		config->fd_west = fd_texture;
 	else if (!ft_strncmp(line, "EA", 2))
-		config->fd_east = fd;
+		config->fd_east = fd_texture;
 	else
-		printf("where which\n");
+		printf("error: where which\n");
 }
 
 /**
@@ -47,7 +48,7 @@ static void	ft_open_texture(t_gamedata **p_config, char *line, char *temp)
  * to check the file and assign a fd to the config struct
  */
 
-void	ft_create_texture(t_gamedata **p_config, char *line)
+void	ft_create_texture(t_gamedata **p_config, char *line, int fd)
 {
 	int			i;
 	int			j;
@@ -65,7 +66,7 @@ void	ft_create_texture(t_gamedata **p_config, char *line)
 	// printf("test0 A: %s -> %s\n", line, &line[i]);
 	if (!&line[i])
 	{
-		free(line);
+		ft_freeing_support(fd, line);
 		ft_error_handling(4, ft_substr(line, 0, 2), *p_config);
 	}
 	j = i + 1;
@@ -75,12 +76,12 @@ void	ft_create_texture(t_gamedata **p_config, char *line)
 	temp = ft_substr(line, i, j);
 	if (!temp)
 	{
-		free(line);
+		ft_freeing_support(fd, line);
 		ft_error_handling(9, NULL, *p_config);
 	}
 	// printf("last char of temp: %i\n", temp[j - i]);
 	if (line[j - i])
 		temp[j - i] = '\0';
-	ft_open_texture(p_config, line, temp);
+	ft_open_texture(p_config, line, temp, fd);
 	free(temp);
 }

@@ -28,6 +28,7 @@
  */
 int	ft_config_set_complete(t_gamedata *config)
 {
+	// ft_testprint(config);
 	if (!config->fd_north)
 		ft_error_handling(5, ft_strdup("Path north texture"), config);
 	if (!config->fd_south)
@@ -48,8 +49,12 @@ int	ft_config_set_complete(t_gamedata *config)
 
 /**
  * @brief function that searches for map
- * idntifiers (ignoring spaces | tabs | \n 
- * at the beginning of the line)
+ * identifiers, ignoring spaces 
+ * (| tabs | \n )
+ * at the beginning of the line
+ *  
+ * @return 0 in case NO identifier was found, 
+ * 	1 if identifier was found
  * 
  */
 int	ft_search_map(char *line)
@@ -57,8 +62,8 @@ int	ft_search_map(char *line)
 	int			i;
 
 	i = ft_startjumper(line);
-	printf("%i\n", i);
-	if (line[i] != 'O'
+	// printf("map check: line(%i): $%c$\n", i, line[i]);
+	if (line[i] != '0'
 		&& line[i] != '1'
 		&& line[i] != 'S'
 		&& line[i] != 'N'
@@ -76,28 +81,31 @@ int	ft_search_map(char *line)
  * 
  * @param line the line of the input file to check for color identifiers
  */
-static void	ft_search_colors(t_gamedata **p_config, char *line)
+static int	ft_search_colors(char *line)
 {
 	int		i;
 
 	i = ft_startjumper(line);
-	if (ft_strncmp(&line[i], "F", 1)
-		&& ft_strncmp(&line[i], "C", 1))
-		return ;
-	i += 1;
-	while (!ft_isdigit(line[i]))
-		i += 1;
-	if (!line[i])
-	{
-		// return ;
-		free(line);
-		ft_error_handling(9, 
-			"no color for ceiling or floor defined", *p_config);
-	}
-	if (!ft_strncmp(line, "F", 1))
-		ft_set_color(p_config, line, i, 'F');
-	else if (!ft_strncmp(line, "C", 1))
-		ft_set_color(p_config, line, i, 'C');
+	if (!ft_strncmp(&line[i], "F", 1)
+		|| !ft_strncmp(&line[i], "C", 1))
+		return (1);
+	else 
+		return (0);
+
+	// i += 1;
+	// while (!ft_isdigit(line[i]))
+	// 	i += 1;
+	// if (!line[i])
+	// {
+	// 	// return ;
+	// 	free(line);
+	// 	ft_error_handling(9, 
+	// 		"no color for ceiling or floor defined", *p_config);
+	// }
+	// if (!ft_strncmp(line, "F", 1))
+	// 	ft_set_color(p_config, line, i, 'F');
+	// else if (!ft_strncmp(line, "C", 1))
+	// 	ft_set_color(p_config, line, i, 'C');
 }
 
 
@@ -145,17 +153,17 @@ t_gamedata	*ft_initiate_data(int fd)
 			break ;
 		// if (*line)
 		// {
-			if (ft_search_textures(line))
-				ft_create_texture(&config, line);
-			else if (ft_search_map(line))
-			{
-				ft_set_map(&config, line, fd);
-				free(line);
-				break ;
-			}
-			else
-				ft_search_colors(&config, line);
-			// printf("test2\n");
+		if (ft_search_textures(line))
+			ft_create_texture(&config, line, fd);
+		else if (ft_search_map(line))
+		{
+			ft_set_map(&config, line, fd);
+			// free(line);
+			break ;
+		}
+		else if (ft_search_colors(line))
+			ft_set_color(&config, line, fd);
+		// printf("test2\n");
 		// }
 		free(line);
 	}

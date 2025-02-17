@@ -12,6 +12,26 @@
  */
 
 /**
+ * @brief function to check the line of map for valid characters
+ * 
+ * @return returns 1 if map is valid
+ * 0 if NOT valid
+*/ 
+static int	ft_map_valid_check(char *line)
+{
+	while (*line)
+	{
+		if (*line == '\n')
+			return (1);
+		if (!ft_search_map(line) )
+			return (0);
+		line += 1;
+	}
+	return (1);
+}
+
+
+/**
  * @brief function that assigns the content of input file,
  * identified as part of map (last part of content in file, 
  * allowed characters: 0, 1, N, S, E, W)
@@ -23,30 +43,38 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	t_gamedata	*config;
 	char		*temp1;
 	char		*temp2;
-	// char	*temp3;
+	// !har	*temp3;
 
 	config = *p_config;
 	temp2 = NULL;
-	temp1 = ft_strdup(line);
+	// temp1 = ft_strdup(line);
 	//than I do not need to free gnl-line in initiate_data-function
-	// temp1 = line;
+	temp1 = line;
+	line = NULL;
 	if (!temp1)
 	{
 		free(line);
 		ft_error_handling(9, NULL, *p_config);
 	}
 	// printf("hi\n");
-	while (1)
+	while (1)	
 	{
 		line = get_next_line(fd);
-		if (!line)
+		if (line == NULL)
 			break ;
-		else if (*line == '\n' || *line == '\0'
-			|| !ft_search_map(line))
+		else if (*line == 'a' || *line == 'b'
+			|| !ft_search_map(line)
+			)
 		{
-			printf("test\n");
-			free(line);
+			ft_freeing_support(fd, line);
 			break ;
+		}
+		else if (!ft_map_valid_check(line))
+		{
+			ft_freeing_support(fd, line);
+			free(temp1);
+			temp1 = NULL;
+			ft_error_handling(7, NULL, *p_config);
 		}
 		else
 		{
@@ -57,7 +85,7 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 			temp1 = ft_strjoin(temp2, line);
 			free(temp2);
 			free(line);
-			// printf("hello 2\n");
+			// pr!ntf("hello 2\n");
 			if (!temp1)
 				ft_error_handling(9, NULL, *p_config);
 		}

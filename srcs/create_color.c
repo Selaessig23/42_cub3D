@@ -30,12 +30,14 @@
 /**
  * @brief helper function to free within 25lines limit
  */
-static void	ft_free_helper_for_extract(t_color *color, char *str,
-	int *i)
+static void	ft_free_helper_for_extract(t_color *color, char *line,
+	int *i, int fd)
 {
-	free(color);
-	free(str);
-	free(i);
+	if (color)
+		free(color);
+	ft_freeing_support(fd, line);
+	if (i)
+		free(i);
 }
 
 /**
@@ -44,7 +46,7 @@ static void	ft_free_helper_for_extract(t_color *color, char *str,
  * is correct (>0 && < 256)
  */
 static int	ft_extract_color(t_gamedata **p_config, t_color *color, 
-	char *to_extract, int *startindex)
+	char *to_extract, int *startindex, int fd)
 {
 	char	*temp;
 	int		i;
@@ -57,13 +59,13 @@ static int	ft_extract_color(t_gamedata **p_config, t_color *color,
 	temp = ft_substr(to_extract, *startindex, i);
 	if (!temp)
 	{
-		ft_free_helper_for_extract(color, to_extract, startindex);
+		ft_free_helper_for_extract(color, to_extract, startindex, fd);
 		ft_error_handling(9, NULL, *p_config);
 	}
 	color_value = ft_atoi(temp);
 	if (color_value < 0 || color_value > 255)
 	{
-		ft_free_helper_for_extract(color, to_extract, startindex);
+		ft_free_helper_for_extract(color, to_extract, startindex, fd);
 		ft_error_handling(6, NULL, *p_config);
 	}
 	free(temp);
@@ -75,37 +77,65 @@ static int	ft_extract_color(t_gamedata **p_config, t_color *color,
 * @brief (helper) function that sets the color for floor and ceiling
 * if identifiers were found in a line of input file
 * 
-* @param content the line of content inclusive the color identifier, 
+* @param line the line of content inclusive the color identifier, 
 * that has to be cleaned and than assigned to the game config variables
 * @param start the index where to start searching for color values
 * @param c the color identifier that was found (to be assigned)
 */
-void	ft_set_color(t_gamedata **p_config, char *content, int start, char c)
+// void	ft_set_color(t_gamedata **p_config, char *line, int start, char c)
+void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
 	t_color		*color;
+	int			start;
 	int			*i;
 
-	i = ft_calloc(1, sizeof(int));
-	*i = start;
 	config = *p_config;
+	color = NULL;
+	start = 1;
+	i = NULL;
+	while (!ft_isdigit(line[start]))
+		start += 1;
+	if (!line[start])
+	{
+		ft_free_helper_for_extract(NULL, line, i, fd);
+		ft_error_handling(5, 
+			"no color for ceiling or floor defined", *p_config);
+	}
+	i = ft_calloc(1, sizeof(int));
+	if (!i)
+	{
+		ft_free_helper_for_extract(NULL, line, i, fd);
+		ft_error_handling(9, 
+			"no color for ceiling or floor defined", *p_config);
+	}
+	*i = start;
+	// i += 1;
+	// while (!ft_isdigit(line[*i]))
+	// 	*i += 1;
+	// if (!line[*i])
+	// {
+	// 	ft_free_helper_for_extract(NULL, line, i, fd);
+	// 	ft_error_handling(5, 
+	// 		"no color for ceiling or floor defined", *p_config);
+	// }
 	color = ft_calloc(1, sizeof(t_color));
 	if (!color)
 	{
-		ft_free_helper_for_extract(NULL, content, i);
+		ft_free_helper_for_extract(NULL, line, i, fd);
 		ft_error_handling(9, NULL, *p_config);
 	}
 	color->red = ft_extract_color(p_config, color, 
-			content, i);
-	while (!ft_isdigit(content[*i]))
+			line, i, fd);
+	while (!ft_isdigit(line[*i]))
 		*i += 1;
 	color->green = ft_extract_color(p_config, color, 
-			content, i);
-	while (!ft_isdigit(content[*i]))
+			line, i, fd);
+	while (!ft_isdigit(line[*i]))
 		*i += 1;
 	color->blue = ft_extract_color(p_config, color, 
-			content, i);
-	if (c == 'C')
+			line, i, fd);
+	if (!ft_strncmp(line, "C", 1))
 		config->ceiling = color;
 	else
 		config->floor = color;
