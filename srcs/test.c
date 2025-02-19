@@ -1,5 +1,17 @@
 #include "cub3d.h"
 
+void	ft_testprint_maparray(char **map_arr)
+{
+	int		i;
+
+	i = 0;
+	while (map_arr[i])
+	{
+		printf("line %i of map: %s\n", i, map_arr[i]);
+		i += 1;
+	}
+}
+
 /**
  * @brief test function to print the input of game config struct
  */
@@ -21,17 +33,8 @@ void	ft_testprint(t_gamedata *config)
 	ft_printf("floor red: %i\n", floor_print->red);
 	ft_printf("floor green: %i\n", floor_print->green);
 	ft_printf("floor blue: %i\n", floor_print->blue);
-	ft_printf("map:\n%s\n", config->map);
+	ft_testprint_maparray(config->map);
+	// ft_printf("map:\n%s\n", config->map);
 }
 
-void	ft_testprint_maparray(char **map_arr)
-{
-	int		i;
 
-	i = 0;
-	while (map_arr[i])
-	{
-		printf("line %i of map: %s\n", i, map_arr[i]);
-		i += 1;
-	}
-}

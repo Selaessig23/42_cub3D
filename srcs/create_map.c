@@ -11,14 +11,6 @@
  * --> correct / desired behaviour?
  */
 
-static int	ft_wall_check(t_gamedata *config)
-{
-	if (config)
-		return (1);
-	else
-		return (0);
-}
-
 /**
  * @brief function to check the line of map for valid characters
  * 
@@ -31,16 +23,18 @@ static int	ft_map_valid_check(char *line)
 	{
 		if (*line == '\n')
 			return (1);
-		if (!ft_search_map(line))
+		if (*line == ' ')
+			line += 1;
+		else if (!ft_search_map(line))
 			return (0);
-		line += 1;
+		else
+			line += 1;
 	}
 	return (1);
 }
 /**
  * @brief adds a new line of input (gnl) to existing string
  */
-
 char	*ft_concat(char *str_old, char *str_toadd, t_gamedata **p_config)
 {
 	char	*temp;
@@ -97,20 +91,24 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
  * allowed characters: 0, 1, N, S, E, W)
  * 
  * CHECK: DO I need to delete the \n of last char of last line?
+ * (NO in case of creating an array of chars out of it, then using it
+ * as a delimiter for split)
  */
 int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
-	char		**map_arr;
+	char		*map_clean;
 
 	config = *p_config;
-	map_arr = NULL;
-	config->map = ft_gnl_maploop(line, fd, p_config);
-	// map_arr = ft_split(config->map, '\n');
-	// ft_testprint_maparray(map_arr);
-	// ft_free(map_arr);
-	if (!ft_wall_check(*p_config))
+	map_clean = ft_gnl_maploop(line, fd, p_config);
+	config->map = ft_split(map_clean, '\n');
+	free(map_clean);
+	// ft_testprint_maparray(config->map);
+	if (!ft_wall_check(*p_config, fd))
+	{
+		close (fd);
 		ft_error_handling(8, NULL, *p_config);
+	}
 	// printf("hello 3\n");
 	return (1);
 }

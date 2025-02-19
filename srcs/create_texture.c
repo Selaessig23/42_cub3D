@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-
 /**
  * DESCRIPTION:
  * this file assigns fd for texture-paths if

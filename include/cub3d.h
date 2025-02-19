@@ -32,7 +32,7 @@ typedef struct s_gamedata {
 	int		fd_west;
 	t_color	*floor;
 	t_color	*ceiling;
-	char	*map;
+	char	**map;
 }		t_gamedata;
 
 typedef struct s_cub3d
@@ -52,8 +52,10 @@ int			ft_search_map(char *line);
 void		ft_set_texture(t_gamedata **p_config, char *line, int fd_infile);
 //create_color.c
 void		ft_set_color(t_gamedata **p_config, char *line, int fd);
-//creta_map.c
+//create_map.c
 int			ft_set_map(t_gamedata **p_config, char *line, int fd);
+//map_wallcheck.c
+int			ft_wall_check(t_gamedata *config, int fd);
 //free.c
 void		ft_freeing_support(int fd, char *line);
 void		ft_free_config(t_gamedata *config);

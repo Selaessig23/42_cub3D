@@ -43,8 +43,7 @@ void	ft_free_config(t_gamedata *config)
 	config->floor = NULL;
 	free(config->ceiling);
 	config->ceiling = NULL;
-	free(config->map);
-	config->map = NULL;
+	ft_free(config->map);
 	free(config);
 	config = NULL;
 }
