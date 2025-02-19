@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/17 14:43:54 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:35:54 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void		ft_free_config(t_gamedata *config);
 int			ft_startjumper(char *str);
 //test.c
 void		ft_testprint(t_gamedata *config);
+void		ft_testprint_maparray(char **map_arr);
 
 #endif

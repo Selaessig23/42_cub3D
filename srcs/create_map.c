@@ -91,7 +91,6 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 	return (map);
 }
 
-
 /**
  * @brief function that assigns the content of input file,
  * identified as part of map (last part of content in file, 
@@ -102,9 +101,14 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
+	char		**map_arr;
 
 	config = *p_config;
+	map_arr = NULL;
 	config->map = ft_gnl_maploop(line, fd, p_config);
+	// map_arr = ft_split(config->map, '\n');
+	// ft_testprint_maparray(map_arr);
+	// ft_free(map_arr);
 	if (!ft_wall_check(*p_config))
 		ft_error_handling(8, NULL, *p_config);
 	// printf("hello 3\n");
