@@ -79,30 +79,25 @@ int	ft_search_map(char *line)
  * 
  * @param line the line of the input file to check for color identifiers
  */
-static int	ft_search_colors(char *line)
+static int	ft_search_colors(t_gamedata *config, char *line, int fd)
 {
 	int		i;
 
 	i = ft_startjumper(line);
-	if (!ft_strncmp(&line[i], "F", 1)
+	if (!ft_strncmp(&line[i], "F", 1) && config->floor)
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(8, ft_strdup("floor color"), config);
+	}
+	else if (!ft_strncmp(&line[i], "C", 1) && config->ceiling)
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(8, ft_strdup("ceiling color"), config);
+	}
+	else if (!ft_strncmp(&line[i], "F", 1)
 		|| !ft_strncmp(&line[i], "C", 1))
 		return (1);
-	else 
-		return (0);
-	// i += 1;
-	// while (!ft_isdigit(line[i]))
-	// 	i += 1;
-	// if (!line[i])
-	// {
-	// 	// return ;
-	// 	free(line);
-	// 	ft_error_handling(9, 
-	// 		"no color for ceiling or floor defined", *p_config);
-	// }
-	// if (!ft_strncmp(line, "F", 1))
-	// 	ft_set_color(p_config, line, i, 'F');
-	// else if (!ft_strncmp(line, "C", 1))
-	// 	ft_set_color(p_config, line, i, 'C');
+	return (0);
 }
 
 
@@ -165,7 +160,7 @@ void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 			// free(line);
 			break ;
 		}
-		else if (ft_search_colors(line))
+		else if (ft_search_colors(*p_config, line, fd))
 			ft_set_color(p_config, line, fd);
 		// printf("test2\n");
 		// }
@@ -186,35 +181,11 @@ void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 t_gamedata	*ft_initiate_data(int fd)
 {
 	t_gamedata	*config;
-	// char		*line;
 
-	// line = NULL;
 	config = ft_calloc(1, sizeof(t_gamedata));
 	if (!config)
 		ft_error_handling(9, NULL, NULL);
 	ft_gnl_infileloop(fd, &config);
-	// while (1)
-	// {
-	// 	line = get_next_line(fd);
-	// 	if (line == NULL)
-	// 		break ;
-	// 	// if (*line)
-	// 	// {
-	// 	if (ft_search_textures(line))
-	// 		ft_create_texture(&config, line, fd);
-	// 	else if (ft_search_map(line))
-	// 	{
-	// 		ft_set_map(&config, line, fd);
-	// 		// free(line);
-	// 		break ;
-	// 	}
-	// 	else if (ft_search_colors(line))
-	// 		ft_set_color(&config, line, fd);
-	// 	// printf("test2\n");
-	// 	// }
-	// 	free(line);
-	// }
-	// printf("test3\n");
 	if (!ft_config_set_complete(config))
 		return (NULL);
 	else

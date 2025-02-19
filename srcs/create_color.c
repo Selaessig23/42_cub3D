@@ -56,8 +56,15 @@ static int	ft_extract_color(t_gamedata **p_config, t_color *color,
 
 	i = *startindex;
 	color_value = 0;
+	temp = NULL;
 	while (ft_isdigit(to_extract[i]))
 		i += 1;
+	// if (!to_extract[i] || to_extract[i] == '\n')
+	// {
+	// 	temp = ft_substr(to_extract, 0, 1);
+	// 	ft_free_helper_for_extract(color, to_extract, startindex, fd);
+	// 	ft_error_handling(4, temp, *p_config);
+	// }
 	temp = ft_substr(to_extract, *startindex, i);
 	if (!temp)
 	{
@@ -125,13 +132,13 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 
 	start = 1;
 	i = NULL;
-	while (!ft_isdigit(line[start]))
+	while (line[start] && !ft_isdigit(line[start]))
 		start += 1;
-	if (!line[start])
+	if (!line[start] || line[start] == '\n')
 	{
 		ft_free_helper_for_extract(NULL, line, i, fd);
-		ft_error_handling(5, 
-			"no color for ceiling or floor defined", *p_config);
+		ft_error_handling(4, 
+			ft_strdup("ceiling color (\"C\") or floor color (\"F\")"), *p_config);
 	}
 	i = ft_calloc(1, sizeof(int));
 	if (!i)
@@ -143,3 +150,10 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 	ft_assign_color(p_config, line, i, fd);
 	free (i);
 }
+
+// if (!to_extract[i] || to_extract[i] == '\n')
+// {
+// 	temp = ft_substr(to_extract, 0, 1);
+// 	ft_free_helper_for_extract(color, to_extract, startindex, fd);
+// 	ft_error_handling(4, temp, *p_config);
+// }
