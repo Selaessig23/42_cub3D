@@ -108,20 +108,41 @@ static int	ft_search_colors(char *line)
 
 /**
  * @brief function that searches in input file for textures
- * identifiers
+ * identifiers and checks if this identifier has already been 
+ * defined (==nor clear definition of corresponding texture
+ * identifier -> error message and exit)
  */
-static int	ft_search_textures(char *line)
+static int	ft_search_textures(t_gamedata *config, char *line, int fd)
 {
 	int	i;
 
 	i = ft_startjumper(line);
-	if (!ft_strncmp(&line[i], "NO", 2)
+	if (!ft_strncmp(&line[i], "NO", 2) && config->fd_north)
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(8, ft_strdup("NORTH texture"), config);
+	}
+	else if (!ft_strncmp(&line[i], "SO", 2) && config->fd_south)
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(8, ft_strdup("SOUTH texture"), config);
+	}
+	else if (!ft_strncmp(&line[i], "WE", 2) && config->fd_west)
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(8, ft_strdup("WEST texture"), config);
+	}
+	else if (!ft_strncmp(&line[i], "EA", 2) && config->fd_east)
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(8, ft_strdup("EAST texture"), config);
+	}
+	else if (!ft_strncmp(&line[i], "NO", 2)
 		|| (!ft_strncmp(&line[i], "SO", 2))
 		|| (!ft_strncmp(&line[i], "WE", 2))
 		|| (!ft_strncmp(&line[i], "EA", 2)))
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
@@ -136,7 +157,7 @@ void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 			break ;
 		// if (*line)
 		// {
-		if (ft_search_textures(line))
+		if (ft_search_textures(*p_config, line, fd))
 			ft_set_texture(p_config, line, fd);
 		else if (ft_search_map(line))
 		{
