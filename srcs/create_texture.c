@@ -64,10 +64,11 @@ void	ft_set_texture(t_gamedata **p_config, char *line, int fd)
 	while (line[i] && line[i] == ' ')
 		i += 1;
 	// printf("test0 A: %s -> %s\n", line, &line[i]);
-	if (!&line[i])
+	if (!line[i] || line[i] == '\n')
 	{
+		temp = ft_substr(line, 0, 2);
 		ft_freeing_support(fd, line);
-		ft_error_handling(4, ft_substr(line, 0, 2), *p_config);
+		ft_error_handling(4, temp, *p_config);
 	}
 	j = i + 1;
 	while (line[j] && line[j] != ' ' 
