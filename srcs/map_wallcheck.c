@@ -35,19 +35,19 @@ int	ft_east_check(t_gamedata *config)
 	int		k;
 
 	i = 0;
-	j = 0;
+	j = ft_strlen(config->map[i]) - 1;;
 	k = 0;
 	while (config->map[i] && config->map[i][j])
 	{
-		j = ft_strlen(config->map[i]) - 1;
+		// j = ft_strlen(config->map[i]) - 1;
 		while (j >= 0 && config->map[i][j] == ' ')
 			j -= 1;
 		if (config->map[i][j] != '1')
 			return (0);
 		if (config->map[i][j] == '1')
 			i += 1;
-		if (config->map[i] && config->map[i + 1])
-			j = ft_strlen(config->map[i + 1]) - 1;
+		if (config->map[i])
+			j = ft_strlen(config->map[i]) - 1;
 	}
 	// printf("test1\n");
 	return (1);

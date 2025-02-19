@@ -39,6 +39,7 @@ char	*ft_concat(char *str_old, char *str_toadd, t_gamedata **p_config)
 {
 	char	*temp;
 	char	*str_new;
+
 	// maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
 	//(difficult without being able to use realloc)
 	// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));
@@ -46,7 +47,7 @@ char	*ft_concat(char *str_old, char *str_toadd, t_gamedata **p_config)
 	str_new = ft_strjoin(str_old, str_toadd);
 	free(temp);
 	free(str_toadd);
-	// pr!ntf("hello 2\n");
+	// printf("hello 2\n");
 	if (!str_new)
 		ft_error_handling(9, NULL, *p_config);
 	return (str_new);
@@ -100,6 +101,11 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	char		*map_clean;
 
 	config = *p_config;
+	if (!ft_map_valid_check(line))
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(7, NULL, *p_config);
+	}
 	map_clean = ft_gnl_maploop(line, fd, p_config);
 	config->map = ft_split(map_clean, '\n');
 	free(map_clean);
