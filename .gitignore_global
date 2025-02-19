@@ -15,8 +15,8 @@ subject_cub3D.pdf
 
 # ignore all files with extension .test that serve for testprints or testinputs as well as directory /test
 *.test
-/test
+/test/
 # ignore all object-files
 *.o
-/obj
+/obj/
 /libft/objs*

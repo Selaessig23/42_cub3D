@@ -1,24 +1,21 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 15:58:33 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/19 11:35:21 by mstracke         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
+
+void start_window()
+{
+}
 
 int	main(int ac, char *av[])
 {
 	int				fd;
 	t_gamedata		*config;
+	t_cub3d			cub3d_data;
 
 	fd = 0;
 	config = NULL;
+	cub3d_data.mlx = mlx_init(640, 480, "Markus' and Pavlos' cub3D", true);
+	sleep(2);
+	mlx_close_window(cub3d_data.mlx);
+	mlx_terminate(cub3d_data.mlx);
 	if (ac == 2)
 	{
 		if (!ft_extension_check(av[1]))

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 16:10:37 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/19 10:35:54 by mstracke         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -21,7 +9,7 @@
 //check https://harm-smits.github.io/42docs/libs/minilibx/
 //getting_started.html#installation
 //for good documentation of the minilibx-library
-# include "../mlx_linux/mlx.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 //to communicate with X server / X Window System (X11)
 # include <X11/X.h>
 //well documented at https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h
@@ -32,9 +20,9 @@
 # include <errno.h>
 
 typedef struct s_color {
-	int	red;
-	int	green;
-	int	blue;
+	int		red;
+	int		green;
+	int		blue;
 }		t_color;
 
 typedef struct s_gamedata {
@@ -46,6 +34,11 @@ typedef struct s_gamedata {
 	t_color	*ceiling;
 	char	*map;
 }		t_gamedata;
+
+typedef struct s_cub3d
+{
+	mlx_t	*mlx;
+}	t_cub3d;
 
 //command_line_input_check.c
 int			ft_access_check(char *inputfile);
