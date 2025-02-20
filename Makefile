@@ -25,6 +25,7 @@ SRCS =	main.c \
 			create_color.c \
 			create_map.c \
 			map_wallcheck.c \
+			enclosure.c \
 			free.c \
 			utils.c \
 			test.c
