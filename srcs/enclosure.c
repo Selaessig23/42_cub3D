@@ -53,6 +53,8 @@ int	ft_check_ns_passage(char **map, int startarr, int startstr,
 	return (1);
 }
 
+//maybe delete this function and call the corresponding function directly in direction check or 
+//passage check
 int	ft_check_carve(char **map, int startarr, int startstr, 
 	char prev_direction)
 {

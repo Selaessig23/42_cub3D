@@ -4,6 +4,8 @@
  * DESCRIPTION: 
  * file to check if the map is closed/surrounded by walls, 
  * if not the program must returns an errormessage and exits.
+ * 
+ * check what happens if map starts with 0
  */
 
 int	ft_south_check(char **map);
@@ -15,11 +17,11 @@ int	ft_west_check(char **map)
 {
 	int		i;
 	int		j;
-	int		k;
+	//int		k;
 
 	i = 0;
 	j = 0;
-	k = 0;
+	//k = 0;
 	while (map[i] && map[i][j])
 	{
 		j = 0;
@@ -37,11 +39,11 @@ int	ft_east_check(char **map)
 {
 	int		i;
 	int		j;
-	int		k;
+	//int		k;
 
 	i = 0;
 	j = ft_strlen(map[i]) - 1;
-	k = 0;
+	//k = 0;
 	while (map[i] && map[i][j])
 	{
 		if (map[i][j] == ' ' && !ft_check_carve(map, i, j, 'E'))
@@ -218,7 +220,7 @@ int	ft_north_check(char **map)
 	{
 		if (map[i][j] == ' ' && !ft_check_carve(map, i, j, 'N'))
 			return (0);
-		else if (map[i][j] == ' ')
+		else if (map[i][j] == '0')
 			return (0);
 		else
 			j += 1;
@@ -226,6 +228,7 @@ int	ft_north_check(char **map)
 	return (1);
 }
 
+//north and west check has to be fixed, still error prone in case of carves
 int	ft_wall_check(t_gamedata *config, int fd)
 {
 	int		i;
