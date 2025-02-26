@@ -86,16 +86,40 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 	return (map);
 }
 
-void	ft_zero_index(char **index)
+/**
+ * @brief function that checks if there is a 
+ * player AND if there is only one player
+ * 
+ * integrated a ternary (conditional) operator
+ * to save space for return value
+ * (conditions automatically return 1 for true and 0 for false)
+ */
+int	ft_player_check(t_gamedata *config, int fd, char **map_cpy)
 {
-	int		i;
+	int	p;
 
-	i = 0;
-	while (index[i])
+	p = 0;
+	while (*map_cpy)
 	{
-		ft_memset(index[i], '-', ft_strlen(index[i]));
-		i += 1;
+		while (**map_cpy)
+		{
+			if (**map_cpy == 'N' || **map_cpy == 'S'
+				|| **map_cpy == 'W' || **map_cpy == 'E')
+			{
+				if (p == 0)
+					p = 1;
+				else
+				{
+					ft_free(map_cpy);
+					close (fd);
+					ft_error_handling(11, NULL, config);
+				}
+			}
+			*map_cpy += 1;
+		}
+		map_cpy += 1;
 	}
+	return (p == 1);
 }
 
 /**
@@ -111,10 +135,12 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
 	char		*map_clean;
-	char		**index;
+	//char		**index;
+	char		**map_cpy;
 
 	config = *p_config;
-	index = NULL;
+	// index = NULL;
+	map_cpy = NULL;
 	if (!ft_map_valid_check(line))
 	{
 		ft_freeing_support(fd, line);
@@ -122,17 +148,21 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	}
 	map_clean = ft_gnl_maploop(line, fd, p_config);
 	config->map = ft_split(map_clean, '\n');
-	index = ft_split(map_clean, '\n');
+	// index = ft_split(map_clean, '\n');
+	map_cpy = ft_split(map_clean, '\n');
 	free(map_clean);
-	ft_zero_index(index);
+	// ft_zero_index(index);
 	// ft_testprint_maparray(config->map);
-	if (!ft_wall_check(*p_config, fd, index))
+	if (!ft_wall_check(*p_config, fd, map_cpy)
+		&& !ft_player_check(*p_config, fd, map_cpy))
 	{
-		ft_free(index);
+		// ft_free(index);
+		ft_free(map_cpy);
 		close (fd);
-		ft_error_handling(8, NULL, *p_config);
+		ft_error_handling(11, NULL, *p_config);
 	}
 	// printf("hello 3\n");
-	ft_free(index);
+	// ft_free(index);
+	ft_free(map_cpy);
 	return (1);
 }

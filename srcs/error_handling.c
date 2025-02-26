@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/19 12:25:59 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:34:23 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void	ft_error_handling(int err, char *addinfo, t_gamedata *config)
 		ft_dprintf(2, "Malloc problems.\n");
 	else if (err == 10)
 		ft_dprintf(2, "The map is not surrounded by walls in %s.\n", addinfo);
+	else if (err == 11)
+		ft_dprintf(2, "How will you have fun without "
+			"any player in game, idiot? Check your map, it is invalid!\n");
 	if (config)
 		ft_free_config(config);
 	if (addinfo)

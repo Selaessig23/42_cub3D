@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-void start_window()
-{
-}
+// void start_window()
+// {
+// }
 
 int	main(int ac, char *av[])
 {

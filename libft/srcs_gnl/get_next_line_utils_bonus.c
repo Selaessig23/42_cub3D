@@ -34,23 +34,27 @@ void	*ft_calloc(size_t nmemb, size_t size)
 }
 */
 
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
+/**
+ * COMMENTED OUT AS THERE IS A SEPERATE FILE FOR THIS FUNCTION in /srcs_add
+ */
+// static char	*ft_strncpy(char *dest, const char *src, size_t n)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (src[i] && i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i <= n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
-}
+// 	i = 0;
+// 	while (src[i] && i < n)
+// 	{
+// 		dest[i] = src[i];
+// 		i++;
+// 	}
+// 	while (i <= n)
+// 	{
+// 		dest[i] = '\0';
+// 		i++;
+// 	}
+// 	return (dest);
+// }
+
 //part of libft
 /*
 char	*ft_substr(char const *s, unsigned int start, size_t len)

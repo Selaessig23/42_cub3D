@@ -27,7 +27,7 @@ SRCS =	main.c \
 			map_wallcheck.c \
 			enclosure.c \
 			free.c \
-			utils.c \
+			parsing_utils.c \
 			test.c
 
 #variable substitution		

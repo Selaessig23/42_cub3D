@@ -24,7 +24,8 @@ int	ft_west_check(char **map, char **index)
 			return (0);
 		else
 			i += 1;
-		ft_zero_index(index);
+		ft_refill_map(index, map);
+		// ft_zero_index(index);
 	}
 	return (1);
 }
@@ -46,7 +47,8 @@ int	ft_east_check(char **map, char **index)
 			i += 1;
 		if (map[i])
 			j = ft_strlen(map[i]) - 1;
-		ft_zero_index(index);
+		ft_refill_map(index, map);
+		// ft_zero_index(index);
 	}
 	return (1);
 }
@@ -72,7 +74,8 @@ int	ft_south_check(char **map, char **index)
 		// 	printf("index (%i): %s\n", k, index[k]);
 		// 	k += 1;
 		// }
-		ft_zero_index(index);
+		ft_refill_map(index, map);
+		// ft_zero_index(index);
 	}
 	return (1);
 }
@@ -98,7 +101,8 @@ int	ft_north_check(char **map, char **index)
 		// 	printf("index (%i): %s\n", k, index[k]);
 		// 	k += 1;
 		// }
-		ft_zero_index(index);
+		ft_refill_map(index, map);
+		// ft_zero_index(index);
 	}
 	return (1);
 }

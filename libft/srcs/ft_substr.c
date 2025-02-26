@@ -12,27 +12,30 @@
 
 #include "libft.h"
 
-/*ft_substr */
-/* description: Allocates (with malloc(3)) and returns a substring */
-/* from the string ’s’. The substring begins at index ’start’ and is of */
-/* maximum size ’len’. */
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
+/** ft_substr
+ * description: Allocates (with malloc(3)) and returns a substring
+ * from the string ’s’. The substring begins at index ’start’ and is of
+ * maximum size ’len’.
+ *
+ * COMMENTED OUT AS THERE IS A SEPERATE FILE FOR THIS FUNCTION in /srcs_add
+ */
+// static char	*ft_strncpy(char *dest, const char *src, size_t n)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (src[i] && i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i <= n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
-}
+// 	i = 0;
+// 	while (src[i] && i < n)
+// 	{
+// 		dest[i] = src[i];
+// 		i++;
+// 	}
+// 	while (i <= n)
+// 	{
+// 		dest[i] = '\0';
+// 		i++;
+// 	}
+// 	return (dest);
+// }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

@@ -86,7 +86,8 @@ SRCS_GNL = get_next_line_bonus.c \
 		get_next_line_utils_bonus.c
 
 SRCS_ADD = ft_free.c \
-		ft_arrlen.c
+		ft_arrlen.c \
+		ft_strncpy.c
 
 #variable substitution		
 OBJS = $(SRCS:%.c=objs/%.o)
