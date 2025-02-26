@@ -54,11 +54,15 @@ void		ft_set_texture(t_gamedata **p_config, char *line, int fd_infile);
 void		ft_set_color(t_gamedata **p_config, char *line, int fd);
 //create_map.c
 int			ft_set_map(t_gamedata **p_config, char *line, int fd);
+void		ft_zero_index(char **index);
 //map_wallcheck.c
-int			ft_wall_check(t_gamedata *config, int fd);
+// int			ft_wall_check(t_gamedata *config, int fd);
+int			ft_wall_check(t_gamedata *config, int fd, char **index);
 //enclosure.c
+// int			ft_check_carve(char **map, int startarr, int startstr, 
+// 				char prev_direction);
 int			ft_check_carve(char **map, int startarr, int startstr, 
-				char prev_direction);
+					char prev_direction, char **index);
 //free.c
 void		ft_freeing_support(int fd, char *line);
 void		ft_free_config(t_gamedata *config);

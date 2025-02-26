@@ -14,6 +14,8 @@ CUR_DIR = $(shell pwd)
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g -Iinclude -Isrcs -Isrcs_bonus -Isrcs_printf -Isrcs_dprintf -Isrcs_gnl -Isrcs_add
+#necessary to be able to compile it with mlxlib (otherwise the linker (ld) refuses to mix position-independent and non-position-independent code)
+CFLAGS += -fPIE
 
 #to create a program for testing reasons
 #PROGRAM = test

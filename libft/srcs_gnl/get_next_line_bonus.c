@@ -116,6 +116,7 @@ char	*get_next_line(int fd)
 	lbuf[fd] = gnl_lbuf(line);
 	return (line);
 }
+
 /*
 int	main(void)
 {

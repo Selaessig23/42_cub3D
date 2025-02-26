@@ -86,6 +86,18 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 	return (map);
 }
 
+void	ft_zero_index(char **index)
+{
+	int		i;
+
+	i = 0;
+	while (index[i])
+	{
+		ft_memset(index[i], '-', ft_strlen(index[i]));
+		i += 1;
+	}
+}
+
 /**
  * @brief function that assigns the content of input file,
  * identified as part of map (last part of content in file, 
@@ -99,8 +111,10 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
 	char		*map_clean;
+	char		**index;
 
 	config = *p_config;
+	index = NULL;
 	if (!ft_map_valid_check(line))
 	{
 		ft_freeing_support(fd, line);
@@ -108,13 +122,17 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	}
 	map_clean = ft_gnl_maploop(line, fd, p_config);
 	config->map = ft_split(map_clean, '\n');
+	index = ft_split(map_clean, '\n');
 	free(map_clean);
+	ft_zero_index(index);
 	// ft_testprint_maparray(config->map);
-	if (!ft_wall_check(*p_config, fd))
+	if (!ft_wall_check(*p_config, fd, index))
 	{
+		ft_free(index);
 		close (fd);
 		ft_error_handling(8, NULL, *p_config);
 	}
 	// printf("hello 3\n");
+	ft_free(index);
 	return (1);
 }
