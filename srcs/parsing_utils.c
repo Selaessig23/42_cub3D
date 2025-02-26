@@ -58,4 +58,5 @@ void	ft_refill_map(char **dest, char **src)
 		ft_strncpy(dest[i], src[i], ft_strlen(src[i]));
 		i += 1;
 	}
+	dest[i] = NULL;
 }

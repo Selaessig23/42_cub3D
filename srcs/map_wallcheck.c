@@ -18,7 +18,7 @@ int	ft_west_check(char **map, char **index)
 	while (map[i] && map[i][j])
 	{
 		j = 0;
-		if (map[i][j] == ' ' && !ft_check_carve(map, i, j, 'W', index))
+		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'W'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
@@ -39,7 +39,7 @@ int	ft_east_check(char **map, char **index)
 	j = ft_strlen(map[i]) - 1;
 	while (map[i] && map[i][j])
 	{
-		if (map[i][j] == ' ' && !ft_check_carve(map, i, j, 'E', index))
+		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'E'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
@@ -62,7 +62,7 @@ int	ft_south_check(char **map, char **index)
 	j = ft_strlen(map[i]) - 1;
 	while (j >= 0)
 	{
-		if (map[i][j] == ' ' && !ft_check_carve(map, i, j, 'S', index))
+		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'S'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
@@ -89,7 +89,7 @@ int	ft_north_check(char **map, char **index)
 	j = 0;
 	while (map[i][j])
 	{
-		if (map[i][j] == ' ' && !ft_check_carve(map, i, j, 'N', index))
+		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'N'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
@@ -134,5 +134,6 @@ int	ft_wall_check(t_gamedata *config, int fd, char **index)
 		close(fd);
 		ft_error_handling(10, ft_strdup("WEST"), config);
 	}
+	// printf("why bitch\n");
 	return (1);
 }

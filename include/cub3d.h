@@ -61,7 +61,7 @@ int			ft_wall_check(t_gamedata *config, int fd, char **index);
 // int			ft_check_carve(char **map, int startarr, int startstr, 
 // 				char prev_direction);
 int			ft_check_carve(char **map, int startarr, int startstr, 
-					char prev_direction, char **index);
+				char prev_direction);
 //free.c
 void		ft_freeing_support(int fd, char *line);
 void		ft_free_config(t_gamedata *config);

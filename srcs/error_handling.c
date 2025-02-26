@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/26 14:34:23 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:06:39 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ void	ft_error_handling(int err, char *addinfo, t_gamedata *config)
 	else if (err == 11)
 		ft_dprintf(2, "How will you have fun without "
 			"any player in game, idiot? Check your map, it is invalid!\n");
+	else if (err == 12)
+		ft_dprintf(2, "How will you play with several players "
+			"at the same time, idiot? Check your map, it is invalid!\n");
 	if (config)
 		ft_free_config(config);
 	if (addinfo)

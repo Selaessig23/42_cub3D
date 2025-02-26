@@ -96,15 +96,20 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
  */
 int	ft_player_check(t_gamedata *config, int fd, char **map_cpy)
 {
-	int	p;
+	int		p;
+	int		i;
+	int		j;
 
 	p = 0;
-	while (*map_cpy)
+	i = 0;
+	j = 0;
+	while (map_cpy[i])
 	{
-		while (**map_cpy)
+		j = 0;
+		while (map_cpy[i][j])
 		{
-			if (**map_cpy == 'N' || **map_cpy == 'S'
-				|| **map_cpy == 'W' || **map_cpy == 'E')
+			if (map_cpy[i][j] == 'N' || map_cpy[i][j] == 'S'
+				|| map_cpy[i][j] == 'W' || map_cpy[i][j] == 'E')
 			{
 				if (p == 0)
 					p = 1;
@@ -112,12 +117,12 @@ int	ft_player_check(t_gamedata *config, int fd, char **map_cpy)
 				{
 					ft_free(map_cpy);
 					close (fd);
-					ft_error_handling(11, NULL, config);
+					ft_error_handling(12, NULL, config);
 				}
 			}
-			*map_cpy += 1;
+			j += 1;
 		}
-		map_cpy += 1;
+		i += 1;
 	}
 	return (p == 1);
 }
@@ -154,14 +159,13 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	// ft_zero_index(index);
 	// ft_testprint_maparray(config->map);
 	if (!ft_wall_check(*p_config, fd, map_cpy)
-		&& !ft_player_check(*p_config, fd, map_cpy))
+		|| !ft_player_check(*p_config, fd, map_cpy))
 	{
 		// ft_free(index);
 		ft_free(map_cpy);
 		close (fd);
 		ft_error_handling(11, NULL, *p_config);
 	}
-	// printf("hello 3\n");
 	// ft_free(index);
 	ft_free(map_cpy);
 	return (1);

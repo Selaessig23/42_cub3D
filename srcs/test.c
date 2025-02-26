@@ -22,6 +22,7 @@ void	ft_testprint(t_gamedata *config)
 
 	floor_print = config->floor;
 	ceiling_print = config->ceiling;
+	ft_printf("---------------------------------\n");
 	ft_printf("Print input of struct game_config\n");
 	ft_printf("fd_north: %i\n", config->fd_north);
 	ft_printf("fd_south: %i\n", config->fd_south);
@@ -34,6 +35,7 @@ void	ft_testprint(t_gamedata *config)
 	ft_printf("floor green: %i\n", floor_print->green);
 	ft_printf("floor blue: %i\n", floor_print->blue);
 	ft_testprint_maparray(config->map);
+	ft_printf("---------------------------------\n");
 	// ft_printf("map:\n%s\n", config->map);
 }
 
