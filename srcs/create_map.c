@@ -86,6 +86,49 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 	return (map);
 }
 
+void	ft_realloc_mapline(t_gamedata **p_config, int index, int len)
+{
+	char		*new_mapline;
+	char		*old_mapline;
+	t_gamedata	*config;
+
+	config = *p_config;
+	old_mapline = config->map;
+	new_mapline = (char *)malloc(sizeof(char) * len + 1);
+	ft_strcpy(new_mapline, old_mapline); //to create
+	ft_memset(&new_mapline[ft_strlen(old_mapline)], ' ', len - ft_strlen(old_mapline)); //think!
+	config->map = new_mapline;
+	free(old_mapline);
+}
+
+/**
+ * @brief function to increase the length of each string
+ * (line) of the map to the max length of map array
+ */
+void	ft_map_enlarger(t_gamedata **p_config)
+{
+	t_gamedata	*config;
+	int			len;
+	int			i;
+
+	config = *p_config;
+	i = 0;
+	len = 0;
+	while (config->map[i])
+	{
+		if (ft_arrlen(config->map[i]) > len)
+			len = ft_arrlen(config->map[i]);
+		i += 1;
+	}
+	i = 0;
+	while (config->map[i])
+	{
+		if (ft_arrlen(config->map[i]) < len)
+			ft_realloc_mapline(p_config, i, len);
+		i += 1;
+	}
+}
+
 /**
  * @brief function that checks if there is a 
  * player AND if there is only one player
