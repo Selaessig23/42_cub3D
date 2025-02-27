@@ -19,6 +19,12 @@
 //to provide a standardized way to report and interpret error conditions
 # include <errno.h>
 
+typedef struct s_player {
+	double	x;
+	double	y;
+	double	dir;
+}		t_player;
+
 typedef struct s_color {
 	int		red;
 	int		green;
@@ -26,13 +32,14 @@ typedef struct s_color {
 }		t_color;
 
 typedef struct s_gamedata {
-	int		fd_north;
-	int		fd_south;
-	int		fd_east;
-	int		fd_west;
-	t_color	*floor;
-	t_color	*ceiling;
-	char	**map;
+	int			fd_north;
+	int			fd_south;
+	int			fd_east;
+	int			fd_west;
+	t_color		*floor;
+	t_color		*ceiling;
+	char		**map;
+	t_player	player;
 }		t_gamedata;
 
 typedef struct s_cub3d
