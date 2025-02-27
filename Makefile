@@ -10,12 +10,13 @@ CFLAGS = -Wall -Wextra -Werror -g -Iinclude -Isrcs
 LIBFT = libft.a
 LIBFT_PATH = $(CUR_DIR)/libft
 LIBFT_LIBRARY = $(CUR_DIR)/libft/libft.a
+LIBFT_CREATE = libft.a
 CFLAGS += -Ilibft
 MLX_PATH = $(CUR_DIR)/MLX42
 MLX42 = $(CUR_DIR)/MLX42/build/libmlx42.a
 CFLAGS += -I$(MLX_PATH)
-
 LDFLAGS = -lglfw
+
 #sources
 SRCS =	main.c \
 			parsing/command_line_input_check.c \
@@ -38,8 +39,8 @@ OBJS = $(SRCS:%.c=obj/%.o)
 all: $(NAME)
 
 # Modify the linking rule to include LDFLAGS
-$(NAME): $(OBJS) $(LIBFT_LIBRARY) $(MLX42)
-	$(CC) $(OBJS) $(LIBFT_LIBRARY) $(MLX42) $(LDFLAGS) -o $@
+$(NAME): $(LIBFT_LIBRARY) $(MLX42) $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LIBFT_LIBRARY) $(MLX42)  
 	@echo -- prog created, try it by using ./cub3D \"*.cub\"
 
 #%.o rule will compile one .c file to its correspondig object (.o) file: without this rule it would not update correctly
@@ -50,12 +51,18 @@ $(NAME): $(OBJS) $(LIBFT_LIBRARY) $(MLX42)
 obj/%.o: srcs/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
-
+	
 #The -C option is used to change the directory to the specified path before executing make. In this context, it ensures that make operates in the subfolder, not the current directory.
-$(LIBFT_LIBRARY):
-	make -C $(LIBFT_PATH)
+#!important to note: if the program can't find any of the dependencies it will do all: always running libft-make (=updating correctly)
+# $(LIBFT_LIBRARY): libft
+$(LIBFT_LIBRARY): $(LIBFT_CREATE)
+	@$(MAKE) -s -C libft
+	
 
-$(MLX42): 
+$(LIBFT_CREATE):
+#	@echo CREATE OR UPDATE LIBFT
+
+$(MLX42):
 	@if [ ! -d "$(MLX_PATH)/build" ]; then \
 		cmake $(MLX_PATH) -B $(MLX_PATH)/build; \
 	fi
@@ -66,12 +73,14 @@ $(MLX42):
 clean:
 	@rm -rf obj
 	@make -C $(LIBFT_PATH) clean
+	@make -C $(MLX_PATH)/build clean || true
 	@echo -- Deleting All .o
 
 # fclean: this target depends on clean. Once all object files are deleted, this rule will delete the created executable / the compiled binary ('$(NAME)') 
 fclean: clean
 	@rm -f $(NAME)
 	@make -C $(LIBFT_PATH) fclean
+	rm -rf $(MLX_PATH)/build
 	@echo -- Deleting executables
 
 #This target depends on fclean and all, effectively cleaning and rebuilding the project.
