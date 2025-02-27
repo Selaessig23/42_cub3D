@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/02/27 17:03:34 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:06:01 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ mlx_texture_t* createSurface(t_gamedata *config){
 }
 
 //this function draws a pixel of parameter color at position x,y on the surface
-void putPixel(t_color color, mlx_texture_t *surface, int x, int y) {
+void putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y) {
 	int pixel_index;
 
 	pixel_index = 0;
-    if (x >= 0 && x < surface->width && y >= 0 && y < surface->height) {
+    if (x < surface->width && y < surface->height) {
         pixel_index = (y * surface->width + x) * 4;
         surface->pixels[pixel_index] = color.red;
         surface->pixels[pixel_index + 1] = color.green;

@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/02/27 17:01:51 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:05:23 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ double		vectorln(t_vector2 vector);
 //drawing functions
 
 mlx_texture_t* createSurface(t_gamedata *config);
-void putPixel(t_color color, mlx_texture_t *surface, int x, int y);
+void putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y);
 void drawLine(t_color color, mlx_texture_t *minimap_surface, t_vector2 start, t_vector2 end);
 void fillCeiling(t_gamedata *config);
 void fillFloor(t_gamedata *config);
