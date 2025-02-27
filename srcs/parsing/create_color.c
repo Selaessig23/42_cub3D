@@ -4,14 +4,14 @@
  * DESCRIPTION:
  * this file assigns RGB colors to floor and ceiling struct of game-config,
  * if input of input-file is valid
- * 
+ *
  * CHECK: the algorithm will
  * handle wrong letters in between the RGB-color-information
- * like 
+ * like
  * C 225t,  30!,  0
- * it will not return an error for cases like this. 
+ * it will not return an error for cases like this.
  * --> correct / desired behaviour?
- * 
+ *
  */
 
 
@@ -43,11 +43,11 @@ static void	ft_free_helper_for_extract(t_color *color, char *line,
  * @brief function to extract the color value from to_extract
  * and transform it to an int. includes check if color-value
  * is correct (>0 && < 256)
- * 
+ *
  * TO-DO: find a solution for fd-gnl-handling in case of error
  * by respecting the max amount of parameters
  */
-static int	ft_extract_color(t_gamedata **p_config, t_color *color, 
+static int	ft_extract_color(t_gamedata **p_config, t_color *color,
 	char *to_extract, int *startindex, int fd)
 {
 	char	*temp;
@@ -84,7 +84,7 @@ static int	ft_extract_color(t_gamedata **p_config, t_color *color,
 
 /**
  * @brief function that assigns the extracted color value
- * to the game config according to indentifier 
+ * to the game config according to indentifier
  * of corresponding line in input file (ceiling / floor color)
  */
 void	ft_assign_color(t_gamedata **p_config, char *line, int *i, int fd)
@@ -99,15 +99,15 @@ void	ft_assign_color(t_gamedata **p_config, char *line, int *i, int fd)
 		ft_free_helper_for_extract(NULL, line, i, fd);
 		ft_error_handling(9, NULL, *p_config);
 	}
-	color->red = ft_extract_color(p_config, color, 
+	color->red = ft_extract_color(p_config, color,
 			line, i, fd);
 	while (!ft_isdigit(line[*i]))
 		*i += 1;
-	color->green = ft_extract_color(p_config, color, 
+	color->green = ft_extract_color(p_config, color,
 			line, i, fd);
 	while (!ft_isdigit(line[*i]))
 		*i += 1;
-	color->blue = ft_extract_color(p_config, color, 
+	color->blue = ft_extract_color(p_config, color,
 			line, i, fd);
 	if (!ft_strncmp(line, "C", 1))
 		config->ceiling = color;
@@ -118,9 +118,9 @@ void	ft_assign_color(t_gamedata **p_config, char *line, int *i, int fd)
 
 /**
 * @brief function that sets the color for floor and ceiling
-* if identifiers were found in a line of input file 
-* 
-* @param line the line of content inclusive the color identifier, 
+* if identifiers were found in a line of input file
+*
+* @param line the line of content inclusive the color identifier,
 * that has to be cleaned and than assigned to the game config variables
 * @param start the index where to start searching for color values
 * @param c the color identifier that was found (to be assigned)
@@ -137,7 +137,7 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 	if (!line[start] || line[start] == '\n')
 	{
 		ft_free_helper_for_extract(NULL, line, i, fd);
-		ft_error_handling(4, 
+		ft_error_handling(4,
 			ft_strdup("ceiling color (\"C\") or floor color (\"F\")"), *p_config);
 	}
 	i = ft_calloc(1, sizeof(int));

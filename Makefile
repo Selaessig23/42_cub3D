@@ -15,7 +15,7 @@ MLX_PATH = $(CUR_DIR)/MLX42
 MLX42 = $(CUR_DIR)/MLX42/build/libmlx42.a
 CFLAGS += -I$(MLX_PATH)
 
-LDFLAGS = -lglfw
+LDFLAGS = -lglfw -lm
 #sources
 SRCS =	main.c \
 			parsing/command_line_input_check.c \
@@ -27,11 +27,21 @@ SRCS =	main.c \
 			parsing/map_playercheck.c \
 			parsing/enclosure.c \
 			parsing/parsing_utils.c \
+			renderer/surface_drawing.c\
+			renderer/renderer.c \
 			free.c \
 			error_handling.c \
-			test.c
+			test.c \
+			vector/vector_add.c  \
+			vector/vector_div.c  \
+			vector/vector_ln.c   \
+			vector/vector_mult.c \
+			vector/vector_new.c  \
+			vector/vector_norm.c \
+			vector/vector_rot.c  \
+			vector/vector_sub.c
 
-#variable substitution		
+#variable substitution
 OBJS = $(SRCS:%.c=obj/%.o)
 
 #This target depends on $(NAME), making it the default target to build everything.
@@ -45,7 +55,7 @@ $(NAME): $(OBJS) $(LIBFT_LIBRARY) $(MLX42)
 #%.o rule will compile one .c file to its correspondig object (.o) file: without this rule it would not update correctly
 #automatic variables: $@ = the file name of the target of the rule, $< = the name of the prerequisite
 #-p (parent option): This option tells mkdir to create the directory and any necessary parent directories if they do not already exist. It also suppresses error messages if the directory already exists.
-#$(@D) is a special variable: if target is a file located in some directory, $(@D) will extract just the directory path from the target, 
+#$(@D) is a special variable: if target is a file located in some directory, $(@D) will extract just the directory path from the target,
 #otherwise If the target doesn’t include a directory (i.e., it's in the current directory), $(@D) expands to . (representing the current directory).
 obj/%.o: srcs/%.c
 	@mkdir -p $(@D)
@@ -55,7 +65,7 @@ obj/%.o: srcs/%.c
 $(LIBFT_LIBRARY):
 	make -C $(LIBFT_PATH)
 
-$(MLX42): 
+$(MLX42):
 	@if [ ! -d "$(MLX_PATH)/build" ]; then \
 		cmake $(MLX_PATH) -B $(MLX_PATH)/build; \
 	fi
@@ -68,7 +78,7 @@ clean:
 	@make -C $(LIBFT_PATH) clean
 	@echo -- Deleting All .o
 
-# fclean: this target depends on clean. Once all object files are deleted, this rule will delete the created executable / the compiled binary ('$(NAME)') 
+# fclean: this target depends on clean. Once all object files are deleted, this rule will delete the created executable / the compiled binary ('$(NAME)')
 fclean: clean
 	@rm -f $(NAME)
 	@make -C $(LIBFT_PATH) fclean
