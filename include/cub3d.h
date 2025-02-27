@@ -30,6 +30,10 @@ typedef struct s_color {
 	int		green;
 	int		blue;
 }		t_color;
+typedef struct s_cub3d
+{
+	mlx_t	*mlx;
+}	t_cub3d;
 
 typedef struct s_gamedata {
 	int			fd_north;
@@ -40,12 +44,9 @@ typedef struct s_gamedata {
 	t_color		*ceiling;
 	char		**map;
 	t_player	player;
+	t_cub3d		cub3d_data;
 }		t_gamedata;
 
-typedef struct s_cub3d
-{
-	mlx_t	*mlx;
-}	t_cub3d;
 
 //command_line_input_check.c
 int			ft_access_check(char *inputfile);
