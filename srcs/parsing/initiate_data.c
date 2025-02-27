@@ -102,9 +102,9 @@ static int	ft_search_colors(t_gamedata *config, char *line, int fd)
 
 
 /**
- * @brief function that searches in input file for textures
+ * @brief function that searches in input file for texture
  * identifiers and checks if this identifier has already been 
- * defined (==nor clear definition of corresponding texture
+ * defined (== not clear definition of corresponding texture
  * identifier -> error message and exit)
  */
 static int	ft_search_textures(t_gamedata *config, char *line, int fd)
@@ -140,6 +140,16 @@ static int	ft_search_textures(t_gamedata *config, char *line, int fd)
 	return (0);
 }
 
+/**
+ * @brief loop to read content of input file (line per line)
+ * if it finds map content, the loop will end, as the map
+ * has to be the last part in input file as per requirements 
+ * (therefor following content (lines) will be read in ft_set_map
+ * and content of char *line of this function will be used for map
+ * creation or freed in ft_set_map if an error occurs)
+ * 
+ * @param fd file descriptor of input file
+ */
 void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 {
 	char	*line;

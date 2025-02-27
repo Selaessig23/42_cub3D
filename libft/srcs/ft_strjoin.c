@@ -31,7 +31,7 @@ static char	*ft_strcat(char *dest, const char *s2)
 	dest[n + i] = '\0';
 	return (dest);
 }
-
+/** commented out as there as a separte function with same name in srcs_add
 static char	*ft_strcpy(char *dest, const char *s1)
 {
 	int	i;
@@ -45,6 +45,7 @@ static char	*ft_strcpy(char *dest, const char *s1)
 	dest[i] = '\0';
 	return (dest);
 }
+ */
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

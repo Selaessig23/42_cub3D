@@ -85,30 +85,44 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 	}
 	return (map);
 }
-
-void	ft_realloc_mapline(t_gamedata **p_config, int index, int len)
+/**
+ * @brief helper function for ft_map_enlarger, it allocates a new string
+ * for new line in map with max length and fills the line with 
+ * content of old line of map + spaces
+ */
+void	ft_realloc_mapline(t_gamedata **p_config, int fd, int index, int len)
 {
 	char		*new_mapline;
 	char		*old_mapline;
 	t_gamedata	*config;
 
 	config = *p_config;
-	old_mapline = config->map;
+	old_mapline = config->map[index];
 	new_mapline = (char *)malloc(sizeof(char) * len + 1);
-	ft_strcpy(new_mapline, old_mapline); //to create
-	ft_memset(&new_mapline[ft_strlen(old_mapline)], ' ', len - ft_strlen(old_mapline)); //think!
-	config->map = new_mapline;
+	if (!new_mapline)
+	{
+		close (fd);
+		ft_error_handling(9, NULL, *p_config);
+	}
+	ft_strcpy(new_mapline, old_mapline);
+	ft_memset(&new_mapline[ft_strlen(old_mapline)], 
+		' ', (len + 1) - ft_strlen(old_mapline));
+	new_mapline[len] = '\0';
+	config->map[index] = new_mapline;
 	free(old_mapline);
 }
 
 /**
  * @brief function to increase the length of each string
  * (line) of the map to the max length of map array
+ * 1st it checks for the max length of a line of map
+ * 2nd it iterates through map to adapt each line to max length
+ * (it length of line is smaller than max length)
  */
-void	ft_map_enlarger(t_gamedata **p_config)
+void	ft_map_enlarger(t_gamedata **p_config, int fd)
 {
 	t_gamedata	*config;
-	int			len;
+	size_t			len;
 	int			i;
 
 	config = *p_config;
@@ -116,58 +130,25 @@ void	ft_map_enlarger(t_gamedata **p_config)
 	len = 0;
 	while (config->map[i])
 	{
-		if (ft_arrlen(config->map[i]) > len)
-			len = ft_arrlen(config->map[i]);
+		if (ft_strlen(config->map[i]) > len)
+			len = ft_strlen(config->map[i]);
 		i += 1;
 	}
 	i = 0;
 	while (config->map[i])
 	{
-		if (ft_arrlen(config->map[i]) < len)
-			ft_realloc_mapline(p_config, i, len);
+		if (ft_strlen(config->map[i]) < len)
+			ft_realloc_mapline(p_config, fd, i, len);
 		i += 1;
 	}
-}
-
-/**
- * @brief function that checks if there is a 
- * player AND if there is only one player
- * 
- * integrated a ternary (conditional) operator
- * to save space for return value
- * (conditions automatically return 1 for true and 0 for false)
- */
-int	ft_player_check(t_gamedata *config, int fd, char **map_cpy)
-{
-	int		p;
-	int		i;
-	int		j;
-
-	p = 0;
-	i = 0;
-	j = 0;
-	while (map_cpy[i])
-	{
-		j = 0;
-		while (map_cpy[i][j])
-		{
-			if (map_cpy[i][j] == 'N' || map_cpy[i][j] == 'S'
-				|| map_cpy[i][j] == 'W' || map_cpy[i][j] == 'E')
-			{
-				if (p == 0)
-					p = 1;
-				else
-				{
-					ft_free(map_cpy);
-					close (fd);
-					ft_error_handling(12, NULL, config);
-				}
-			}
-			j += 1;
-		}
-		i += 1;
-	}
-	return (p == 1);
+	//just for testing reasons
+	// i = 0;
+	// while (config->map[i])
+	// {
+	// 	printf("Length line %i: %li\n", i, ft_strlen(config->map[i]));
+	// 	i += 1;
+	// }
+	// printf("Length array total %li\n", ft_arrlen(config->map));
 }
 
 /**
@@ -196,9 +177,21 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	}
 	map_clean = ft_gnl_maploop(line, fd, p_config);
 	config->map = ft_split(map_clean, '\n');
-	// index = ft_split(map_clean, '\n');
-	map_cpy = ft_split(map_clean, '\n');
 	free(map_clean);
+	if (!config->map)
+	{
+		close (fd);
+		ft_error_handling(9, NULL, *p_config);
+	}
+	ft_map_enlarger(p_config, fd);
+	map_cpy = ft_arrdup(config->map);
+	if (!map_cpy)
+	{
+		close (fd);
+		ft_error_handling(9, NULL, *p_config);
+	}
+	// index = ft_split(map_clean, '\n');
+	// map_cpy = ft_split(map_clean, '\n');
 	// ft_zero_index(index);
 	// ft_testprint_maparray(config->map);
 	if (!ft_wall_check(*p_config, fd, map_cpy)

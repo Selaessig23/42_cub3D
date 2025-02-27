@@ -18,16 +18,17 @@ CFLAGS += -I$(MLX_PATH)
 LDFLAGS = -lglfw
 #sources
 SRCS =	main.c \
-			command_line_input_check.c \
-			error_handling.c \
-			initiate_data.c \
-			create_texture.c \
-			create_color.c \
-			create_map.c \
-			map_wallcheck.c \
-			enclosure.c \
+			parsing/command_line_input_check.c \
+			parsing/initiate_data.c \
+			parsing/create_texture.c \
+			parsing/create_color.c \
+			parsing/create_map.c \
+			parsing/map_wallcheck.c \
+			parsing/map_playercheck.c \
+			parsing/enclosure.c \
+			parsing/parsing_utils.c \
 			free.c \
-			parsing_utils.c \
+			error_handling.c \
 			test.c
 
 #variable substitution		

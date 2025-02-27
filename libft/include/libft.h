@@ -65,6 +65,8 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_free(char **arr);
 size_t	ft_arrlen(char **arr_str);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
+char	*ft_strcpy(char *dest, const char *src);
+char	**ft_arrdup(char **src);
 
 //printf functions
 /*int		ft_printf(const char *format, ...);

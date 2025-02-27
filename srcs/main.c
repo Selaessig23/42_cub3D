@@ -20,8 +20,8 @@ int	main(int ac, char *av[])
 	{
 		if (!ft_extension_check(av[1]))
 			fd = ft_access_check(av[1]);
-		dprintf(1, "correct no of arguments and correct extension "
-			"for gaming fun, fd: %i\n", fd);
+		// dprintf(1, "correct no of arguments and correct extension "
+		// 	"for gaming fun, fd: %i\n", fd);
 		config = ft_initiate_data(fd);
 		// printf("test x\n");
 		close (fd);

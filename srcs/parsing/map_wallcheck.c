@@ -110,11 +110,11 @@ int	ft_north_check(char **map, char **index)
 //north and west check has to be fixed, still error prone in case of carves
 int	ft_wall_check(t_gamedata *config, int fd, char **index)
 {
-	if (!ft_south_check(config->map, index))
+	if (!ft_east_check(config->map, index))
 	{
 		ft_free(index);
 		close(fd);
-		ft_error_handling(10, ft_strdup("SOUTH"), config);
+		ft_error_handling(10, ft_strdup("EAST"), config);
 	}
 	else if (!ft_north_check(config->map, index))
 	{
@@ -122,17 +122,17 @@ int	ft_wall_check(t_gamedata *config, int fd, char **index)
 		close(fd);
 		ft_error_handling(10, ft_strdup("NORTH"), config);
 	}
-	else if (!ft_east_check(config->map, index))
-	{
-		ft_free(index);
-		close(fd);
-		ft_error_handling(10, ft_strdup("EAST"), config);
-	}
 	else if (!ft_west_check(config->map, index))
 	{
 		ft_free(index);
 		close(fd);
 		ft_error_handling(10, ft_strdup("WEST"), config);
+	}
+	else if (!ft_south_check(config->map, index))
+	{
+		ft_free(index);
+		close(fd);
+		ft_error_handling(10, ft_strdup("SOUTH"), config);
 	}
 	// printf("why bitch\n");
 	return (1);

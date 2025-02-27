@@ -22,6 +22,8 @@
 /* to the duplicated string. It returns NULL if insufficient */
 /* memory was available, with errno set to */
 /* indicate the cause of the error. */
+
+/** commented out as there as a separte function with same name in srcs_add
 static char	*ft_strcpy(char *dest, const char *src)
 {
 	int	i;
@@ -35,6 +37,7 @@ static char	*ft_strcpy(char *dest, const char *src)
 	dest[i] = '\0';
 	return (dest);
 }
+ */
 
 char	*ft_strdup(const char *s)
 {
