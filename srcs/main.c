@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/02/27 16:37:10 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:05:25 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ int	main(int argc, char *argv[])
 		// 	"for gaming fun, fd: %i\n", fd);
 		config = ft_initiate_data(fd);
 		config->cub3d_data.mlx = mlx_init(640, 480, "Markus' and Pavlos' cub3D", true);
-		sleep(2);
 		// printf("test x\n");
-		close (fd);
+
 		ft_testprint(config);
-		ft_free_config(config);
+		fillCeiling(config);
+		fillFloor(config);
 		mlx_loop(config->cub3d_data.mlx);
+		sleep(10);
+		close (fd);
 		mlx_close_window(config->cub3d_data.mlx);
 		mlx_terminate(config->cub3d_data.mlx);
+		ft_free_config(config);
 	}
 	else
 		ft_error_handling(0, NULL, NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/02/27 17:05:23 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/02/28 13:26:28 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int			ft_wall_check(t_gamedata *config, int fd, char **index);
 //enclosure.c
 // int			ft_check_carve(char **map, int startarr, int startstr,
 // 				char prev_direction);
-int			ft_check_carve(char **map, int startarr, int startstr,
-	char prev_direction);
+int			ft_check_carve(char **map, int startarr, int startstr, 
+				char prev_direction);
 //map_playercheck.c
 int			ft_player_check(t_gamedata *config, int fd, char **map_cpy);
 //free.c
@@ -117,15 +117,14 @@ t_vector2	subtractvectors(t_vector2 vector1, t_vector2 vector2);
 t_vector2	multiplyvector(t_vector2 vector, double scalar);
 t_vector2	dividevector(t_vector2 vector, double scalar);
 t_vector2	normalizevector(t_vector2 vector);
-t_vector2 	rotatevector(t_vector2 vector, double angle);
+t_vector2	rotatevector(t_vector2 vector, double angle);
 double		vectorln(t_vector2 vector);
 
 //drawing functions
-
-mlx_texture_t* createSurface(t_gamedata *config);
-void putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y);
-void drawLine(t_color color, mlx_texture_t *minimap_surface, t_vector2 start, t_vector2 end);
-void fillCeiling(t_gamedata *config);
-void fillFloor(t_gamedata *config);
+mlx_texture_t*	createSurface(t_gamedata *config);
+void			putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y);
+void			drawLine(t_color color, mlx_texture_t *minimap_surface, t_vector2 start, t_vector2 end);
+void			fillCeiling(t_gamedata *config);
+void 			fillFloor(t_gamedata *config);
 
 #endif
