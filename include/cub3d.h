@@ -57,6 +57,7 @@ typedef union u_color
 typedef struct s_cub3d
 {
 	mlx_t			*mlx;
+	mlx_image_t		*img;
 	mlx_texture_t	*current_surface;
 }	t_cub3d;
 
