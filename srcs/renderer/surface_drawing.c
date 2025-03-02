@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   surface_drawing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/02/27 17:06:01 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/02/28 13:59:31 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,19 @@ mlx_texture_t* createSurface(t_gamedata *config){
 }
 
 //this function draws a pixel of parameter color at position x,y on the surface
-void putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y) {
-	int pixel_index;
+void	putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y)
+{
+	int	pixel_index;
 
 	pixel_index = 0;
-    if (x < surface->width && y < surface->height) {
-        pixel_index = (y * surface->width + x) * 4;
-        surface->pixels[pixel_index] = color.red;
-        surface->pixels[pixel_index + 1] = color.green;
-        surface->pixels[pixel_index + 2] = color.blue;
-        surface->pixels[pixel_index + 3] = color.alpha;
-    }
+	if (x < surface->width && y < surface->height)
+	{
+		pixel_index = (y * surface->width + x) * 4;
+		surface->pixels[pixel_index] = color.red;
+		surface->pixels[pixel_index + 1] = color.green;
+		surface->pixels[pixel_index + 2] = color.blue;
+		surface->pixels[pixel_index + 3] = color.alpha;
+	}
 }
 
 //for minimap - here we should use the MINIMAP drawing surface
@@ -74,10 +76,15 @@ void fillCeiling(t_gamedata *config){
 	}
 }
 
-//this function fills the bottom half of the surface with the floor color
-void fillFloor(t_gamedata *config){
-	const t_color color = *config->floor;
+/**
+ * @brief this function fills the bottom half of the surface with the floor color
+ * as y = 0 is at the top and y = window_height is at the bottom
+ */
+void	fillFloor(t_gamedata *config)
+{
+	t_color	color;
 
+	color = *config->floor;
 	for (int y = config->window_height / 2; y < config->window_height; y++){
 		for (int x = 0; x < config->window_width; x++){
 			putPixel(color, config->cub3d_data.current_surface, x, y);
