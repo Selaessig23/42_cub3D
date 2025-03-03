@@ -6,42 +6,102 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/02/28 13:59:31 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:23:56 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 //Drawing functions
 
+mlx_image_t	*createSurface(t_gamedata *config)
+{
+	mlx_image_t	*img;
+	t_color		color_floor;
+	t_color		color_ceiling;
+
+	// uint32_t		x;
+	// uint32_t		y;
+
+	// y = 0;
+	// x = 1;
+	// surface = malloc(sizeof(mlx_image_t));
+	// if (!surface)
+	// 	ft_error_handling(9, NULL, config);
+	img = config->cub3d_data.img;
+	color_floor = *config->floor;
+	color_ceiling = *config->ceiling;
+	// y = img->height;
+	// x = img->width;
+	// while (y < img->height)
+	// {
+	// 	while (x < img->width)
+	// 	{
+	// 		putPixel(x, y, config);
+	// 		x += 1;
+	// 	}
+	// 	y += 1;
+	// }
+	for (uint32_t y = 0; y < img->height; y++) {
+		for (uint32_t x = 0; x < img->width; x++) {
+			if (y < img->height / 2) {
+				// img->pixels[y * img->width + x] = config->ceiling->color;
+				putPixel(color_ceiling, img, x, y);
+			} else {
+				putPixel(color_floor, img, x, y);
+				// img->pixels[y * img->width + x] = config->floor->color;
+			}
+		}
+	}
+	return (img);
+}
+/*
 //this should take the color format and the window size and create a surface filled with black
 //this surface will be used for rendering
-mlx_texture_t* createSurface(t_gamedata *config){
-	mlx_texture_t *surface;
+mlx_texture_t* createSurface(t_gamedata *config)
+{
+	mlx_texture_t	*surface;
+	// uint32_t		x;
+	// uint32_t		y;
 
+	// y = 0;
+	// x = 1;
 	surface = malloc(sizeof(mlx_texture_t));
+	if (!surface)
+		ft_error_handling(9, NULL, config);
 	surface->width = config->window_width;
 	surface->height = config->window_height;
 	surface->pixels = malloc(sizeof(t_color) * config->window_width * config->window_height);
 	for (int i = 0; i < config->window_width * config->window_height; i++){
 		surface->pixels[i] = 0x000000;
 	}
-
+	// config->cub3d_data.current_surface = surface;
+	// fillCeiling(config);
+	// fillFloor(config);
+	config->cub3d_data.current_surface = 
+		mlx_load_png("/home/mstracke/development/cub3D/test/purple_stone.png");
+	if (!config->cub3d_data.current_surface)
+		ft_error_handling(9, NULL, config);
+	config->cub3d_data.img = mlx_texture_to_image(config->cub3d_data.mlx, 
+			config->cub3d_data.current_surface);
+	if (!config->cub3d_data.img)
+		ft_error_handling(23, NULL, config);
 	return (surface);
 }
+	*/
 
 //this function draws a pixel of parameter color at position x,y on the surface
-void	putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y)
+void	putPixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y)
 {
 	int	pixel_index;
 
 	pixel_index = 0;
-	if (x < surface->width && y < surface->height)
+	if (x < img->width && y < img->height)
 	{
-		pixel_index = (y * surface->width + x) * 4;
-		surface->pixels[pixel_index] = color.red;
-		surface->pixels[pixel_index + 1] = color.green;
-		surface->pixels[pixel_index + 2] = color.blue;
-		surface->pixels[pixel_index + 3] = color.alpha;
+		pixel_index = (y * img->width + x) * 4;
+		img->pixels[pixel_index] = color.red;
+		img->pixels[pixel_index + 1] = color.green;
+		img->pixels[pixel_index + 2] = color.blue;
+		img->pixels[pixel_index + 3] = color.alpha;
 	}
 }
 
@@ -53,18 +113,20 @@ void drawLine(t_color color, mlx_texture_t *minimap_surface, t_vector2 start, t_
 	int longest;
 	int i;
 
+	(void)color;
+	(void)minimap_surface;
 	delta = subtractvectors(end, start);
 	longest = (int)fabs(delta.x) > (int)fabs(delta.y) ? (int)fabs(delta.x) : (int)fabs(delta.y);
 	step = dividevector(delta, longest);
 	i = 0;
 	while (i < longest)
 	{
-		putPixel(color, minimap_surface, (int)start.x, (int)start.y);
+		//putPixel(color, minimap_surface, (int)start.x, (int)start.y);
 		start = addvectors(start, step);
 		i++;
 	}
 }
-
+/*
 //this function fills the top half of the surface with the ceiling color
 void fillCeiling(t_gamedata *config){
 	const t_color color = *config->ceiling;
@@ -75,11 +137,11 @@ void fillCeiling(t_gamedata *config){
 		}
 	}
 }
-
+*/
 /**
  * @brief this function fills the bottom half of the surface with the floor color
  * as y = 0 is at the top and y = window_height is at the bottom
- */
+ 
 void	fillFloor(t_gamedata *config)
 {
 	t_color	color;
@@ -91,3 +153,4 @@ void	fillFloor(t_gamedata *config)
 		}
 	}
 }
+*/
