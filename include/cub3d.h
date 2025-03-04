@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/04 10:29:44 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:41:53 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 typedef struct s_gamedata {
-	int			fd_north;
-	int			fd_south;
-	int			fd_east;
-	int			fd_west;
+	char		*t_north;
+	char		*t_south;
+	char		*t_east;
+	char		*t_west;
 	t_color		*floor;
 	t_color		*ceiling;
 	char		**map;

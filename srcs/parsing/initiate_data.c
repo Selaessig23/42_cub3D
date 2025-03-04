@@ -29,13 +29,13 @@
 int	ft_config_set_complete(t_gamedata *config)
 {
 	// ft_testprint(config);
-	if (!config->fd_north)
+	if (!config->t_north)
 		ft_error_handling(5, ft_strdup("Path north texture"), config);
-	if (!config->fd_south)
+	if (!config->t_south)
 		ft_error_handling(5, ft_strdup("Path south texture"), config);
-	if (!config->fd_east)
+	if (!config->t_east)
 		ft_error_handling(5, ft_strdup("Path east texture"), config);
-	if (!config->fd_west)
+	if (!config->t_west)
 		ft_error_handling(5, ft_strdup("Path west texture"), config);
 	if (!config->floor)
 		ft_error_handling(5, ft_strdup("Floor color"), config); 
@@ -112,22 +112,22 @@ static int	ft_search_textures(t_gamedata *config, char *line, int fd)
 	int	i;
 
 	i = ft_startjumper(line);
-	if (!ft_strncmp(&line[i], "NO", 2) && config->fd_north)
+	if (!ft_strncmp(&line[i], "NO", 2) && config->t_north)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("NORTH texture"), config);
 	}
-	else if (!ft_strncmp(&line[i], "SO", 2) && config->fd_south)
+	else if (!ft_strncmp(&line[i], "SO", 2) && config->t_south)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("SOUTH texture"), config);
 	}
-	else if (!ft_strncmp(&line[i], "WE", 2) && config->fd_west)
+	else if (!ft_strncmp(&line[i], "WE", 2) && config->t_west)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("WEST texture"), config);
 	}
-	else if (!ft_strncmp(&line[i], "EA", 2) && config->fd_east)
+	else if (!ft_strncmp(&line[i], "EA", 2) && config->t_east)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("EAST texture"), config);

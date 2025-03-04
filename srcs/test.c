@@ -25,10 +25,10 @@ void	ft_testprint(t_gamedata *config)
 	ft_printf("\n---------------------------------"
 		"-------------------------------\n");
 	ft_printf("TEST: Print input of struct game_config\n");
-	ft_printf("fd_north: %i\n", config->fd_north);
-	ft_printf("fd_south: %i\n", config->fd_south);
-	ft_printf("fd_east: %i\n", config->fd_east);
-	ft_printf("fd_west: %i\n", config->fd_west);
+	ft_printf("fd_north: %s\n", config->t_north);
+	ft_printf("fd_south: %s\n", config->t_south);
+	ft_printf("fd_east: %s\n", config->t_east);
+	ft_printf("fd_west: %s\n", config->t_west);
 	ft_printf("ceiling red: %i\n", ceiling_print->red);
 	ft_printf("ceiling green: %i\n", ceiling_print->green);
 	ft_printf("ceiling blue: %i\n", ceiling_print->blue);
