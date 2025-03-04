@@ -29,13 +29,14 @@ typedef struct s_color {
 	int		red;
 	int		green;
 	int		blue;
+	int		alpha;
 }		t_color;
 
 typedef struct s_gamedata {
-	int			fd_north;
-	int			fd_south;
-	int			fd_east;
-	int			fd_west;
+	char		*t_north;
+	char		*t_south;
+	char		*t_east;
+	char		*t_west;
 	t_color		*floor;
 	t_color		*ceiling;
 	char		**map;

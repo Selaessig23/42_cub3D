@@ -11,32 +11,33 @@
  * @brief function to get fd of texture and assign it to 
  * the corresponding (direction) texture
  */
-static void	ft_open_texture(t_gamedata **p_config, 
-		char *line, char *temp, int fd_infile)
+static void	ft_check_and_assign_path_texture(t_gamedata **p_config, 
+	char *line, char *path_texture, int fd_infile)
 {
 	t_gamedata	*config;
 	int			fd_texture;
 
 	config = *p_config;
-	fd_texture = open(temp, O_RDONLY);
+	fd_texture = open(path_texture, O_RDONLY);
 	if (fd_texture < 0)
 	{
 		ft_freeing_support(fd_infile, line);
-		ft_error_handling(2, temp, *p_config);
+		ft_error_handling(2, path_texture, *p_config);
 	}
 	if (read(fd_texture, NULL, 0) < 0)
 	{
 		ft_freeing_support(fd_infile, line);
-		ft_error_handling(3, temp, *p_config);
+		ft_error_handling(3, path_texture, *p_config);
 	}
+	close (fd_texture);
 	if (!ft_strncmp(line, "NO", 2))
-		config->fd_north = fd_texture;
+		config->t_north = path_texture;
 	else if (!ft_strncmp(line, "SO", 2))
-		config->fd_south = fd_texture;
+		config->t_south = path_texture;
 	else if (!ft_strncmp(line, "WE", 2))
-		config->fd_west = fd_texture;
+		config->t_west = path_texture;
 	else if (!ft_strncmp(line, "EA", 2))
-		config->fd_east = fd_texture;
+		config->t_east = path_texture;
 	else
 		printf("error: where which\n");
 }
@@ -51,11 +52,11 @@ void	ft_set_texture(t_gamedata **p_config, char *line, int fd)
 {
 	int			i;
 	int			j;
-	char		*temp;
+	char		*path_texture;
 
 	i = 2;
 	j = 0;
-	temp = NULL;
+	path_texture = NULL;
 	// if (!line)
 	// 	return ;
 	//while (line[i] && ft_strncmp(&line[i], "./", 2))
@@ -65,23 +66,23 @@ void	ft_set_texture(t_gamedata **p_config, char *line, int fd)
 	// printf("test0 A: %s -> %s\n", line, &line[i]);
 	if (!line[i] || line[i] == '\n')
 	{
-		temp = ft_substr(line, 0, 2);
+		path_texture = ft_substr(line, 0, 2);
 		ft_freeing_support(fd, line);
-		ft_error_handling(4, temp, *p_config);
+		ft_error_handling(4, path_texture, *p_config);
 	}
 	j = i + 1;
 	while (line[j] && line[j] != ' ' 
 		&& !(line[j] > 9 && line[j] < 12))
 		j += 1;
-	temp = ft_substr(line, i, j);
-	if (!temp)
+	path_texture = ft_substr(line, i, j);
+	if (!path_texture)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(9, NULL, *p_config);
 	}
 	// printf("last char of temp: %i\n", temp[j - i]);
 	if (line[j - i])
-		temp[j - i] = '\0';
-	ft_open_texture(p_config, line, temp, fd);
-	free(temp);
+		path_texture[j - i] = '\0';
+	ft_check_and_assign_path_texture(p_config, line, path_texture, fd);
+	// free(temp);
 }
