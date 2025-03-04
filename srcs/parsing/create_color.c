@@ -109,6 +109,7 @@ void	ft_assign_color(t_gamedata **p_config, char *line, int *i, int fd)
 		*i += 1;
 	color->blue = ft_extract_color(p_config, color,
 			line, i, fd);
+	color->alpha = 255;
 	if (!ft_strncmp(line, "C", 1))
 		config->ceiling = color;
 	else

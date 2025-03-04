@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/03 15:23:56 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:00:40 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,28 @@
 
 mlx_image_t	*createSurface(t_gamedata *config)
 {
-	mlx_image_t	*img;
-	t_color		color_floor;
-	t_color		color_ceiling;
+	mlx_image_t		*img;
+	uint32_t		x;
+	uint32_t		y;
 
-	// uint32_t		x;
-	// uint32_t		y;
-
-	// y = 0;
-	// x = 1;
-	// surface = malloc(sizeof(mlx_image_t));
-	// if (!surface)
-	// 	ft_error_handling(9, NULL, config);
+	y = 0;
+	x = 0;
 	img = config->cub3d_data.img;
-	color_floor = *config->floor;
-	color_ceiling = *config->ceiling;
-	// y = img->height;
-	// x = img->width;
-	// while (y < img->height)
-	// {
-	// 	while (x < img->width)
-	// 	{
-	// 		putPixel(x, y, config);
-	// 		x += 1;
-	// 	}
-	// 	y += 1;
-	// }
-	for (uint32_t y = 0; y < img->height; y++) {
-		for (uint32_t x = 0; x < img->width; x++) {
-			if (y < img->height / 2) {
-				// img->pixels[y * img->width + x] = config->ceiling->color;
-				putPixel(color_ceiling, img, x, y);
-			} else {
-				putPixel(color_floor, img, x, y);
-				// img->pixels[y * img->width + x] = config->floor->color;
-			}
+	// memset(img->pixels, 240, img->width * (img->height / 2) * sizeof(int32_t));
+	// memset(&(img->pixels[img->width * (img->height / 2) * sizeof(int32_t)]), 160, img->width * (img->height / 2) * sizeof(int32_t));
+	// printf ("img-height: %i, img_width: %i\n", img->height, img->width);
+	while (y < img->height)
+	{
+		x = 0;
+		while (x < img->width)
+		{
+			if (y < img->height / 2)
+				putPixel(*config->ceiling, config, x, y);
+			else
+				putPixel(*config->floor, config, x, y);
+			x += 1;
 		}
+		y += 1;
 	}
 	return (img);
 }
@@ -90,14 +76,18 @@ mlx_texture_t* createSurface(t_gamedata *config)
 	*/
 
 //this function draws a pixel of parameter color at position x,y on the surface
-void	putPixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y)
+void	putPixel(t_color color, t_gamedata *config, uint32_t x, uint32_t y)
 {
-	int	pixel_index;
+	int			pixel_index;
+	mlx_image_t	*img;
 
+	img = config->cub3d_data.img;
 	pixel_index = 0;
+	// printf("red: %i, green: %i, blue: %i, alpha: %i\n", color.red, color.green, color.blue, color.alpha);
 	if (x < img->width && y < img->height)
 	{
-		pixel_index = (y * img->width + x) * 4;
+		// pixel_index = (y * img->width + x) * 4;
+		pixel_index = (y * img->width + x) * sizeof(int32_t);
 		img->pixels[pixel_index] = color.red;
 		img->pixels[pixel_index + 1] = color.green;
 		img->pixels[pixel_index + 2] = color.blue;

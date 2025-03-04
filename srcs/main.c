@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/03 15:13:15 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/04 11:21:02 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char *argv[])
 		if (!(config->cub3d_data.mlx = mlx_init(640, 480, "Markus' and Pavlos' cub3D", true)))
 			ft_error_handling(20, NULL, config);
 		// printf("test x\n");
-		if (!(config->cub3d_data.img = mlx_new_image(config->cub3d_data.mlx, 640, 480)))
+		if (!(config->cub3d_data.img = mlx_new_image(config->cub3d_data.mlx, 540, 380)))
 		{
 			mlx_close_window(config->cub3d_data.mlx);
 			ft_error_handling(21, NULL, config);
@@ -52,7 +52,7 @@ int	main(int argc, char *argv[])
 		// fillCeiling(config);
 		// fillFloor(config);
 		mlx_loop(config->cub3d_data.mlx);
-		sleep(10);
+		sleep(3);
 		close (fd);
 		//mlx_close_window(config->cub3d_data.mlx);
 		mlx_terminate(config->cub3d_data.mlx);
