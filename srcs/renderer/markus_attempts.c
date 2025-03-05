@@ -30,7 +30,7 @@ void	rendering(t_gamedata *config)
 {
 	int	x;
 	int	y;
- 
+
 	y = 0;
 	x = 1;
 	while (y < config->window_height)

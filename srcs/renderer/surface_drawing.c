@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/04 12:00:40 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:15:31 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ mlx_image_t	*createSurface(t_gamedata *config)
 		}
 		y += 1;
 	}
+	ft_create_minimap(config);
 	return (img);
 }
 /*

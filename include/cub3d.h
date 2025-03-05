@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/04 12:41:53 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:16:44 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,15 @@ double		vectorln(t_vector2 vector);
 
 //drawing functions
 // mlx_texture_t*	createSurface(t_gamedata *config);
-mlx_image_t			*createSurface(t_gamedata *config);
-// void			putPixel(t_color color, mlx_texture_t *surface, uint32_t x, uint32_t y);
-void			putPixel(t_color color, t_gamedata *config, uint32_t x, uint32_t y);
-void			drawLine(t_color color, mlx_texture_t *minimap_surface, t_vector2 start, t_vector2 end);
-void			fillCeiling(t_gamedata *config);
-void 			fillFloor(t_gamedata *config);
+mlx_image_t	*createSurface(t_gamedata *config);
+// void		putPixel(t_color color, mlx_texture_t *surface, 
+//				uint32_t x, uint32_t y);
+void		putPixel(t_color color, t_gamedata *config, uint32_t x, uint32_t y);
+void		drawLine(t_color color, mlx_texture_t *minimap_surface, 
+				t_vector2 start, t_vector2 end);
+void		fillCeiling(t_gamedata *config);
+void		fillFloor(t_gamedata *config);
+
+void		ft_create_minimap(t_gamedata *config);
 
 #endif

@@ -40,7 +40,8 @@ SRCS =	main.c \
 			vector/vector_new.c  \
 			vector/vector_norm.c \
 			vector/vector_rot.c  \
-			vector/vector_sub.c
+			vector/vector_sub.c \
+			renderer/minimap.c
 
 #variable substitution
 OBJS = $(SRCS:%.c=obj/%.o)
