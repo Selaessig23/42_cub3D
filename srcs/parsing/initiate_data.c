@@ -5,15 +5,15 @@
  * this file extracts all important information of the infile
  * sent by command line argument 2 to assign all required
  * values for game config struct.
- * if some information were missing in input file and therfor 
+ * if some information were missing in input file and therfor
  * some of the config variables could not been set up
  * an error will be returned and the program exits.
- * 
- * 
- * PROBLEM to solve: how to close the infile fd 
- * in case of an error in one of the subfunctions 
+ *
+ *
+ * PROBLEM to solve: how to close the infile fd
+ * in case of an error in one of the subfunctions
  * (by adding it to the frame config struct?)
- * 
+ *
  */
 
 /**
@@ -21,9 +21,9 @@
  * for game configuration have been assigned,
  * otherwise send error message to ft_error_handling
  * (where everything gets freed and program exits)
- * 
+ *
  * CHECK: up to now all colors for ceiling and floor have to be
- * assigned, no value is not accepted 
+ * assigned, no value is not accepted
  * (could be adapted to no value == 0, if desired)
  */
 int	ft_config_set_complete(t_gamedata *config)
@@ -38,9 +38,9 @@ int	ft_config_set_complete(t_gamedata *config)
 	if (!config->t_west)
 		ft_error_handling(5, ft_strdup("Path west texture"), config);
 	if (!config->floor)
-		ft_error_handling(5, ft_strdup("Floor color"), config); 
+		ft_error_handling(5, ft_strdup("Floor color"), config);
 	if (!config->ceiling)
-		ft_error_handling(5, ft_strdup("Ceiling color"), config); 
+		ft_error_handling(5, ft_strdup("Ceiling color"), config);
 	if (!config->map)
 		ft_error_handling(5, ft_strdup("Map"), config);
 	//ft_dprintf(1, "%i\n", config->fd_east);
@@ -49,13 +49,13 @@ int	ft_config_set_complete(t_gamedata *config)
 
 /**
  * @brief function that searches for map
- * identifiers, ignoring spaces 
+ * identifiers, ignoring spaces
  * (| tabs | \n )
  * at the beginning of the line
- *  
- * @return 0 in case NO identifier was found, 
+ *
+ * @return 0 in case NO identifier was found,
  * 	1 if identifier was found
- * 
+ *
  */
 int	ft_search_map(char *line)
 {
@@ -74,9 +74,9 @@ int	ft_search_map(char *line)
 
 
 /**
- * @brief function that searches in input file for floor and ceiling 
+ * @brief function that searches in input file for floor and ceiling
  * identifier ("F" / "C")
- * 
+ *
  * @param line the line of the input file to check for color identifiers
  */
 static int	ft_search_colors(t_gamedata *config, char *line, int fd)
@@ -103,7 +103,7 @@ static int	ft_search_colors(t_gamedata *config, char *line, int fd)
 
 /**
  * @brief function that searches in input file for texture
- * identifiers and checks if this identifier has already been 
+ * identifiers and checks if this identifier has already been
  * defined (== not clear definition of corresponding texture
  * identifier -> error message and exit)
  */
@@ -143,11 +143,11 @@ static int	ft_search_textures(t_gamedata *config, char *line, int fd)
 /**
  * @brief loop to read content of input file (line per line)
  * if it finds map content, the loop will end, as the map
- * has to be the last part in input file as per requirements 
+ * has to be the last part in input file as per requirements
  * (therefor following content (lines) will be read in ft_set_map
  * and content of char *line of this function will be used for map
  * creation or freed in ft_set_map if an error occurs)
- * 
+ *
  * @param fd file descriptor of input file
  */
 void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
@@ -180,19 +180,20 @@ void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 
 /**
  * @brief function that sets the game config by reading from
- * input file (of command line argument) and sorting content 
+ * input file (of command line argument) and sorting content
  * to required variables summarized in struct t_gamedata
- * 
+ *
  * allocated memory for t_gamedata *config will be freed in main
- * 
+ *
  * CHECK how to distinguish between malloc error in gnl and eol of file?
- * 
+ *
  */
 t_gamedata	*ft_initiate_data(int fd)
 {
 	t_gamedata	*config;
 
 	config = ft_calloc(1, sizeof(t_gamedata));
+	config->show_minimap = false;
 	if (!config)
 		ft_error_handling(9, NULL, NULL);
 	ft_gnl_infileloop(fd, &config);

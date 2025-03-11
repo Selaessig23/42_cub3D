@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/11 19:59:10 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:07:58 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	putPixel(t_color color, mlx_image_t* img, uint32_t x, uint32_t y)
 }
 
 //for minimap - here we should use the MINIMAP drawing surface
-void drawLine(t_color color, mlx_texture_t *minimap_surface, t_vector2 start, t_vector2 end)
+void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 start, t_vector2 end)
 {
 	t_vector2 delta;
 	t_vector2 step;
@@ -111,7 +111,7 @@ void drawLine(t_color color, mlx_texture_t *minimap_surface, t_vector2 start, t_
 	i = 0;
 	while (i < longest)
 	{
-		//putPixel(color, minimap_surface, (int)start.x, (int)start.y);
+		putPixel(color, minimap_surface, (int)start.x, (int)start.y);
 		start = addvectors(start, step);
 		i++;
 	}

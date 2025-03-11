@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/11 19:41:38 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:08:13 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,11 @@ typedef struct s_cub3d
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
-	mlx_texture_t	*current_surface;
+	mlx_image_t		*minimap_surface;
+	mlx_image_t		*east;
+	mlx_image_t		*west;
+	mlx_image_t		*north;
+	mlx_image_t		*south;
 }	t_cub3d;
 
 typedef struct s_gamedata {
@@ -73,8 +77,15 @@ typedef struct s_gamedata {
 	t_cub3d		cub3d_data;
 	int			window_width;
 	int			window_height;
+	bool		show_minimap;
 }		t_gamedata;
 
+typedef enum e_direction{
+	DIR_NORTH = 0,  // Hit from south to north (bottom side of cell)
+	DIR_SOUTH = 1,  // Hit from north to south (top side of cell)
+	DIR_WEST = 2,   // Hit from east to west (right side of cell)
+	DIR_EAST = 3    // Hit from east to west (left side of cell)
+} t_direction;
 
 //command_line_input_check.c
 int			ft_access_check(char *inputfile);
@@ -127,8 +138,7 @@ mlx_image_t	*createSurface(t_gamedata *config);
 // void		putPixel(t_color color, mlx_texture_t *surface,
 //				uint32_t x, uint32_t y);
 void	putPixel(t_color color, mlx_image_t* img, uint32_t x, uint32_t y);
-void		drawLine(t_color color, mlx_texture_t *minimap_surface,
-				t_vector2 start, t_vector2 end);
+void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 start, t_vector2 end);
 void		fillCeiling(t_gamedata *config);
 void		fillFloor(t_gamedata *config);
 

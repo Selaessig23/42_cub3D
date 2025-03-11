@@ -55,12 +55,12 @@ void	handle_pixel(t_gamedata *config, int x, int y, mlx_image_t *img)
 	printf("x: %f\n", x_new);
 	printf("y: %f\n", y_new);
 	if (map[(int)y_new][(int)x_new] == '0')
-		putPixel(*ft_coloring(1), config, x, y);
+		putPixel(*ft_coloring(1), config->cub3d_data.img, x, y);
 	else if (map[(int)y_new][(int)x_new] == '1'
 		|| map[(int)y_new][(int)x_new] == ' ')
-		putPixel(*ft_coloring(2), config, x, y);
+		putPixel(*ft_coloring(2), config->cub3d_data.img, x, y);
 	else
-		putPixel(*ft_coloring(3), config, x, y);
+		putPixel(*ft_coloring(3), config->cub3d_data.img, x, y);
 }
 
 

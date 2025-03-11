@@ -3,7 +3,7 @@
 CUR_DIR = $(shell pwd)
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -Iinclude -Isrcs
+CFLAGS =  -g -Iinclude -Isrcs
 
 #libraries
 #add pathes of lib to cflags to find headers easily
@@ -62,13 +62,13 @@ $(NAME): $(LIBFT_LIBRARY) $(MLX42) $(OBJS)
 obj/%.o: srcs/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
-	
+
 #The -C option is used to change the directory to the specified path before executing make. In this context, it ensures that make operates in the subfolder, not the current directory.
 #!important to note: if the program can't find any of the dependencies it will do all: always running libft-make (=updating correctly)
 # $(LIBFT_LIBRARY): libft
 $(LIBFT_LIBRARY): $(LIBFT_CREATE)
 	@$(MAKE) -s -C libft
-	
+
 
 $(LIBFT_CREATE):
 #	@echo CREATE OR UPDATE LIBFT
