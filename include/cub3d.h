@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/05 11:04:20 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:41:38 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int			ft_wall_check(t_gamedata *config, int fd, char **index);
 //enclosure.c
 // int			ft_check_carve(char **map, int startarr, int startstr,
 // 				char prev_direction);
-int			ft_check_carve(char **map, int startarr, int startstr, 
+int			ft_check_carve(char **map, int startarr, int startstr,
 				char prev_direction);
 //map_playercheck.c
 int			ft_player_check(t_gamedata *config, int fd, char **map_cpy);
@@ -124,10 +124,10 @@ double		vectorln(t_vector2 vector);
 //drawing functions
 // mlx_texture_t*	createSurface(t_gamedata *config);
 mlx_image_t	*createSurface(t_gamedata *config);
-// void		putPixel(t_color color, mlx_texture_t *surface, 
+// void		putPixel(t_color color, mlx_texture_t *surface,
 //				uint32_t x, uint32_t y);
-void		putPixel(t_color color, t_gamedata *config, uint32_t x, uint32_t y);
-void		drawLine(t_color color, mlx_texture_t *minimap_surface, 
+void	putPixel(t_color color, mlx_image_t* img, uint32_t x, uint32_t y);
+void		drawLine(t_color color, mlx_texture_t *minimap_surface,
 				t_vector2 start, t_vector2 end);
 void		fillCeiling(t_gamedata *config);
 void		fillFloor(t_gamedata *config);

@@ -2,7 +2,7 @@
 
 //linear interpolation
 //0 is equal to old_min
-double	scale(double unscaled_num, double new_min, 
+double	scale(double unscaled_num, double new_min,
 	double new_max, double old_max)
 {
 	return ((new_max - new_min) * (unscaled_num - 0) / (old_max - 0) + new_min);
@@ -56,7 +56,7 @@ void	handle_pixel(t_gamedata *config, int x, int y, mlx_image_t *img)
 	printf("y: %f\n", y_new);
 	if (map[(int)y_new][(int)x_new] == '0')
 		putPixel(*ft_coloring(1), config, x, y);
-	else if (map[(int)y_new][(int)x_new] == '1' 
+	else if (map[(int)y_new][(int)x_new] == '1'
 		|| map[(int)y_new][(int)x_new] == ' ')
 		putPixel(*ft_coloring(2), config, x, y);
 	else
@@ -87,6 +87,7 @@ void	ft_create_minimap(t_gamedata *config)
 		}
 		y += 1;
 	}
+
 	if (mlx_image_to_window(config->cub3d_data.mlx, img, 0, 0) == -1)
 	{
 		mlx_close_window(config->cub3d_data.mlx);

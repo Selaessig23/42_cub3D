@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   surface_drawing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/05 10:15:31 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:59:10 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ mlx_image_t	*createSurface(t_gamedata *config)
 		while (x < img->width)
 		{
 			if (y < img->height / 2)
-				putPixel(*config->ceiling, config, x, y);
+				putPixel(*config->ceiling, config->cub3d_data.img, x, y);
 			else
-				putPixel(*config->floor, config, x, y);
+				putPixel(*config->floor, config->cub3d_data.img, x, y);
 			x += 1;
 		}
 		y += 1;
@@ -64,11 +64,11 @@ mlx_texture_t* createSurface(t_gamedata *config)
 	// config->cub3d_data.current_surface = surface;
 	// fillCeiling(config);
 	// fillFloor(config);
-	config->cub3d_data.current_surface = 
+	config->cub3d_data.current_surface =
 		mlx_load_png("/home/mstracke/development/cub3D/test/purple_stone.png");
 	if (!config->cub3d_data.current_surface)
 		ft_error_handling(9, NULL, config);
-	config->cub3d_data.img = mlx_texture_to_image(config->cub3d_data.mlx, 
+	config->cub3d_data.img = mlx_texture_to_image(config->cub3d_data.mlx,
 			config->cub3d_data.current_surface);
 	if (!config->cub3d_data.img)
 		ft_error_handling(23, NULL, config);
@@ -77,12 +77,11 @@ mlx_texture_t* createSurface(t_gamedata *config)
 	*/
 
 //this function draws a pixel of parameter color at position x,y on the surface
-void	putPixel(t_color color, t_gamedata *config, uint32_t x, uint32_t y)
+void	putPixel(t_color color, mlx_image_t* img, uint32_t x, uint32_t y)
 {
 	int			pixel_index;
-	mlx_image_t	*img;
 
-	img = config->cub3d_data.img;
+
 	pixel_index = 0;
 	// printf("red: %i, green: %i, blue: %i, alpha: %i\n", color.red, color.green, color.blue, color.alpha);
 	if (x < img->width && y < img->height)
@@ -132,7 +131,7 @@ void fillCeiling(t_gamedata *config){
 /**
  * @brief this function fills the bottom half of the surface with the floor color
  * as y = 0 is at the top and y = window_height is at the bottom
- 
+
 void	fillFloor(t_gamedata *config)
 {
 	t_color	color;
