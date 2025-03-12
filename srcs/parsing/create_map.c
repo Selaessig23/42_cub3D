@@ -195,7 +195,7 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	// ft_zero_index(index);
 	// ft_testprint_maparray(config->map);
 	if (!ft_wall_check(*p_config, fd, map_cpy)
-		|| !ft_player_check(*p_config, fd, map_cpy))
+		|| !ft_player_check(*p_config, fd))
 	{
 		// ft_free(index);
 		ft_free(map_cpy);

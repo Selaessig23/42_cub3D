@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/11 23:08:13 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:42:14 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int			ft_wall_check(t_gamedata *config, int fd, char **index);
 int			ft_check_carve(char **map, int startarr, int startstr,
 				char prev_direction);
 //map_playercheck.c
-int			ft_player_check(t_gamedata *config, int fd, char **map_cpy);
+//int			ft_player_check(t_gamedata *config, int fd, char **map_cpy);
+int			ft_player_check(t_gamedata *config, int fd);
 //free.c
 void		ft_freeing_support(int fd, char *line);
 void		ft_free_config(t_gamedata *config);
