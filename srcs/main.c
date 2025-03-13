@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/13 13:33:58 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:36:59 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,6 +470,12 @@ int	main(int argc, char *argv[])
 		// 	"for gaming fun, fd: %i\n", fd);
 
 		config = ft_initiate_data(fd);
+
+        //without this we can floating point problems - i think it is the equivalent of using a bigger collision box
+        config->player.pos.x += 0.1;
+        config->player.pos.y += 0.1;
+
+
 		// if (!config->player.pos.x)
 		// 	config->player.pos.x = 9;
 		// if (!config->player.pos.y)
