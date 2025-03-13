@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/13 11:13:37 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/13 11:38:34 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,10 +208,10 @@ void cast_ray_and_draw_wall(char **map, t_vector2 player_pos, t_vector2 player_d
 					side = DIR_SOUTH;  // Hit the south face (coming from north)
 			}
 
-			// Check if ray has hit a wall
-			if (map[map_y][map_x] == '1')
-				hit = 1;
-		}
+            // Check if ray has hit a wall
+            if (map[map_y][map_x] == '1' || map[map_y][map_x] == ' ')
+                hit = 1;
+        }
 
 		if (side == DIR_EAST || side == DIR_WEST)
 			perp_wall_dist = (map_x - player_pos.x + (1 - step_x) / 2) / ray_dir.x;
@@ -283,14 +283,16 @@ void key_handler(mlx_key_data_t keydata, void *param)
 		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
 		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		// Check if we can move in X direction
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        // Check if we can move in X direction
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		// Check if we can move in Y direction
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        // Check if we can move in Y direction
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
 	if ((keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
@@ -303,14 +305,16 @@ void key_handler(mlx_key_data_t keydata, void *param)
 		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
 		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		// Check if we can move in X direction
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        // Check if we can move in X direction
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		// Check if we can move in Y direction
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        // Check if we can move in Y direction
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
 	// Add strafe movement with A and D keys
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
@@ -325,12 +329,14 @@ void key_handler(mlx_key_data_t keydata, void *param)
 		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
 		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
@@ -344,12 +350,14 @@ void key_handler(mlx_key_data_t keydata, void *param)
 		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
 		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
 	// Handle rotation with arrow keys
 	if ((keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_Q )&& (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
@@ -409,8 +417,8 @@ void draw_minimap(t_gamedata *config)
 			if (screen_x >= minimap_size || screen_y >= minimap_size)
 				continue;
 
-			// Draw cell
-			t_color cell_color = (config->map[y][x] == '1') ? wall_color : floor_color;
+            // Draw cell
+            t_color cell_color = (config->map[y][x] == '1' || config->map[y][x] == ' ' ) ? wall_color : floor_color;
 
 			// Fill cell
 			for (int cy = 0; cy < cell_size && screen_y + cy < minimap_size; cy++) {
