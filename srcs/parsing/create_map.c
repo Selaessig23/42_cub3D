@@ -195,7 +195,7 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	// ft_zero_index(index);
 	// ft_testprint_maparray(config->map);
 	if (!ft_wall_check(*p_config, fd, map_cpy)
-		|| !ft_player_check(*p_config, fd, map_cpy))
+		|| !ft_player_check(*p_config, fd))
 	{
 		// ft_free(index);
 		ft_free(map_cpy);
@@ -203,6 +203,8 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 		ft_error_handling(11, NULL, *p_config);
 	}
 	// ft_free(index);
+	printf("x_config = %f\n", config->player.pos.x);
+	printf("y_config = %f\n", config->player.pos.y);
 	ft_free(map_cpy);
 	return (1);
 }

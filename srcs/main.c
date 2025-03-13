@@ -3,19 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 16:37:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/13 11:28:40 by pvasilan         ###   ########.fr       */
-/*                                                                            */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */                                              
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "main.h"
-
-// void start_window()
-// {
-// }
 
 void render(void *param);
 
@@ -27,41 +20,41 @@ void load_wall_textures(t_gamedata *config);
 // Helper function to create a square with a specific color and alpha
 mlx_image_t *create_square(mlx_t *mlx, uint32_t size, t_color color)
 {
-    mlx_image_t *img = mlx_new_image(mlx, size, size);
-    if (!img)
-        return NULL;
+	mlx_image_t *img = mlx_new_image(mlx, size, size);
+	if (!img)
+		return NULL;
 
-    // Fill the image with the specified color
-    for (uint32_t y = 0; y < size; y++)
-    {
-        for (uint32_t x = 0; x < size; x++)
-        {
-            putPixel(color, img, x, y );
-        }
-    }
-    return img;
+	// Fill the image with the specified color
+	for (uint32_t y = 0; y < size; y++)
+	{
+		for (uint32_t x = 0; x < size; x++)
+		{
+			putPixel(color, img, x, y );
+		}
+	}
+	return img;
 }
 
 // Function to create a checkerboard pattern with transparency
 mlx_image_t *create_transparent_pattern(mlx_t *mlx, uint32_t size, uint32_t color)
 {
-    mlx_image_t *img = mlx_new_image(mlx, size, size);
-    if (!img)
-        return NULL;
+	mlx_image_t *img = mlx_new_image(mlx, size, size);
+	if (!img)
+		return NULL;
 
-    // Create a checkerboard pattern with some pixels fully transparent
-    for (uint32_t y = 0; y < size; y++)
-    {
-        for (uint32_t x = 0; x < size; x++)
-        {
-            // Make a checkerboard pattern by making some pixels transparent
-            if ((x / 10 + y / 10) % 2 == 0)
-                mlx_put_pixel(img, x, y, color);
-            else
-                mlx_put_pixel(img, x, y, 0x00000000); // Fully transparent
-        }
-    }
-    return img;
+	// Create a checkerboard pattern with some pixels fully transparent
+	for (uint32_t y = 0; y < size; y++)
+	{
+		for (uint32_t x = 0; x < size; x++)
+		{
+			// Make a checkerboard pattern by making some pixels transparent
+			if ((x / 10 + y / 10) % 2 == 0)
+				mlx_put_pixel(img, x, y, color);
+			else
+				mlx_put_pixel(img, x, y, 0x00000000); // Fully transparent
+		}
+	}
+	return img;
 }
 //test function to copy a vertical line from the east texture in the middle of the screen
 void copy_texture(mlx_image_t *img, mlx_image_t *texture, uint32_t x, uint32_t y)
@@ -102,37 +95,35 @@ void fill_upper_half(mlx_image_t *img, t_color color)
 void copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture, int screen_x,
 	int draw_start, int draw_end, float wall_x)
 {
-    int tex_x = (int)(wall_x * texture->width);
+	int tex_x = (int)(wall_x * texture->width);
 
-    if (tex_x < 0) tex_x = 0;
-    if (tex_x >= texture->width) tex_x = texture->width - 1;
+	if (tex_x < 0) tex_x = 0;
+	if (tex_x >= texture->width) tex_x = texture->width - 1;
 
-    int line_height = draw_end - draw_start;
+	int line_height = draw_end - draw_start;
 
-    for (int screen_y = draw_start; screen_y < draw_end; screen_y++)
-    {
-    float step = (float)texture->height / line_height;
-    int tex_y = (int)((screen_y - draw_start) * step);
+	for (int screen_y = draw_start; screen_y < draw_end; screen_y++)
+	{
+	float step = (float)texture->height / line_height;
+	int tex_y = (int)((screen_y - draw_start) * step);
 
-    if (tex_y < 0) tex_y = 0;
-    if (tex_y >= texture->height) tex_y = texture->height - 1;
+	if (tex_y < 0) tex_y = 0;
+	if (tex_y >= texture->height) tex_y = texture->height - 1;
 
-    uint8_t *pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
+	uint8_t *pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
 
-    t_color color;
-    color.red = pixel[0];
-    color.green = pixel[1];
-    color.blue = pixel[2];
-    color.alpha = pixel[3];
+	t_color color;
+	color.red = pixel[0];
+	color.green = pixel[1];
+	color.blue = pixel[2];
+	color.alpha = pixel[3];
 
-    putPixel(color, render_img, screen_x, screen_y);
-    }
+	putPixel(color, render_img, screen_x, screen_y);
+	}
 }
 
 void cast_ray_and_draw_wall(char **map, t_vector2 player_pos, t_vector2 player_dir, mlx_image_t *img, t_gamedata *config)
 {
-
-
     for (int x = 0; x < img->width; x++)
     {
         // Calculate the ray direction relative to the player's view
@@ -235,22 +226,20 @@ void cast_ray_and_draw_wall(char **map, t_vector2 player_pos, t_vector2 player_d
         else
             wall_x = player_pos.x + perp_wall_dist * ray_dir.x;
         wall_x -= floor(wall_x);
-
-
 // Choose texture based on hit direction
-    mlx_image_t *texture;
-    if (side == DIR_NORTH)
-        texture = config->cub3d_data.north;
-    else if (side == DIR_SOUTH)
-        texture = config->cub3d_data.south;
-    else if (side == DIR_EAST)
-        texture = config->cub3d_data.east;
-    else
-        texture = config->cub3d_data.west;
+	mlx_image_t *texture;
+	if (side == DIR_NORTH)
+		texture = config->cub3d_data.north;
+	else if (side == DIR_SOUTH)
+		texture = config->cub3d_data.south;
+	else if (side == DIR_EAST)
+		texture = config->cub3d_data.east;
+	else
+		texture = config->cub3d_data.west;
 
-    // Copy texture line to render surface
-    copy_texture_line(img, texture, x, draw_start, draw_end, wall_x);
-    }
+	// Copy texture line to render surface
+	copy_texture_line(img, texture, x, draw_start, draw_end, wall_x);
+	}
 }
 
 
@@ -455,9 +444,9 @@ void draw_minimap(t_gamedata *config)
 
 void clear_minimap(mlx_image_t *minimap_surface)
 {
-    for (int y = 0; y < minimap_surface->height; y++)
-        for (int x = 0; x < minimap_surface->width; x++)
-            putPixel((t_color){0x00000000}, minimap_surface, x, y);
+	for (int y = 0; y < minimap_surface->height; y++)
+		for (int x = 0; x < minimap_surface->width; x++)
+			putPixel((t_color){0x00000000}, minimap_surface, x, y);
 }
 
 int	main(int argc, char *argv[])
@@ -478,30 +467,37 @@ int	main(int argc, char *argv[])
 		// 	"for gaming fun, fd: %i\n", fd);
 
 		config = ft_initiate_data(fd);
-		config->player.pos.x = 3.1;
-		config->player.pos.y = 3.1;
-		config->player.dir.x = 1;
-		config->player.dir.y = 0;
-		config->player.fov = 90;
+
+		// if (!config->player.pos.x)
+		// 	config->player.pos.x = 9;
+		// if (!config->player.pos.y)
+		// 	config->player.pos.y = 5;
+		// if (!config->player.dir.x)
+		// 	config->player.dir.x = -1;
+		// if (!config->player.dir.y)
+		// 	config->player.dir.y = 0;
+		// if (!config->player.fov)
+		// 	config->player.fov = 90;
+
 		ft_testprint(config);
 		if (!(config->cub3d_data.mlx = mlx_init(640, 480, "Markus' and Pavlos' cub3D", true)))
 			ft_error_handling(20, NULL, config);
 
 		config->cub3d_data.img = mlx_new_image(config->cub3d_data.mlx, 640, 480);
-        config->cub3d_data.minimap_surface = mlx_new_image(config->cub3d_data.mlx, 640, 480);
+		config->cub3d_data.minimap_surface = mlx_new_image(config->cub3d_data.mlx, 640, 480);
 		//render(config);
 		//
-        load_wall_textures(config);
+		load_wall_textures(config);
 
-        //copy_texture(config->cub3d_data.img,east_img, 100, 100);
+		//copy_texture(config->cub3d_data.img,east_img, 100, 100);
 		int img_instance = mlx_image_to_window(config->cub3d_data.mlx, config->cub3d_data.img, 0, 0);
 		mlx_set_instance_depth(&config->cub3d_data.img->instances[img_instance], 0);
 
-        int minimap_instance = mlx_image_to_window(config->cub3d_data.mlx, config->cub3d_data.minimap_surface, 0, 0);
-        mlx_set_instance_depth(&config->cub3d_data.minimap_surface->instances[minimap_instance], 1);
+		int minimap_instance = mlx_image_to_window(config->cub3d_data.mlx, config->cub3d_data.minimap_surface, 0, 0);
+		mlx_set_instance_depth(&config->cub3d_data.minimap_surface->instances[minimap_instance], 1);
 
 
-        char **map = config->map;
+		char **map = config->map;
 		int map_x = ft_strlen(map[0]);
 		int map_y = ft_arrlen(map);
 		printf("map: %c\n", map[0][0]);
@@ -514,8 +510,8 @@ int	main(int argc, char *argv[])
 		mlx_loop_hook(config->cub3d_data.mlx, render, config);
 		mlx_loop(config->cub3d_data.mlx);
 
-        close(fd);
-        mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.img);
+		close(fd);
+		mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.img);
 		mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.minimap_surface);
 		mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.east);
 		mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.west);
@@ -536,34 +532,34 @@ void render(void *param)
 	fill_lower_half(config->cub3d_data.img, *config->floor);
 	fill_upper_half(config->cub3d_data.img, *config->ceiling);
 	cast_ray_and_draw_wall(config->map, config->player.pos, config->player.dir, config->cub3d_data.img, config);
-    if(config->show_minimap)
-        draw_minimap(config);
-    else
-        clear_minimap(config->cub3d_data.minimap_surface);
+	if(config->show_minimap)
+		draw_minimap(config);
+	else
+		clear_minimap(config->cub3d_data.minimap_surface);
 
 
 }
 
 void load_wall_textures(t_gamedata * config)
 {
-    mlx_texture_t *e_t = mlx_load_png(config->t_east);
-    mlx_image_t *easttxt = mlx_texture_to_image(config->cub3d_data.mlx, e_t);
-    mlx_delete_texture(e_t);
+	mlx_texture_t *e_t = mlx_load_png(config->t_east);
+	mlx_image_t *easttxt = mlx_texture_to_image(config->cub3d_data.mlx, e_t);
+	mlx_delete_texture(e_t);
 
-    mlx_texture_t *w_t = mlx_load_png(config->t_west);
-    mlx_image_t *westtxt = mlx_texture_to_image(config->cub3d_data.mlx, w_t);
-    mlx_delete_texture(w_t);
+	mlx_texture_t *w_t = mlx_load_png(config->t_west);
+	mlx_image_t *westtxt = mlx_texture_to_image(config->cub3d_data.mlx, w_t);
+	mlx_delete_texture(w_t);
 
-    mlx_texture_t *n_t = mlx_load_png(config->t_north);
-    mlx_image_t *northtxt = mlx_texture_to_image(config->cub3d_data.mlx, n_t);
-    mlx_delete_texture(n_t);
+	mlx_texture_t *n_t = mlx_load_png(config->t_north);
+	mlx_image_t *northtxt = mlx_texture_to_image(config->cub3d_data.mlx, n_t);
+	mlx_delete_texture(n_t);
 
-    mlx_texture_t *s_t = mlx_load_png(config->t_south);
-    mlx_image_t *southtxt = mlx_texture_to_image(config->cub3d_data.mlx, s_t);
-    mlx_delete_texture(s_t);
+	mlx_texture_t *s_t = mlx_load_png(config->t_south);
+	mlx_image_t *southtxt = mlx_texture_to_image(config->cub3d_data.mlx, s_t);
+	mlx_delete_texture(s_t);
 
-    config->cub3d_data.east = easttxt;
-    config->cub3d_data.west = westtxt;
-    config->cub3d_data.north = northtxt;
-    config->cub3d_data.south = southtxt;
+	config->cub3d_data.east = easttxt;
+	config->cub3d_data.west = westtxt;
+	config->cub3d_data.north = northtxt;
+	config->cub3d_data.south = southtxt;
 }
