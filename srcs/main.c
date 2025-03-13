@@ -4,7 +4,7 @@
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */                                              
+/*                                                +#+#+#+#+#+   +#+           */
 /* ************************************************************************** */
 
 #include "cub3d.h"
@@ -467,6 +467,11 @@ int	main(int argc, char *argv[])
 		// 	"for gaming fun, fd: %i\n", fd);
 
 		config = ft_initiate_data(fd);
+
+        //without this we can floating point problems - i think it is the equivalent of using a bigger collision box
+        config->player.pos.x += 0.1;
+        config->player.pos.y += 0.1;
+
 
 		// if (!config->player.pos.x)
 		// 	config->player.pos.x = 9;
