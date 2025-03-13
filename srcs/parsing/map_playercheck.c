@@ -52,6 +52,10 @@ static void	ft_set_player(t_gamedata **p_config, int x, int y, char dir)
 	config->player.pos.y = (double)y;
 	config->player.dir = ft_set_players_dir(p_config, dir);
 	config->player.fov = 90;
+	// printf("x = %i, x_config = %f\n", x, config->player.pos.x);
+	// printf("y = %i, y_config = %f\n", y, config->player.pos.y);
+	// printf("x_config.dir = %f\n", config->player.dir.x);
+	// printf("y_config.dir = %f\n", config->player.dir.y);
 }
 
 /**
@@ -86,26 +90,26 @@ static int	ft_check_for_player_duplicates(t_gamedata *config, int fd)
 int	ft_player_check(t_gamedata *config, int fd)
 {
 	int		p;
-	int		i;
-	int		j;
+	int		x;
+	int		y;
 
 	p = 0;
-	i = 0;
-	j = 0;
-	while (config->map[i])
+	y = 0;
+	x = 0;
+	while (config->map[y])
 	{
-		j = 0;
-		while (config->map[i][j])
+		x = 0;
+		while (config->map[y][x])
 		{
-			if (config->map[i][j] == 'N' || config->map[i][j] == 'S'
-				|| config->map[i][j] == 'W' || config->map[i][j] == 'E')
+			if (config->map[y][x] == 'N' || config->map[y][x] == 'S'
+				|| config->map[y][x] == 'W' || config->map[y][x] == 'E')
 			{
 				p = ft_check_for_player_duplicates(config, fd);
-				ft_set_player(&config, j, i, config->map[i][j]);
+				ft_set_player(&config, x, y, config->map[y][x]);
 			}
-			j += 1;
+			x += 1;
 		}
-		i += 1;
+		y += 1;
 	}
 	return (p == 1);
 }

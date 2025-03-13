@@ -203,6 +203,8 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 		ft_error_handling(11, NULL, *p_config);
 	}
 	// ft_free(index);
+	printf("x_config = %f\n", config->player.pos.x);
+	printf("y_config = %f\n", config->player.pos.y);
 	ft_free(map_cpy);
 	return (1);
 }
