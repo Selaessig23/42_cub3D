@@ -35,10 +35,10 @@ void	ft_testprint(t_gamedata *config)
 	ft_printf("floor red: %i\n", floor_print->red);
 	ft_printf("floor green: %i\n", floor_print->green);
 	ft_printf("floor blue: %i\n", floor_print->blue);
-	ft_printf("Player pos x: %i\n", config->player.pos.x);
-	ft_printf("Player pos y: %i\n", config->player.pos.y);
-	ft_printf("Player dir x: %i\n", config->player.dir.x);
-	ft_printf("Player dir y: %i\n", config->player.dir.y);
+	ft_printf("Player pos x: %d\n", config->player.pos.x);
+	ft_printf("Player pos y: %d\n", config->player.pos.y);
+	ft_printf("Player dir x: %d\n", config->player.dir.x);
+	ft_printf("Player dir y: %d\n", config->player.dir.y);
 	ft_testprint_maparray(config->map);
 	ft_printf("------------------------------------"
 		"----------------------------\n");

@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/12 15:58:43 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/13 10:50:31 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -471,14 +471,15 @@ int	main(int argc, char *argv[])
 
 		config = ft_initiate_data(fd);
 		if (!config->player.pos.x)
-			config->player.pos.x = 3;
+			config->player.pos.x = 9;
 		if (!config->player.pos.y)
-			config->player.pos.y = 3;
+			config->player.pos.y = 5;
 		if (!config->player.dir.x)
-			config->player.dir.x = 0;
+			config->player.dir.x = -1;
 		if (!config->player.dir.y)
-			config->player.dir.y = 1;
-		config->player.fov = 90;
+			config->player.dir.y = 0;
+		if (!config->player.fov)
+			config->player.fov = 90;
 		ft_testprint(config);
 		if (!(config->cub3d_data.mlx = mlx_init(640, 480, "Markus' and Pavlos' cub3D", true)))
 			ft_error_handling(20, NULL, config);

@@ -10,15 +10,10 @@
  * @brief function to set players direction
  * (helper function for ft_set_player)
  */
-static void	ft_set_players_dir(t_gamedata **p_config, char dir)
+static t_vector2	ft_set_players_dir(t_gamedata **p_config, char dir)
 {
-	t_gamedata	*config;
-	t_player	p;
 	t_vector2	player_dir;
 
-	config = *p_config;
-	p = config->player;
-	player_dir = p.dir;
 	if (dir == 'N')
 	{
 		player_dir.x = 0;
@@ -39,6 +34,7 @@ static void	ft_set_players_dir(t_gamedata **p_config, char dir)
 		player_dir.x = 1;
 		player_dir.y = 0;
 	}
+	return (player_dir);
 }
 
 /**
@@ -50,16 +46,12 @@ static void	ft_set_player(t_gamedata **p_config, int x, int y, char dir)
 	t_gamedata	*config;
 	t_player	p;
 	t_vector2	player_pos;
-	// t_vector2	player_dir;
-
 
 	config = *p_config;
-	p = config->player;
-	player_pos = p.pos;
-	// player_dir = p.dir;
-	player_pos.x = x;
-	player_pos.y = y;
-	ft_set_players_dir(p_config, dir);
+	config->player.pos.x = (double)x;
+	config->player.pos.y = (double)y;
+	config->player.dir = ft_set_players_dir(p_config, dir);
+	config->player.fov = 90;
 }
 
 /**
@@ -77,7 +69,6 @@ static int	ft_check_for_player_duplicates(t_gamedata *config, int fd)
 	player_pos = p.pos;
 	if (player_pos.x && player_pos.y)
 	{
-		//ft_free(map_cpy);
 		close (fd);
 		ft_error_handling(12, NULL, config);
 	}
