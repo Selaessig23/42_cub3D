@@ -4,18 +4,11 @@
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 16:37:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/13 11:13:37 by mstracke         ###   ########.fr       */
-/*                                                                            */
+/*                                                +#+#+#+#+#+   +#+           */                                              
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "main.h"
-
-// void start_window()
-// {
-// }
 
 void render(void *param);
 
@@ -131,112 +124,108 @@ void copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture, int screen
 
 void cast_ray_and_draw_wall(char **map, t_vector2 player_pos, t_vector2 player_dir, mlx_image_t *img, t_gamedata *config)
 {
+    for (int x = 0; x < img->width; x++)
+    {
+        // Calculate the ray direction relative to the player's view
+        float camera_x = 2.0f * x / (float)img->width - 1.0f; // x-coordinate in camera space
+        t_vector2 ray_dir;
+        ray_dir.x = player_dir.x + player_dir.y * camera_x * 0.66f; // Field of view adjustment
+        ray_dir.y = player_dir.y - player_dir.x * camera_x * 0.66f; // Field of view adjustment
+
+        // Initialize DDA algorithm variables
+        int map_x = (int)player_pos.x;
+        int map_y = (int)player_pos.y;
+
+        // Calculate step and initial side_dist
+        t_vector2 side_dist; // Length of ray from current position to next x or y-side
+        t_vector2 delta_dist; // Length of ray from one x or y-side to next x or y-side
+
+        // Calculate delta_dist based on ray direction
+        delta_dist.x = (ray_dir.x == 0) ? 1e30 : fabs(1.0f / ray_dir.x);
+        delta_dist.y = (ray_dir.y == 0) ? 1e30 : fabs(1.0f / ray_dir.y);
+
+        // Determine step direction and initial side_dist
+        int step_x, step_y;
+        if (ray_dir.x < 0)
+        {
+            step_x = -1;
+            side_dist.x = (player_pos.x - map_x) * delta_dist.x;
+        }
+        else
+        {
+            step_x = 1;
+            side_dist.x = (map_x + 1.0f - player_pos.x) * delta_dist.x;
+        }
+
+        if (ray_dir.y < 0)
+        {
+            step_y = -1;
+            side_dist.y = (player_pos.y - map_y) * delta_dist.y;
+        }
+        else
+        {
+            step_y = 1;
+            side_dist.y = (map_y + 1.0f - player_pos.y) * delta_dist.y;
+        }
+
+        // Perform DDA
+        t_direction side;
+        int hit = 0;
+        float perp_wall_dist;
+
+        while (!hit)
+        {
+            // Jump to next map square
+            if (side_dist.x < side_dist.y)
+            {
+                side_dist.x += delta_dist.x;
+                map_x += step_x;
+
+                // Determine which side was hit
+                if (step_x > 0)
+                    side = DIR_WEST;  // Hit the west face (coming from east)
+                else
+                    side = DIR_EAST;  // Hit the east face (coming from west)
+            }
+            else
+            {
+                side_dist.y += delta_dist.y;
+                map_y += step_y;
+
+                // Determine which side was hit
+                if (step_y > 0)
+                    side = DIR_NORTH;  // Hit the north face (coming from south)
+                else
+                    side = DIR_SOUTH;  // Hit the south face (coming from north)
+            }
+
+            // Check if ray has hit a wall
+            if (map[map_y][map_x] == '1' || map[map_y][map_x] == ' ')
+                hit = 1;
+        }
+
+        if (side == DIR_EAST || side == DIR_WEST)
+            perp_wall_dist = (map_x - player_pos.x + (1 - step_x) / 2) / ray_dir.x;
+        else
+            perp_wall_dist = (map_y - player_pos.y + (1 - step_y) / 2) / ray_dir.y;
 
 
-	for (int x = 0; x < img->width; x++)
-	{
-		// Calculate the ray direction relative to the player's view
-		float camera_x = 2.0f * x / (float)img->width - 1.0f; // x-coordinate in camera space
-		t_vector2 ray_dir;
-		ray_dir.x = player_dir.x + player_dir.y * camera_x * 0.66f; // Field of view adjustment
-		ray_dir.y = player_dir.y - player_dir.x * camera_x * 0.66f; // Field of view adjustment
+        int line_height = (int)(img->height / perp_wall_dist);
 
-		// Initialize DDA algorithm variables
-		int map_x = (int)player_pos.x;
-		int map_y = (int)player_pos.y;
+        int draw_start = img->height / 2 - line_height / 2;
+        if (draw_start < 0)
+            draw_start = 0;
 
-		// Calculate step and initial side_dist
-		t_vector2 side_dist; // Length of ray from current position to next x or y-side
-		t_vector2 delta_dist; // Length of ray from one x or y-side to next x or y-side
+        int draw_end = img->height / 2 + line_height / 2;
+        if (draw_end >= img->height)
+            draw_end = img->height - 1;
 
-		// Calculate delta_dist based on ray direction
-		delta_dist.x = (ray_dir.x == 0) ? 1e30 : fabs(1.0f / ray_dir.x);
-		delta_dist.y = (ray_dir.y == 0) ? 1e30 : fabs(1.0f / ray_dir.y);
-
-		// Determine step direction and initial side_dist
-		int step_x, step_y;
-		if (ray_dir.x < 0)
-		{
-			step_x = -1;
-			side_dist.x = (player_pos.x - map_x) * delta_dist.x;
-		}
-		else
-		{
-			step_x = 1;
-			side_dist.x = (map_x + 1.0f - player_pos.x) * delta_dist.x;
-		}
-
-		if (ray_dir.y < 0)
-		{
-			step_y = -1;
-			side_dist.y = (player_pos.y - map_y) * delta_dist.y;
-		}
-		else
-		{
-			step_y = 1;
-			side_dist.y = (map_y + 1.0f - player_pos.y) * delta_dist.y;
-		}
-
-		// Perform DDA
-		t_direction side;
-		int hit = 0;
-		float perp_wall_dist;
-
-		while (!hit)
-		{
-			// Jump to next map square
-			if (side_dist.x < side_dist.y)
-			{
-				side_dist.x += delta_dist.x;
-				map_x += step_x;
-
-				// Determine which side was hit
-				if (step_x > 0)
-					side = DIR_WEST;  // Hit the west face (coming from east)
-				else
-					side = DIR_EAST;  // Hit the east face (coming from west)
-			}
-			else
-			{
-				side_dist.y += delta_dist.y;
-				map_y += step_y;
-
-				// Determine which side was hit
-				if (step_y > 0)
-					side = DIR_NORTH;  // Hit the north face (coming from south)
-				else
-					side = DIR_SOUTH;  // Hit the south face (coming from north)
-			}
-
-			// Check if ray has hit a wall
-			if (map[map_y][map_x] == '1')
-				hit = 1;
-		}
-
-		if (side == DIR_EAST || side == DIR_WEST)
-			perp_wall_dist = (map_x - player_pos.x + (1 - step_x) / 2) / ray_dir.x;
-		else
-			perp_wall_dist = (map_y - player_pos.y + (1 - step_y) / 2) / ray_dir.y;
-
-
-		int line_height = (int)(img->height / perp_wall_dist);
-
-		int draw_start = img->height / 2 - line_height / 2;
-		if (draw_start < 0)
-			draw_start = 0;
-
-		int draw_end = img->height / 2 + line_height / 2;
-		if (draw_end >= img->height)
-			draw_end = img->height - 1;
-
-		float wall_x;
-		if (side == DIR_EAST || side == DIR_WEST)
-			wall_x = player_pos.y + perp_wall_dist * ray_dir.y;
-		else
-			wall_x = player_pos.x + perp_wall_dist * ray_dir.x;
-		wall_x -= floor(wall_x);
-
-
+        float wall_x;
+        if (side == DIR_EAST || side == DIR_WEST)
+            wall_x = player_pos.y + perp_wall_dist * ray_dir.y;
+        else
+            wall_x = player_pos.x + perp_wall_dist * ray_dir.x;
+        wall_x -= floor(wall_x);
 // Choose texture based on hit direction
 	mlx_image_t *texture;
 	if (side == DIR_NORTH)
@@ -261,188 +250,196 @@ void resize(int width, int height, void *param)
 }
 void key_handler(mlx_key_data_t keydata, void *param)
 {
-	t_gamedata *config = (t_gamedata *)param;
+    t_gamedata *config = (t_gamedata *)param;
 
-	// Close window on ESC
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		mlx_close_window(config->cub3d_data.mlx);
+    // Close window on ESC
+    if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+        mlx_close_window(config->cub3d_data.mlx);
 
-	// Define movement speed
-	float move_speed = 0.5;  // Smaller value for more precise movement
-	float rotation_speed = 0.15;  // Smaller value for more precise rotation
+    // Define movement speed
+    float move_speed = 0.5;  // Smaller value for more precise movement
+    float rotation_speed = 0.15;  // Smaller value for more precise rotation
 
-	// Handle player movement with arrow keys
-	if ((keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W  ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		// Calculate new position
-		t_vector2 move_vec = normalizevector(config->player.dir);
-		move_vec = multiplyvector(move_vec, move_speed);
-		t_vector2 new_pos = addvectors(config->player.pos, move_vec);
+    // Handle player movement with arrow keys
+    if ((keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W  ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+    {
+        // Calculate new position
+        t_vector2 move_vec = normalizevector(config->player.dir);
+        move_vec = multiplyvector(move_vec, move_speed);
+        t_vector2 new_pos = addvectors(config->player.pos, move_vec);
 
-		// Check collision for X and Y separately to allow sliding along walls
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
+        // Check collision for X and Y separately to allow sliding along walls
+        t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
+        t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		// Check if we can move in X direction
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        // Check if we can move in X direction
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		// Check if we can move in Y direction
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        // Check if we can move in Y direction
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
-	if ((keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		// Calculate new position (move backward)
-		t_vector2 move_vec = normalizevector(config->player.dir);
-		move_vec = multiplyvector(move_vec, -move_speed); // Negative for backward
-		t_vector2 new_pos = addvectors(config->player.pos, move_vec);
+    if ((keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+    {
+        // Calculate new position (move backward)
+        t_vector2 move_vec = normalizevector(config->player.dir);
+        move_vec = multiplyvector(move_vec, -move_speed); // Negative for backward
+        t_vector2 new_pos = addvectors(config->player.pos, move_vec);
 
-		// Check collision for X and Y separately to allow sliding along walls
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
+        // Check collision for X and Y separately to allow sliding along walls
+        t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
+        t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		// Check if we can move in X direction
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        // Check if we can move in X direction
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		// Check if we can move in Y direction
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        // Check if we can move in Y direction
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
-	// Add strafe movement with A and D keys
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		// Calculate perpendicular vector for strafing left
-		t_vector2 strafe_dir = {-config->player.dir.y, config->player.dir.x};
-		strafe_dir = normalizevector(strafe_dir);
-		strafe_dir = multiplyvector(strafe_dir, move_speed);
-		t_vector2 new_pos = addvectors(config->player.pos, strafe_dir);
+    // Add strafe movement with A and D keys
+    if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+    {
+        // Calculate perpendicular vector for strafing left
+        t_vector2 strafe_dir = {-config->player.dir.y, config->player.dir.x};
+        strafe_dir = normalizevector(strafe_dir);
+        strafe_dir = multiplyvector(strafe_dir, move_speed);
+        t_vector2 new_pos = addvectors(config->player.pos, strafe_dir);
 
-		// Check collision for X and Y separately
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
+        // Check collision for X and Y separately
+        t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
+        t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		// Calculate perpendicular vector for strafing right
-		t_vector2 strafe_dir = {config->player.dir.y, -config->player.dir.x};
-		strafe_dir = normalizevector(strafe_dir);
-		strafe_dir = multiplyvector(strafe_dir, move_speed);
-		t_vector2 new_pos = addvectors(config->player.pos, strafe_dir);
+    if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+    {
+        // Calculate perpendicular vector for strafing right
+        t_vector2 strafe_dir = {config->player.dir.y, -config->player.dir.x};
+        strafe_dir = normalizevector(strafe_dir);
+        strafe_dir = multiplyvector(strafe_dir, move_speed);
+        t_vector2 new_pos = addvectors(config->player.pos, strafe_dir);
 
-		// Check collision for X and Y separately
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
+        // Check collision for X and Y separately
+        t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
+        t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
 
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1')
-			config->player.pos.x = new_pos.x;
+        if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.x = new_pos.x;
 
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1')
-			config->player.pos.y = new_pos.y;
-	}
+        if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
+        config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+            config->player.pos.y = new_pos.y;
+    }
 
-	// Handle rotation with arrow keys
-	if ((keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_Q )&& (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		// Rotate left (positive angle)
-		config->player.dir = normalizevector(rotatevector(config->player.dir, rotation_speed));
-	}
+    // Handle rotation with arrow keys
+    if ((keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_Q )&& (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+    {
+        // Rotate left (positive angle)
+        config->player.dir = normalizevector(rotatevector(config->player.dir, rotation_speed));
+    }
 
-	if ((keydata.key == MLX_KEY_RIGHT || keydata.key == MLX_KEY_E ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		// Rotate right (negative angle)
-		config->player.dir = normalizevector(rotatevector(config->player.dir, -rotation_speed));
-	}
-	if ((keydata.key == MLX_KEY_TAB) && (keydata.action == MLX_PRESS))
-	{
-		config->show_minimap = !config->show_minimap;
-		printf("show minimap: %i\n", config->show_minimap);
-	}
+    if ((keydata.key == MLX_KEY_RIGHT || keydata.key == MLX_KEY_E ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+    {
+        // Rotate right (negative angle)
+        config->player.dir = normalizevector(rotatevector(config->player.dir, -rotation_speed));
+    }
+    if ((keydata.key == MLX_KEY_TAB) && (keydata.action == MLX_PRESS))
+    {
+        config->show_minimap = !config->show_minimap;
+        printf("show minimap: %i\n", config->show_minimap);
+    }
 }
 
 void draw_minimap(t_gamedata *config)
 {
-	// Skip if minimap is disabled
-	if (!config->show_minimap)
-		return;
+    // Skip if minimap is disabled
+    if (!config->show_minimap)
+        return;
 
-	// Clear minimap surface
-	for (int y = 0; y < config->cub3d_data.minimap_surface->height; y++)
-		for (int x = 0; x < config->cub3d_data.minimap_surface->width; x++)
-			putPixel((t_color){0x00000000}, config->cub3d_data.minimap_surface, x, y);
+    // Clear minimap surface
+    for (int y = 0; y < config->cub3d_data.minimap_surface->height; y++)
+        for (int x = 0; x < config->cub3d_data.minimap_surface->width; x++)
+            putPixel((t_color){0x00000000}, config->cub3d_data.minimap_surface, x, y);
 
-	// Define minimap size and position (in a corner)
-	int minimap_size = 150; // Size in pixels
-	int cell_size = 10;     // Size of each map cell in pixels
-	int map_x_len = ft_strlen(config->map[0]);
-	int map_y_len = ft_arrlen(config->map);
+    // Define minimap size and position (in a corner)
+    int minimap_size = 150; // Size in pixels
+    int cell_size = 10;     // Size of each map cell in pixels
+    int map_x_len = ft_strlen(config->map[0]);
+    int map_y_len = ft_arrlen(config->map);
 
-	// Colors
-	t_color wall_color = {0xFFAAAAFF};   // Walls
-	t_color floor_color = {0x66FF00AA};  // Floor (semi-transparent)
-	t_color player_color = {0xFF0000FF}; // Player
-	t_color bg_color = {0x33333388};     // Background
+    // Colors
+    t_color wall_color = {0xFFAAAAFF};   // Walls
+    t_color floor_color = {0x66FF00AA};  // Floor (semi-transparent)
+    t_color player_color = {0xFF0000FF}; // Player
+    t_color bg_color = {0x33333388};     // Background
 
-	// Draw background
-	for (int y = 0; y < minimap_size; y++)
-		for (int x = 0; x < minimap_size; x++)
-			putPixel(bg_color, config->cub3d_data.minimap_surface, x, y);
+    // Draw background
+    for (int y = 0; y < minimap_size; y++)
+        for (int x = 0; x < minimap_size; x++)
+            putPixel(bg_color, config->cub3d_data.minimap_surface, x, y);
 
-	// Draw the map cells
-	for (int y = 0; y < map_y_len; y++) {
-		for (int x = 0; x < map_x_len; x++) {
-			// Calculate screen coordinates
-			int screen_x = x * cell_size;
-			int screen_y = y * cell_size;
+    // Draw the map cells
+    for (int y = 0; y < map_y_len; y++) {
+        for (int x = 0; x < map_x_len; x++) {
+            // Calculate screen coordinates
+            int screen_x = x * cell_size;
+            int screen_y = y * cell_size;
 
-			// Skip if out of minimap bounds
-			if (screen_x >= minimap_size || screen_y >= minimap_size)
-				continue;
+            // Skip if out of minimap bounds
+            if (screen_x >= minimap_size || screen_y >= minimap_size)
+                continue;
 
-			// Draw cell
-			t_color cell_color = (config->map[y][x] == '1') ? wall_color : floor_color;
+            // Draw cell
+            t_color cell_color = (config->map[y][x] == '1' || config->map[y][x] == ' ' ) ? wall_color : floor_color;
 
-			// Fill cell
-			for (int cy = 0; cy < cell_size && screen_y + cy < minimap_size; cy++) {
-				for (int cx = 0; cx < cell_size && screen_x + cx < minimap_size; cx++) {
-					putPixel(cell_color, config->cub3d_data.minimap_surface, screen_x + cx, screen_y + cy);
-				}
-			}
-		}
-	}
+            // Fill cell
+            for (int cy = 0; cy < cell_size && screen_y + cy < minimap_size; cy++) {
+                for (int cx = 0; cx < cell_size && screen_x + cx < minimap_size; cx++) {
+                    putPixel(cell_color, config->cub3d_data.minimap_surface, screen_x + cx, screen_y + cy);
+                }
+            }
+        }
+    }
 
-	// Draw the player
-	int player_x = (int)(config->player.pos.x * cell_size);
-	int player_y = (int)(config->player.pos.y * cell_size);
+    // Draw the player
+    int player_x = (int)(config->player.pos.x * cell_size);
+    int player_y = (int)(config->player.pos.y * cell_size);
 
-	// Draw player dot
-	for (int y = -2; y <= 2; y++) {
-		for (int x = -2; x <= 2; x++) {
-			if (x*x + y*y <= 4) // Circle with radius 2
-				putPixel(player_color, config->cub3d_data.minimap_surface, player_x + x, player_y + y);
-		}
-	}
+    // Draw player dot
+    for (int y = -2; y <= 2; y++) {
+        for (int x = -2; x <= 2; x++) {
+            if (x*x + y*y <= 4) // Circle with radius 2
+                putPixel(player_color, config->cub3d_data.minimap_surface, player_x + x, player_y + y);
+        }
+    }
 
-	// Draw direction line
-	t_vector2 dir_end = addvectors(
-		(t_vector2){player_x, player_y},
-		multiplyvector(normalizevector(config->player.dir), 5)
-	);
+    // Draw direction line
+    t_vector2 dir_end = addvectors(
+        (t_vector2){player_x, player_y},
+        multiplyvector(normalizevector(config->player.dir), 5)
+    );
 
-	// Implement simple line drawing if drawLine function isn't available
-	// Or uncomment your drawLine function if it exists
-	putPixel(player_color, config->cub3d_data.minimap_surface, player_x, player_y);
-	putPixel(player_color, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
+    // Implement simple line drawing if drawLine function isn't available
+    // Or uncomment your drawLine function if it exists
+    putPixel(player_color, config->cub3d_data.minimap_surface, player_x, player_y);
+    putPixel(player_color, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
 }
 
 void clear_minimap(mlx_image_t *minimap_surface)
@@ -470,6 +467,7 @@ int	main(int argc, char *argv[])
 		// 	"for gaming fun, fd: %i\n", fd);
 
 		config = ft_initiate_data(fd);
+
 		// if (!config->player.pos.x)
 		// 	config->player.pos.x = 9;
 		// if (!config->player.pos.y)
@@ -480,6 +478,7 @@ int	main(int argc, char *argv[])
 		// 	config->player.dir.y = 0;
 		// if (!config->player.fov)
 		// 	config->player.fov = 90;
+
 		ft_testprint(config);
 		if (!(config->cub3d_data.mlx = mlx_init(640, 480, "Markus' and Pavlos' cub3D", true)))
 			ft_error_handling(20, NULL, config);
