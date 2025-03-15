@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
+/*   Updated: 2025/03/15 19:01:36 by pvasilan         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "main.h"
 
 mlx_image_t *create_square(mlx_t *mlx, uint32_t size, t_color color)
 {
@@ -124,20 +126,12 @@ void cast_ray_and_draw_wall(char **map, t_vector2 player_pos, t_vector2 player_d
 		t_vector2 ray_dir;
 		ray_dir.x = player_dir.x + player_dir.y * camera_x * 0.66f; // Field of view adjustment
 		ray_dir.y = player_dir.y - player_dir.x * camera_x * 0.66f; // Field of view adjustment
-
-		// Initialize DDA algorithm variables
 		int map_x = (int)player_pos.x;
 		int map_y = (int)player_pos.y;
-
-		// Calculate step and initial side_dist
 		t_vector2 side_dist; // Length of ray from current position to next x or y-side
 		t_vector2 delta_dist; // Length of ray from one x or y-side to next x or y-side
-
-		// Calculate delta_dist based on ray direction
 		delta_dist.x = (ray_dir.x == 0) ? 1e30 : fabs(1.0f / ray_dir.x);
 		delta_dist.y = (ray_dir.y == 0) ? 1e30 : fabs(1.0f / ray_dir.y);
-
-		// Determine step direction and initial side_dist
 		int step_x, step_y;
 		if (ray_dir.x < 0)
 		{
@@ -161,7 +155,6 @@ void cast_ray_and_draw_wall(char **map, t_vector2 player_pos, t_vector2 player_d
 			side_dist.y = (map_y + 1.0f - player_pos.y) * delta_dist.y;
 		}
 
-		// Perform DDA
 		t_direction side;
 		int hit = 0;
 		float perp_wall_dist;
@@ -236,91 +229,6 @@ void cast_ray_and_draw_wall(char **map, t_vector2 player_pos, t_vector2 player_d
 }
 
 
-void resize(int width, int height, void *param)
-{
-	t_gamedata *config = (t_gamedata *)param;
-	mlx_resize_image(config->cub3d_data.img, width, height);
-}
-void key_handler(mlx_key_data_t keydata, void *param)
-{
-	t_gamedata *config = (t_gamedata *)param;
-
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		mlx_close_window(config->cub3d_data.mlx);
-	float move_speed = 0.5;  // Smaller value for more precise movement
-	float rotation_speed = 0.15;  // Smaller value for more precise rotation
-	if ((keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W  ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		t_vector2 move_vec = normalizevector(config->player.dir);
-		move_vec = multiplyvector(move_vec, move_speed);
-		t_vector2 new_pos = addvectors(config->player.pos, move_vec);
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.x = new_pos.x;
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.y = new_pos.y;
-	}
-	if ((keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		t_vector2 move_vec = normalizevector(config->player.dir);
-		move_vec = multiplyvector(move_vec, -move_speed); // Negative for backward
-		t_vector2 new_pos = addvectors(config->player.pos, move_vec);
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.x = new_pos.x;
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.y = new_pos.y;
-	}
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		t_vector2 strafe_dir = {-config->player.dir.y, config->player.dir.x};
-		strafe_dir = normalizevector(strafe_dir);
-		strafe_dir = multiplyvector(strafe_dir, move_speed);
-		t_vector2 new_pos = addvectors(config->player.pos, strafe_dir);
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.x = new_pos.x;
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.y = new_pos.y;
-	}
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		t_vector2 strafe_dir = {config->player.dir.y, -config->player.dir.x};
-		strafe_dir = normalizevector(strafe_dir);
-		strafe_dir = multiplyvector(strafe_dir, move_speed);
-		t_vector2 new_pos = addvectors(config->player.pos, strafe_dir);
-		t_vector2 test_pos_x = {new_pos.x, config->player.pos.y};
-		t_vector2 test_pos_y = {config->player.pos.x, new_pos.y};
-		if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.x = new_pos.x;
-		if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
-			config->player.pos.y = new_pos.y;
-	}
-	if ((keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_Q)
-		&& (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		config->player.dir = normalizevector(
-				rotatevector(config->player.dir, rotation_speed));
-	if ((keydata.key == MLX_KEY_RIGHT || keydata.key == MLX_KEY_E ) && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		config->player.dir = normalizevector(rotatevector(config->player.dir, -rotation_speed));
-	}
-	if ((keydata.key == MLX_KEY_TAB) && (keydata.action == MLX_PRESS))
-	{
-		config->show_minimap = !config->show_minimap;
-		printf("show minimap: %i\n", config->show_minimap);
-	}
-}
 
 void draw_minimap(t_gamedata *config)
 {
@@ -436,14 +344,16 @@ void	delete_images(t_gamedata *config)
 	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.south);
 }
 
-
-
 void	load_wall_textures(t_gamedata * config)
 {
-	config->cub3d_data.east = load_single_wall_texture(config, config->t_east);
-	config->cub3d_data.west = load_single_wall_texture(config, config->t_west);
-	config->cub3d_data.north = load_single_wall_texture(config, config->t_north);
-	config->cub3d_data.south = load_single_wall_texture(config, config->t_south);
+	config->cub3d_data.east = 
+		load_single_wall_texture(config, config->t_east);
+	config->cub3d_data.west = 
+		load_single_wall_texture(config, config->t_west);
+	config->cub3d_data.north = 
+		load_single_wall_texture(config, config->t_north);
+	config->cub3d_data.south = 
+		load_single_wall_texture(config, config->t_south);
 }
 
 mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
@@ -454,5 +364,5 @@ mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
 	t = mlx_load_png(path);
 	ttxt = mlx_texture_to_image(config->cub3d_data.mlx, t);
 	mlx_delete_texture(t);
-	return ttxt;
+	return (ttxt);
 }

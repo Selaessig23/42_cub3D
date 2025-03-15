@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/15 17:41:24 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/15 19:01:09 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
 void		draw_minimap(t_gamedata *config);
 void		key_handler(mlx_key_data_t keydata, void *param);
 void		cast_ray_and_draw_wall(char **map, t_vector2 player_pos, 
-				t_vector2 player_dir, mlx_image_t *img, t_gamedata *config);
-
+t_vector2	player_dir, mlx_image_t *img, t_gamedata *config);
+void		resize(int width, int height, void *param);
+void		key_handler(mlx_key_data_t keydata, void *param);
 #endif
