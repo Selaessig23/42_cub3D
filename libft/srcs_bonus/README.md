@@ -8,6 +8,6 @@ By default the type of struct is `t_list`
 
 `typedef struct	s_list
 {
-    void		*content;
-    struct s_list	*next;
+	void		*content;
+	struct s_list	*next;
 }			t_list;`

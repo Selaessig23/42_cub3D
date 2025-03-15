@@ -30,7 +30,7 @@
 #  define SIMULATE_ID "GNU"
 # endif
   /* __INTEL_COMPILER = VRP prior to 2021, and then VVVV for 2021 and later,
-     except that a few beta releases use the old format with V=2021.  */
+	 except that a few beta releases use the old format with V=2021.  */
 # if __INTEL_COMPILER < 2021 || __INTEL_COMPILER == 202110 || __INTEL_COMPILER == 202111
 #  define COMPILER_VERSION_MAJOR DEC(__INTEL_COMPILER/100)
 #  define COMPILER_VERSION_MINOR DEC(__INTEL_COMPILER/10 % 10)
@@ -43,7 +43,7 @@
 #  define COMPILER_VERSION_MAJOR DEC(__INTEL_COMPILER)
 #  define COMPILER_VERSION_MINOR DEC(__INTEL_COMPILER_UPDATE)
    /* The third version component from --version is an update index,
-      but no macro is provided for it.  */
+	  but no macro is provided for it.  */
 #  define COMPILER_VERSION_PATCH DEC(0)
 # endif
 # if defined(__INTEL_COMPILER_BUILD_DATE)
@@ -389,10 +389,10 @@
 # define COMPILER_VERSION_MINOR DEC(_MSC_VER % 100)
 # if defined(_MSC_FULL_VER)
 #  if _MSC_VER >= 1400
-    /* _MSC_FULL_VER = VVRRPPPPP */
+	/* _MSC_FULL_VER = VVRRPPPPP */
 #   define COMPILER_VERSION_PATCH DEC(_MSC_FULL_VER % 100000)
 #  else
-    /* _MSC_FULL_VER = VVRRPPPP */
+	/* _MSC_FULL_VER = VVRRPPPP */
 #   define COMPILER_VERSION_PATCH DEC(_MSC_FULL_VER % 10000)
 #  endif
 # endif
@@ -782,7 +782,7 @@ char const info_version[] = {
 #  ifdef COMPILER_VERSION_PATCH
    '.', COMPILER_VERSION_PATCH,
 #   ifdef COMPILER_VERSION_TWEAK
-    '.', COMPILER_VERSION_TWEAK,
+	'.', COMPILER_VERSION_TWEAK,
 #   endif
 #  endif
 # endif
@@ -811,7 +811,7 @@ char const info_simulate_version[] = {
 #  ifdef SIMULATE_VERSION_PATCH
    '.', SIMULATE_VERSION_PATCH,
 #   ifdef SIMULATE_VERSION_TWEAK
-    '.', SIMULATE_VERSION_TWEAK,
+	'.', SIMULATE_VERSION_TWEAK,
 #   endif
 #  endif
 # endif
@@ -858,7 +858,7 @@ const char* info_language_standard_default =
 
 const char* info_language_extensions_default = "INFO" ":" "extensions_default["
 #if (defined(__clang__) || defined(__GNUC__) || defined(__xlC__) ||           \
-     defined(__TI_COMPILER_VERSION__)) &&                                     \
+	 defined(__TI_COMPILER_VERSION__)) &&                                     \
   !defined(__STRICT_ANSI__)
   "ON"
 #else

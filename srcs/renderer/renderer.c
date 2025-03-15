@@ -6,28 +6,25 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/11 19:28:39 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:13:14 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int setInitialPosition(t_gamedata *config);
-int setInitialDirection(t_gamedata *config);
-int initPlayer(t_gamedata *config);
+void	render(void *param)
+{
+	t_gamedata	*config;
 
-//Raycasting functions
-void            castRays(t_gamedata *config);
-void            castSingleRay(t_gamedata *config, int rayIndex);
-t_vector2       calculateRayDirection(t_gamedata *config, int rayIndex);
-bool            checkRayCollision(t_gamedata *config, int rayIndex);
-int             calculateWallHitDistance(t_gamedata *config, int rayIndex);
-int             calculateWallHeight(t_gamedata *config, int rayIndex);
-t_vector2       calculateWallTextureCoordinates(t_gamedata *config, int rayIndex);
-mlx_texture_t*  selectTexturebyDirection(t_gamedata *config, int direction);
+	config = (t_gamedata *)param;
+	fill_lower_half(config->cub3d_data.img, *config->floor);
+	fill_upper_half(config->cub3d_data.img, *config->ceiling);
+	cast_ray_and_draw_wall(config->map, config->player.pos, config->player.dir, 
+		config->cub3d_data.img, config);
+	if (config->show_minimap)
+		draw_minimap(config);
+	else
+		clear_minimap(config->cub3d_data.minimap_surface);
+}
 
-
-
-//this function takes the color of texture at position x,y and returns it for drawing
-t_color getTexelColor(mlx_texture_t *texture, int x, int y);
 

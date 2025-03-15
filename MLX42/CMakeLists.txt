@@ -64,37 +64,37 @@ endif()
 # -----------------------------------------------------------------------------
 
 if (UNIX)
-    set(CCSHADER ${TOOLS_DIR}/compile_shader.sh)
+	set(CCSHADER ${TOOLS_DIR}/compile_shader.sh)
 else()
-    set(CCSHADER ${TOOLS_DIR}/compile_shader.bat)
+	set(CCSHADER ${TOOLS_DIR}/compile_shader.bat)
 endif()
 
 if(EMSCRIPTEN)
-    set(EMSCRIPTEN_VALUE 1)
+	set(EMSCRIPTEN_VALUE 1)
 else()
-    set(EMSCRIPTEN_VALUE 0)
+	set(EMSCRIPTEN_VALUE 0)
 endif()
 
 # Add custom command for fragment shader
 add_custom_command(
-    COMMENT "Building fragment shader"
-    DEPENDS ${PROJECT_SOURCE_DIR}/shaders/default.frag
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mlx_frag_shader.c
-    COMMAND ${CCSHADER} ${PROJECT_SOURCE_DIR}/shaders/default.frag ${EMSCRIPTEN_VALUE} > ${CMAKE_CURRENT_BINARY_DIR}/mlx_frag_shader.c
-    VERBATIM
-    PRE_BUILD
-    USES_TERMINAL
+	COMMENT "Building fragment shader"
+	DEPENDS ${PROJECT_SOURCE_DIR}/shaders/default.frag
+	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mlx_frag_shader.c
+	COMMAND ${CCSHADER} ${PROJECT_SOURCE_DIR}/shaders/default.frag ${EMSCRIPTEN_VALUE} > ${CMAKE_CURRENT_BINARY_DIR}/mlx_frag_shader.c
+	VERBATIM
+	PRE_BUILD
+	USES_TERMINAL
 )
 
 # Add custom command for vertex shader
 add_custom_command(
-    COMMENT "Building vertex shader"
-    DEPENDS ${PROJECT_SOURCE_DIR}/shaders/default.vert
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mlx_vert_shader.c
-    COMMAND ${CCSHADER} ${PROJECT_SOURCE_DIR}/shaders/default.vert ${EMSCRIPTEN_VALUE} > ${CMAKE_CURRENT_BINARY_DIR}/mlx_vert_shader.c
-    VERBATIM
-    PRE_BUILD
-    USES_TERMINAL
+	COMMENT "Building vertex shader"
+	DEPENDS ${PROJECT_SOURCE_DIR}/shaders/default.vert
+	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mlx_vert_shader.c
+	COMMAND ${CCSHADER} ${PROJECT_SOURCE_DIR}/shaders/default.vert ${EMSCRIPTEN_VALUE} > ${CMAKE_CURRENT_BINARY_DIR}/mlx_vert_shader.c
+	VERBATIM
+	PRE_BUILD
+	USES_TERMINAL
 )
 
 # Sources
@@ -140,7 +140,7 @@ target_include_directories(mlx42 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 find_package(OpenGL REQUIRED)
 
 if(EMSCRIPTEN)
-    target_link_libraries(mlx42 "-s USE_GLFW=3" "-s FULL_ES3=1")
+	target_link_libraries(mlx42 "-s USE_GLFW=3" "-s FULL_ES3=1")
 else()
 	target_link_libraries(mlx42 OpenGL::GL)
 	find_package(glfw3)
