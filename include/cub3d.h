@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/15 19:01:09 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:20:18 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_vector2	rotatevector(t_vector2 vector, double angle);
 double		vectorln(t_vector2 vector);
 mlx_image_t	*createSurface(t_gamedata *config);
 void		putPixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y);
-void		drawLine(t_color color, mlx_image_t *minimap_surface, 
+void		drawLine(t_color color, mlx_image_t *minimap_surface,
 				t_vector2 start, t_vector2 end);
 void		fillCeiling(t_gamedata *config);
 void		fillFloor(t_gamedata *config);
@@ -125,8 +125,12 @@ void load_wall_textures(t_gamedata *config);
 mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
 void		draw_minimap(t_gamedata *config);
 void		key_handler(mlx_key_data_t keydata, void *param);
-void		cast_ray_and_draw_wall(char **map, t_vector2 player_pos, 
-t_vector2	player_dir, mlx_image_t *img, t_gamedata *config);
+void cast_ray_and_draw_wall(char **map, t_vector2 player_pos,
+							t_vector2 player_dir, mlx_image_t *img, t_gamedata *config);
+void pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
 void		resize(int width, int height, void *param);
 void		key_handler(mlx_key_data_t keydata, void *param);
+void fill_upper_half(mlx_image_t *img, t_color color);
+void fill_lower_half(mlx_image_t *img, t_color color);
+void clear_minimap(mlx_image_t *minimap_surface);
 #endif
