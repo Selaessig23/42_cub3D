@@ -29,7 +29,6 @@ mlx_image_t *create_square(mlx_t *mlx, uint32_t size, t_color color)
 	return img;
 }
 
-// Function to create a checkerboard pattern with transparency
 mlx_image_t *create_transparent_pattern(mlx_t *mlx, uint32_t size, uint32_t color)
 {
 	mlx_image_t *img = mlx_new_image(mlx, size, size);
@@ -50,7 +49,7 @@ mlx_image_t *create_transparent_pattern(mlx_t *mlx, uint32_t size, uint32_t colo
 	}
 	return img;
 }
-//test function to copy a vertical line from the east texture in the middle of the screen
+
 void copy_texture(mlx_image_t *img, mlx_image_t *texture, uint32_t x, uint32_t y)
 {
 	 for (uint32_t i = 0; i < texture->height; i++)
@@ -123,6 +122,7 @@ typedef struct s_hit_info
 	int hit;
 	float perp_wall_dist;
 } t_hit_info;
+
 t_hit_info init_hit_info(void)
 {
 	t_hit_info hit_info;
@@ -131,7 +131,7 @@ t_hit_info init_hit_info(void)
 	hit_info.perp_wall_dist = 0;
 	return hit_info;
 }
-// New structs to organize data
+
 typedef struct s_ray {
     t_vector2 dir;       // Ray direction
     t_vector2 delta_dist; // Delta distance
@@ -150,32 +150,30 @@ typedef struct s_render_line {
     int screen_x;        // X position on screen
 } t_render_line;
 
-// Function 1: Initialize ray
-static void init_ray(t_ray *ray, t_vector2 player_pos, t_vector2 player_dir, float camera_x)
+static void init_ray(t_ray *ray, t_player player, float camera_x)
 {
-    ray->dir.x = player_dir.x + player_dir.y * camera_x * 0.66f; // Field of view adjustment
-    ray->dir.y = player_dir.y - player_dir.x * camera_x * 0.66f; // Field of view adjustment
-    ray->map_x = (int)player_pos.x;
-    ray->map_y = (int)player_pos.y;
+    ray->dir.x = player.player_dir.x + player.player_dir.y * camera_x * 0.66f; // Field of view adjustment
+    ray->dir.y = player.player_dir.y - player.player_dir.x * camera_x * 0.66f; // Field of view adjustment
+    ray->map_x = (int)player.player_pos.x;
+    ray->map_y = (int)player.player_pos.y;
     ray->delta_dist.x = (ray->dir.x == 0) ? 1e30 : fabs(1.0f / ray->dir.x);
     ray->delta_dist.y = (ray->dir.y == 0) ? 1e30 : fabs(1.0f / ray->dir.y);
     if (ray->dir.x < 0) {
         ray->step_x = -1;
-        ray->side_dist.x = (player_pos.x - ray->map_x) * ray->delta_dist.x;
+        ray->side_dist.x = (player.player_pos.x - ray->map_x) * ray->delta_dist.x;
     } else {
         ray->step_x = 1;
-        ray->side_dist.x = (ray->map_x + 1.0f - player_pos.x) * ray->delta_dist.x;
+        ray->side_dist.x = (ray->map_x + 1.0f - player.player_pos.x) * ray->delta_dist.x;
     }
     if (ray->dir.y < 0) {
         ray->step_y = -1;
-        ray->side_dist.y = (player_pos.y - ray->map_y) * ray->delta_dist.y;
+        ray->side_dist.y = (player.player_pos.y - ray->map_y) * ray->delta_dist.y;
     } else {
         ray->step_y = 1;
-        ray->side_dist.y = (ray->map_y + 1.0f - player_pos.y) * ray->delta_dist.y;
+        ray->side_dist.y = (ray->map_y + 1.0f - player.player_pos.y) * ray->delta_dist.y;
     }
 }
 
-// Function 2: Perform DDA algorithm to find wall hit
 static void perform_dda(char **map, t_ray *ray, t_hit_info *hit_info)
 {
     hit_info->hit = 0;
@@ -232,21 +230,24 @@ void cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config)
     t_ray ray;
     t_hit_info hit_info;
     t_render_line line;
+    int x;
 
-    for (int x = 0; x < img->width; x++) {
+    x = 0;
+    while (x < img->width) {
         float camera_x = 2.0f * x / (float)img->width - 1.0f;
-        init_ray(&ray, config->player.pos, config->player.dir, camera_x);
+        init_ray(&ray, config->player, camera_x);
         hit_info = init_hit_info();
         perform_dda(map, &ray, &hit_info);
         calculate_wall_properties(&ray, &hit_info, config->player.pos);
         calculate_render_line(&line, img, hit_info.perp_wall_dist, x);
         pick_and_place(hit_info.side, config, img, x, line.draw_start, line.draw_end, ray.wall_x);
+        x++;
     }
 }
 
 void pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, int x, int draw_start, int draw_end, float wall_x)
 {
-mlx_image_t *texture;
+    mlx_image_t *texture;
 	if (side == DIR_NORTH)
 		texture = config->cub3d_data.north;
 	else if (side == DIR_SOUTH)
@@ -255,8 +256,6 @@ mlx_image_t *texture;
 		texture = config->cub3d_data.east;
 	else
 		texture = config->cub3d_data.west;
-
-	// Copy texture line to render surface
 	copy_texture_line(img, texture, x, draw_start, draw_end, wall_x);
 }
 
@@ -275,10 +274,9 @@ typedef struct s_minimap_data
 
 void fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 {
-	minimap_data->cell_size = 10;     // Size of each map cell in pixels
+	minimap_data->cell_size = 10;
 	minimap_data->map_y_len = ft_arrlen(config->map);
 	minimap_data->map_x_len = ft_strlen(config->map[0]);
-	//find max of map_x_len and map_y_len
 	if (minimap_data->map_x_len > minimap_data->map_y_len)
 		minimap_data->minimap_size = minimap_data->map_x_len * minimap_data->cell_size;
 	else
@@ -293,44 +291,72 @@ void fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 void draw_minimap(t_gamedata *config)
 {
 	t_minimap_data minimap_data;
-
+    t_vector2 player_pos;
+    t_color cell_color;
+    t_vector2 dir_end;
+    int i, j;
+    
 	fill_minimap_data(&minimap_data, config);
 	if (!config->show_minimap)
 		return;
-	for (int y = 0; y < config->cub3d_data.minimap_surface->height; y++)
-		for (int x = 0; x < config->cub3d_data.minimap_surface->width; x++)
-			putPixel((t_color){0x00000000}, config->cub3d_data.minimap_surface, x, y);
-	for (int y = 0; y < minimap_data.minimap_size; y++)
-		for (int x = 0; x < minimap_data.minimap_size; x++)
-			putPixel(minimap_data.bg_color, config->cub3d_data.minimap_surface, x, y);
-	for (int y = 0; y < minimap_data.map_y_len; y++) {
-		for (int x = 0; x < minimap_data.map_x_len; x++) {
-			// Calculate screen coordinates
-			int screen_x = x * minimap_data.cell_size;
-			int screen_y = y * minimap_data.cell_size;
-			if (screen_x >= minimap_data.minimap_size || screen_y >= minimap_data.minimap_size)
-				continue;
-			t_color cell_color = (config->map[y][x] == '1' || config->map[y][x] == ' ' ) ? minimap_data.wall_color : minimap_data.floor_color;
-			for (int cy = 0; cy < minimap_data.cell_size && screen_y + cy < minimap_data.minimap_size; cy++) {
-				for (int cx = 0; cx < minimap_data.cell_size && screen_x + cx < minimap_data.minimap_size; cx++) {
-					putPixel(cell_color, config->cub3d_data.minimap_surface, screen_x + cx, screen_y + cy);
-				}
-			}
-		}
-	}
-	int player_x = (int)(config->player.pos.x * minimap_data.cell_size);
-	int player_y = (int)(config->player.pos.y * minimap_data.cell_size);
-	for (int y = -2; y <= 2; y++) {
-		for (int x = -2; x <= 2; x++) {
-			if (x*x + y*y <= 4) // Circle with radius 2
-				putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_x + x, player_y + y);
-		}
-	}
-	t_vector2 dir_end = addvectors(
+    i = 0;
+    while (i < config->cub3d_data.minimap_surface->height)
+    {
+        j = 0;
+        while (j < config->cub3d_data.minimap_surface->width)
+        {
+            putPixel(minimap_data.bg_color, config->cub3d_data.minimap_surface, j, i);
+            j++;
+        }
+        i++;
+    }
+    i = 0;
+    while (i < minimap_data.minimap_size)
+    {
+        j = 0;
+        while (j < minimap_data.minimap_size){
+            putPixel(minimap_data.bg_color, config->cub3d_data.minimap_surface, x, y);
+            j++;
+        }
+    }
+    i = 0;
+    while (i < minimap_data.map_y_len){
+        j = 0;
+        while (j < minimap_data.map_x_len){
+            int screen_x = j * minimap_data.cell_size;
+            int screen_y = i * minimap_data.cell_size;
+            if (screen_x >= minimap_data.minimap_size || screen_y >= minimap_data.minimap_size)
+                continue;
+            cell_color = (config->map[i][j] == '1' || config->map[i][j] == ' ') ? minimap_data.wall_color : minimap_data.floor_color;
+            int cy = 0;
+            while (cy < minimap_data.cell_size && screen_y + cy < minimap_data.minimap_size){
+                int cx = 0;
+                while (cx < minimap_data.cell_size && screen_x + cx < minimap_data.minimap_size){
+                    putPixel(cell_color, config->cub3d_data.minimap_surface, screen_x + cx, screen_y + cy);
+                    cx++;
+                }
+                cy++;
+            }
+            j++;
+        }
+        i++;
+    }
+    player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
+    i = -2;
+    while (i <= 2){
+        j = -2;
+        while (j <= 2){
+            if (i * i + j * j <= 4)
+                putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_pos.x + i, player_pos.y + j);
+            j++;
+        }
+        i++;
+    }
+	dir_end = addvectors(
 		(t_vector2){player_x, player_y},
 		multiplyvector(normalizevector(config->player.dir), 5)
 	);
-	putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_x, player_y);
+	putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_pos.x, player_pos.y);
 	putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
 }
 
