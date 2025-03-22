@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/22 17:05:34 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:15:42 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,45 @@ typedef enum e_direction{
 	DIR_EAST = 3
 }	t_direction;
 
+typedef struct s_minimap_data
+{
+	int minimap_size;
+	int cell_size;
+	int map_x_len;
+	int map_y_len;
+	t_color wall_color;
+	t_color floor_color;
+	t_color player_color;
+	t_color bg_color;
+} t_minimap_data;
+
+typedef struct s_hit_info
+{
+	t_vector2 pos;
+	t_direction side;
+	int hit;
+	float perp_wall_dist;
+} t_hit_info;
+
+typedef struct s_ray {
+    t_vector2 dir;       // Ray direction
+    t_vector2 delta_dist; // Delta distance
+    t_vector2 side_dist;  // Side distance
+    int map_x;           // Current map x position
+    int map_y;           // Current map y position
+    int step_x;          // Step direction in x
+    int step_y;          // Step direction in y
+    float wall_x;        // Where exactly the wall was hit
+} t_ray;
+
+typedef struct s_render_line {
+    int height;          // Height of line to draw
+    int draw_start;      // Start y position
+    int draw_end;        // End y position
+    int screen_x;        // X position on screen
+} t_render_line;
+
+
 int			ft_access_check(char *inputfile);
 int			ft_extension_check(char *input);
 void		ft_error_handling(int err, char *addinfo, t_gamedata *config);
@@ -131,5 +170,8 @@ void		resize(int width, int height, void *param);
 void		key_handler(mlx_key_data_t keydata, void *param);
 void fill_upper_half(mlx_image_t *img, t_color color);
 void fill_lower_half(mlx_image_t *img, t_color color);
-void clear_minimap(mlx_image_t *minimap_surface);
+
+void draw_player_position(t_gamedata *config, t_minimap_data minimap_data);
+void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data);
+void clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data);
 #endif

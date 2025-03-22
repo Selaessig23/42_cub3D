@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/22 17:06:47 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:13:21 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	render(void *param)
 	cast_ray_and_draw_wall(config->map, config->cub3d_data.img, config);
 	if (config->show_minimap)
 		draw_minimap(config);
-	else
-		clear_minimap(config->cub3d_data.minimap_surface);
 }
 
 

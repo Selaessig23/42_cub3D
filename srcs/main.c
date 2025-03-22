@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/22 17:08:44 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:18:58 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,20 @@ void fill_upper_half(mlx_image_t *img, t_color color)
 		}
 	}
 }
+t_color pixel_to_color(uint8_t* pixel)
+{
+	t_color color;
 
+		color.red = pixel[0];
+		color.green = pixel[1];
+		color.blue = pixel[2];
+		color.alpha = pixel[3];
+
+		return color;
+}
 void copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 					   int screen_x, int draw_start, int draw_end, float wall_x)
 {
-	t_color	color;
 	int		tex_x;
 	int		tex_y;
 	uint8_t	*pixel;
@@ -108,20 +117,12 @@ void copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 		if (tex_y >= texture->height)
 			tex_y = texture->height - 1;
 		pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
-		color.red = pixel[0];
-		color.green = pixel[1];
-		color.blue = pixel[2];
-		color.alpha = pixel[3];
-		putPixel(color, render_img, screen_x, screen_y);
+		putPixel(pixel_to_color(pixel), render_img, screen_x, screen_y);
 	}
 }
-typedef struct s_hit_info
-{
-	t_vector2 pos;
-	t_direction side;
-	int hit;
-	float perp_wall_dist;
-} t_hit_info;
+
+
+
 
 t_hit_info init_hit_info(void)
 {
@@ -131,24 +132,6 @@ t_hit_info init_hit_info(void)
 	hit_info.perp_wall_dist = 0;
 	return hit_info;
 }
-
-typedef struct s_ray {
-    t_vector2 dir;       // Ray direction
-    t_vector2 delta_dist; // Delta distance
-    t_vector2 side_dist;  // Side distance
-    int map_x;           // Current map x position
-    int map_y;           // Current map y position
-    int step_x;          // Step direction in x
-    int step_y;          // Step direction in y
-    float wall_x;        // Where exactly the wall was hit
-} t_ray;
-
-typedef struct s_render_line {
-    int height;          // Height of line to draw
-    int draw_start;      // Start y position
-    int draw_end;        // End y position
-    int screen_x;        // X position on screen
-} t_render_line;
 
 static void init_ray(t_ray *ray, t_player player, float camera_x)
 {
@@ -259,17 +242,6 @@ void pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, in
 	copy_texture_line(img, texture, x, draw_start, draw_end, wall_x);
 }
 
-typedef struct s_minimap_data
-{
-	int minimap_size;
-	int cell_size;
-	int map_x_len;
-	int map_y_len;
-	t_color wall_color;
-	t_color floor_color;
-	t_color player_color;
-	t_color bg_color;
-} t_minimap_data;
 
 
 void fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
@@ -285,26 +257,6 @@ void fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 	minimap_data->floor_color = (t_color){0x66FF00AA};
 	minimap_data->player_color = (t_color){0xFF0000FF};
 	minimap_data->bg_color = (t_color){0x33333388};
-}
-
-
-// 1. Clear the minimap surface
-void clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data)
-{
-    int i;
-	int	j;
-
-    i = 0;
-    while (i < config->cub3d_data.minimap_surface->height)
-    {
-        j = 0;
-        while (j < config->cub3d_data.minimap_surface->width)
-        {
-            putPixel(minimap_data.bg_color, config->cub3d_data.minimap_surface, j, i);
-            j++;
-        }
-        i++;
-    }
 }
 
 // Draw a single cell of the minimap grid
@@ -358,47 +310,6 @@ void draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
     }
 }
 
-// 3. Draw the player position (circle)
-void draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
-{
-    int i;
-	int	j;
-    t_vector2 player_pos;
-
-    player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
-
-    i = -2;
-    while (i <= 2)
-    {
-        j = -2;
-        while (j <= 2)
-        {
-            if (i * i + j * j <= 4)
-                putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface,
-                        player_pos.x + i, player_pos.y + j);
-            j++;
-        }
-        i++;
-    }
-}
-
-// 4. Draw the player direction line
-void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
-{
-    t_vector2 player_pos;
-    t_vector2 dir_end;
-
-    player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
-    dir_end = addvectors(
-        player_pos,
-        multiplyvector(normalizevector(config->player.dir), 5)
-    );
-
-    // Draw line from player position to direction end point
-    putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_pos.x, player_pos.y);
-    putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
-}
-
 // 5. Main minimap function that orchestrates the drawing
 void draw_minimap(t_gamedata *config)
 {
@@ -420,13 +331,6 @@ void draw_minimap(t_gamedata *config)
 
     // Draw the player direction
     draw_player_direction(config, minimap_data);
-}
-
-void clear_minimap(mlx_image_t *minimap_surface)
-{
-	for (int y = 0; y < minimap_surface->height; y++)
-		for (int x = 0; x < minimap_surface->width; x++)
-			putPixel((t_color){0x00000000}, minimap_surface, x, y);
 }
 
 int	main(int argc, char *argv[])
