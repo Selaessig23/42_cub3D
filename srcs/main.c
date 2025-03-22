@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/22 17:05:03 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:08:44 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,8 @@ void fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 // 1. Clear the minimap surface
 void clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data)
 {
-    int i, j;
+    int i;
+	int	j;
 
     i = 0;
     while (i < config->cub3d_data.minimap_surface->height)
@@ -311,18 +312,15 @@ void draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
                        int map_x, int map_y, int screen_x, int screen_y)
 {
     t_color cell_color;
-    int cx, cy;
+    int cx;
+	int	cy;
 
     if (screen_x >= minimap_data.minimap_size || screen_y >= minimap_data.minimap_size)
         return;
     if (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
-    {
         cell_color = minimap_data.wall_color;
-    }
     else
-    {
         cell_color = minimap_data.floor_color;
-    }
     cy = 0;
     while (cy < minimap_data.cell_size && screen_y + cy < minimap_data.minimap_size)
     {
@@ -339,8 +337,10 @@ void draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 // Draw the entire minimap grid by iterating through the map
 void draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 {
-    int i, j;
-    int screen_x, screen_y;
+    int i;
+	int	j;
+    int screen_x;
+	int	screen_y;
 
     i = 0;
     while (i < minimap_data.map_y_len)
@@ -361,7 +361,8 @@ void draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 // 3. Draw the player position (circle)
 void draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
 {
-    int i, j;
+    int i;
+	int	j;
     t_vector2 player_pos;
 
     player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
