@@ -288,17 +288,11 @@ void fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 }
 
 
-void draw_minimap(t_gamedata *config)
+// 1. Clear the minimap surface
+void clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data)
 {
-	t_minimap_data minimap_data;
-    t_vector2 player_pos;
-    t_color cell_color;
-    t_vector2 dir_end;
     int i, j;
-    
-	fill_minimap_data(&minimap_data, config);
-	if (!config->show_minimap)
-		return;
+
     i = 0;
     while (i < config->cub3d_data.minimap_surface->height)
     {
@@ -310,54 +304,121 @@ void draw_minimap(t_gamedata *config)
         }
         i++;
     }
+}
+
+// Draw a single cell of the minimap grid
+void draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
+                       int map_x, int map_y, int screen_x, int screen_y)
+{
+    t_color cell_color;
+    int cx, cy;
+
+    // Skip if the cell is outside the minimap boundaries
+    if (screen_x >= minimap_data.minimap_size || screen_y >= minimap_data.minimap_size)
+        return;
+
+    // Determine cell color based on map content (wall or floor)
+    cell_color = (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
+                     ? minimap_data.wall_color
+                     : minimap_data.floor_color;
+
+    // Draw the cell pixel by pixel
+    cy = 0;
+    while (cy < minimap_data.cell_size && screen_y + cy < minimap_data.minimap_size)
+    {
+        cx = 0;
+        while (cx < minimap_data.cell_size && screen_x + cx < minimap_data.minimap_size)
+        {
+            putPixel(cell_color, config->cub3d_data.minimap_surface, screen_x + cx, screen_y + cy);
+            cx++;
+        }
+        cy++;
+    }
+}
+
+// Draw the entire minimap grid by iterating through the map
+void draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
+{
+    int i, j;
+    int screen_x, screen_y;
+
     i = 0;
-    while (i < minimap_data.minimap_size)
+    while (i < minimap_data.map_y_len)
     {
         j = 0;
-        while (j < minimap_data.minimap_size){
-            putPixel(minimap_data.bg_color, config->cub3d_data.minimap_surface, x, y);
-            j++;
-        }
-    }
-    i = 0;
-    while (i < minimap_data.map_y_len){
-        j = 0;
-        while (j < minimap_data.map_x_len){
-            int screen_x = j * minimap_data.cell_size;
-            int screen_y = i * minimap_data.cell_size;
-            if (screen_x >= minimap_data.minimap_size || screen_y >= minimap_data.minimap_size)
-                continue;
-            cell_color = (config->map[i][j] == '1' || config->map[i][j] == ' ') ? minimap_data.wall_color : minimap_data.floor_color;
-            int cy = 0;
-            while (cy < minimap_data.cell_size && screen_y + cy < minimap_data.minimap_size){
-                int cx = 0;
-                while (cx < minimap_data.cell_size && screen_x + cx < minimap_data.minimap_size){
-                    putPixel(cell_color, config->cub3d_data.minimap_surface, screen_x + cx, screen_y + cy);
-                    cx++;
-                }
-                cy++;
-            }
+        while (j < minimap_data.map_x_len)
+        {
+            screen_x = j * minimap_data.cell_size;
+            screen_y = i * minimap_data.cell_size;
+
+            draw_minimap_cell(config, minimap_data, j, i, screen_x, screen_y);
             j++;
         }
         i++;
     }
+}
+
+// 3. Draw the player position (circle)
+void draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
+{
+    int i, j;
+    t_vector2 player_pos;
+    
     player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
+    
     i = -2;
-    while (i <= 2){
+    while (i <= 2)
+    {
         j = -2;
-        while (j <= 2){
+        while (j <= 2)
+        {
             if (i * i + j * j <= 4)
-                putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_pos.x + i, player_pos.y + j);
+                putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, 
+                        player_pos.x + i, player_pos.y + j);
             j++;
         }
         i++;
     }
-	dir_end = addvectors(
-		(t_vector2){player_x, player_y},
-		multiplyvector(normalizevector(config->player.dir), 5)
-	);
-	putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_pos.x, player_pos.y);
-	putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
+}
+
+// 4. Draw the player direction line
+void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
+{
+    t_vector2 player_pos;
+    t_vector2 dir_end;
+    
+    player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
+    dir_end = addvectors(
+        player_pos,
+        multiplyvector(normalizevector(config->player.dir), 5)
+    );
+    
+    // Draw line from player position to direction end point
+    putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_pos.x, player_pos.y);
+    putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
+}
+
+// 5. Main minimap function that orchestrates the drawing
+void draw_minimap(t_gamedata *config)
+{
+    t_minimap_data minimap_data;
+    
+    fill_minimap_data(&minimap_data, config);
+    
+    if (!config->show_minimap)
+        return;
+    
+    // Clear the minimap surface
+    clear_minimap_surface(config, minimap_data);
+    
+    // Draw the map grid (walls and floor)
+    draw_minimap_grid(config, minimap_data);
+    
+    // Draw the player position
+    draw_player_position(config, minimap_data);
+    
+    // Draw the player direction
+    draw_player_direction(config, minimap_data);
 }
 
 void clear_minimap(mlx_image_t *minimap_surface)
