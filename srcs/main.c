@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/20 16:21:38 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:05:03 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,25 +152,25 @@ typedef struct s_render_line {
 
 static void init_ray(t_ray *ray, t_player player, float camera_x)
 {
-    ray->dir.x = player.player_dir.x + player.player_dir.y * camera_x * 0.66f; // Field of view adjustment
-    ray->dir.y = player.player_dir.y - player.player_dir.x * camera_x * 0.66f; // Field of view adjustment
-    ray->map_x = (int)player.player_pos.x;
-    ray->map_y = (int)player.player_pos.y;
+    ray->dir.x = player.dir.x + player.dir.y * camera_x * 0.66f; // Field of view adjustment
+    ray->dir.y = player.dir.y - player.dir.x * camera_x * 0.66f; // Field of view adjustment
+    ray->map_x = (int)player.pos.x;
+    ray->map_y = (int)player.pos.y;
     ray->delta_dist.x = (ray->dir.x == 0) ? 1e30 : fabs(1.0f / ray->dir.x);
     ray->delta_dist.y = (ray->dir.y == 0) ? 1e30 : fabs(1.0f / ray->dir.y);
     if (ray->dir.x < 0) {
         ray->step_x = -1;
-        ray->side_dist.x = (player.player_pos.x - ray->map_x) * ray->delta_dist.x;
+        ray->side_dist.x = (player.pos.x - ray->map_x) * ray->delta_dist.x;
     } else {
         ray->step_x = 1;
-        ray->side_dist.x = (ray->map_x + 1.0f - player.player_pos.x) * ray->delta_dist.x;
+        ray->side_dist.x = (ray->map_x + 1.0f - player.pos.x) * ray->delta_dist.x;
     }
     if (ray->dir.y < 0) {
         ray->step_y = -1;
-        ray->side_dist.y = (player.player_pos.y - ray->map_y) * ray->delta_dist.y;
+        ray->side_dist.y = (player.pos.y - ray->map_y) * ray->delta_dist.y;
     } else {
         ray->step_y = 1;
-        ray->side_dist.y = (ray->map_y + 1.0f - player.player_pos.y) * ray->delta_dist.y;
+        ray->side_dist.y = (ray->map_y + 1.0f - player.pos.y) * ray->delta_dist.y;
     }
 }
 
@@ -317,7 +317,7 @@ void draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
         return;
     if (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
     {
-        cell_color = minimap_data.wall_color
+        cell_color = minimap_data.wall_color;
     }
     else
     {
@@ -363,9 +363,9 @@ void draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
 {
     int i, j;
     t_vector2 player_pos;
-    
+
     player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
-    
+
     i = -2;
     while (i <= 2)
     {
@@ -373,7 +373,7 @@ void draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
         while (j <= 2)
         {
             if (i * i + j * j <= 4)
-                putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, 
+                putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface,
                         player_pos.x + i, player_pos.y + j);
             j++;
         }
@@ -386,13 +386,13 @@ void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 {
     t_vector2 player_pos;
     t_vector2 dir_end;
-    
+
     player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
     dir_end = addvectors(
         player_pos,
         multiplyvector(normalizevector(config->player.dir), 5)
     );
-    
+
     // Draw line from player position to direction end point
     putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, player_pos.x, player_pos.y);
     putPixel(minimap_data.player_color, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
@@ -402,21 +402,21 @@ void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 void draw_minimap(t_gamedata *config)
 {
     t_minimap_data minimap_data;
-    
+
     fill_minimap_data(&minimap_data, config);
-    
+
     if (!config->show_minimap)
         return;
-    
+
     // Clear the minimap surface
     clear_minimap_surface(config, minimap_data);
-    
+
     // Draw the map grid (walls and floor)
     draw_minimap_grid(config, minimap_data);
-    
+
     // Draw the player position
     draw_player_position(config, minimap_data);
-    
+
     // Draw the player direction
     draw_player_direction(config, minimap_data);
 }
