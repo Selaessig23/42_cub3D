@@ -313,16 +313,16 @@ void draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
     t_color cell_color;
     int cx, cy;
 
-    // Skip if the cell is outside the minimap boundaries
     if (screen_x >= minimap_data.minimap_size || screen_y >= minimap_data.minimap_size)
         return;
-
-    // Determine cell color based on map content (wall or floor)
-    cell_color = (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
-                     ? minimap_data.wall_color
-                     : minimap_data.floor_color;
-
-    // Draw the cell pixel by pixel
+    if (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
+    {
+        cell_color = minimap_data.wall_color
+    }
+    else
+    {
+        cell_color = minimap_data.floor_color;
+    }
     cy = 0;
     while (cy < minimap_data.cell_size && screen_y + cy < minimap_data.minimap_size)
     {
