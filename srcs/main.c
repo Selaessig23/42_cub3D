@@ -6,18 +6,19 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/26 10:23:01 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:30:06 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-mlx_image_t *create_square(mlx_t *mlx, uint32_t size, t_color color)
+mlx_image_t	*create_square(mlx_t *mlx, uint32_t size, t_color color)
 {
-	mlx_image_t *img = mlx_new_image(mlx, size, size);
-	if (!img)
-		return NULL;
+	mlx_image_t	*img;
 
+	img = mlx_new_image(mlx, size, size);
+	if (!img)
+		return (NULL);
 	// Fill the image with the specified color
 	for (uint32_t y = 0; y < size; y++)
 	{
@@ -26,15 +27,16 @@ mlx_image_t *create_square(mlx_t *mlx, uint32_t size, t_color color)
 			putPixel(color, img, x, y );
 		}
 	}
-	return img;
+	return (img);
 }
 
-mlx_image_t *create_transparent_pattern(mlx_t *mlx, uint32_t size, uint32_t color)
+mlx_image_t	*create_transparent_pattern(mlx_t *mlx, uint32_t size, uint32_t color)
 {
-	mlx_image_t *img = mlx_new_image(mlx, size, size);
-	if (!img)
-		return NULL;
+	mlx_image_t	*img;
 
+	img = mlx_new_image(mlx, size, size);
+	if (!img)
+		return (NULL);
 	// Create a checkerboard pattern with some pixels fully transparent
 	for (uint32_t y = 0; y < size; y++)
 	{
@@ -47,10 +49,10 @@ mlx_image_t *create_transparent_pattern(mlx_t *mlx, uint32_t size, uint32_t colo
 				mlx_put_pixel(img, x, y, 0x00000000); // Fully transparent
 		}
 	}
-	return img;
+	return (img);
 }
 
-void copy_texture(mlx_image_t *img, mlx_image_t *texture, uint32_t x, uint32_t y)
+void	copy_texture(mlx_image_t *img, mlx_image_t *texture, uint32_t x, uint32_t y)
 {
 	 for (uint32_t i = 0; i < texture->height; i++)
 	 {
@@ -63,7 +65,13 @@ void copy_texture(mlx_image_t *img, mlx_image_t *texture, uint32_t x, uint32_t y
 	 }
 }
 
-void fill_lower_half(mlx_image_t *img, t_color color)
+/**
+ * @brief function to define floor-color for each pixel of 
+ * lower half
+ * 
+ * TODO: use while instead of for
+ */
+void	fill_lower_half(mlx_image_t *img, t_color color)
 {
 	for (uint32_t y = img->height / 2; y < img->height; y++)
 	{
@@ -74,7 +82,14 @@ void fill_lower_half(mlx_image_t *img, t_color color)
 	}
 }
 
-void fill_upper_half(mlx_image_t *img, t_color color)
+/**
+ * @brief function to define ceiling-color for each pixel of 
+ * upper half
+ * 
+ * TODO: use while instead of for
+ */
+
+void	fill_upper_half(mlx_image_t *img, t_color color)
 {
 	for (uint32_t y = 0; y < img->height / 2; y++)
 	{
@@ -208,29 +223,36 @@ static void calculate_render_line(t_render_line *line, mlx_image_t *img, float p
         line->draw_end = img->height - 1;
 }
 
-void cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config)
+/**
+ * @brief 
+ */
+void	cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config)
 {
-    t_ray ray;
-    t_hit_info hit_info;
-    t_render_line line;
-    int x;
+	t_ray			ray;
+	t_hit_info		hit_info;
+	t_render_line	line;
+	int				x;
+	float			camera_x;
 
-    x = 0;
-    while (x < img->width) {
-        float camera_x = 2.0f * x / (float)img->width - 1.0f;
-        init_ray(&ray, config->player, camera_x);
-        hit_info = init_hit_info();
-        perform_dda(map, &ray, &hit_info);
-        calculate_wall_properties(&ray, &hit_info, config->player.pos);
-        calculate_render_line(&line, img, hit_info.perp_wall_dist, x);
-        pick_and_place(hit_info.side, config, img, x, line.draw_start, line.draw_end, ray.wall_x);
-        x++;
-    }
+	x = 0;
+	while (x < img->width)
+	{
+		camera_x = 2.0f * x / (float)img->width - 1.0f;
+		init_ray(&ray, config->player, camera_x);
+		hit_info = init_hit_info();
+		perform_dda(map, &ray, &hit_info);
+		calculate_wall_properties(&ray, &hit_info, config->player.pos);
+		calculate_render_line(&line, img, hit_info.perp_wall_dist, x);
+		pick_and_place(hit_info.side, config, img, x, line.draw_start, 
+			line.draw_end, ray.wall_x);
+		x++;
+	}
 }
 
 void pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, int x, int draw_start, int draw_end, float wall_x)
 {
-    mlx_image_t *texture;
+	mlx_image_t	*texture;
+
 	if (side == DIR_NORTH)
 		texture = config->cub3d_data.north;
 	else if (side == DIR_SOUTH)
@@ -243,94 +265,100 @@ void pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, in
 }
 
 
-
-void fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
+/**
+ * @brief function to assign values to the minimap struct
+ */
+void	fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 {
 	minimap_data->cell_size = 10;
 	minimap_data->map_y_len = ft_arrlen(config->map);
 	minimap_data->map_x_len = ft_strlen(config->map[0]);
 	if (minimap_data->map_x_len > minimap_data->map_y_len)
-		minimap_data->minimap_size = minimap_data->map_x_len * minimap_data->cell_size;
+		minimap_data->minimap_size = 
+			minimap_data->map_x_len * minimap_data->cell_size;
 	else
-		minimap_data->minimap_size = minimap_data->map_y_len * minimap_data->cell_size;
+		minimap_data->minimap_size = 
+			minimap_data->map_y_len * minimap_data->cell_size;
 	minimap_data->wall_color = (t_color){0xFFAAAAFF};
 	minimap_data->floor_color = (t_color){0x66FF00AA};
 	minimap_data->player_color = (t_color){0xFF0000FF};
 	minimap_data->bg_color = (t_color){0x33333388};
 }
 
-// Draw a single cell of the minimap grid
-void draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
-                       int map_x, int map_y, int screen_x, int screen_y)
+/**
+ *  Draw a single cell of the minimap grid
+ * 
+ * TODO: decrease number of parameter to 4
+ */ 
+void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
+	int map_x, int map_y, int screen_x, int screen_y)
 {
-    t_color cell_color;
-    int cx;
-	int	cy;
+	t_color	cell_color;
+	int		cx;
+	int		cy;
 
-    if (screen_x >= minimap_data.minimap_size || screen_y >= minimap_data.minimap_size)
-        return;
-    if (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
-        cell_color = minimap_data.wall_color;
-    else
-        cell_color = minimap_data.floor_color;
-    cy = 0;
-    while (cy < minimap_data.cell_size && screen_y + cy < minimap_data.minimap_size)
-    {
-        cx = 0;
-        while (cx < minimap_data.cell_size && screen_x + cx < minimap_data.minimap_size)
-        {
-            putPixel(cell_color, config->cub3d_data.minimap_surface, screen_x + cx, screen_y + cy);
-            cx++;
-        }
-        cy++;
-    }
+	if (screen_x >= minimap_data.minimap_size 
+		|| screen_y >= minimap_data.minimap_size)
+		return ;
+	if (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
+		cell_color = minimap_data.wall_color;
+	else
+		cell_color = minimap_data.floor_color;
+	cy = 0;
+	while (cy < minimap_data.cell_size && screen_y 
+		+ cy < minimap_data.minimap_size)
+	{
+		cx = 0;
+		while (cx < minimap_data.cell_size && screen_x 
+			+ cx < minimap_data.minimap_size)
+		{
+			putPixel(cell_color, config->cub3d_data.minimap_surface, 
+				screen_x + cx, screen_y + cy);
+			cx++;
+		}
+		cy++;
+	}
 }
 
 // Draw the entire minimap grid by iterating through the map
-void draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
+void	draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 {
-    int i;
+	int	i;
 	int	j;
-    int screen_x;
+	int	screen_x;
 	int	screen_y;
 
-    i = 0;
-    while (i < minimap_data.map_y_len)
-    {
-        j = 0;
-        while (j < minimap_data.map_x_len)
-        {
-            screen_x = j * minimap_data.cell_size;
-            screen_y = i * minimap_data.cell_size;
-
-            draw_minimap_cell(config, minimap_data, j, i, screen_x, screen_y);
-            j++;
-        }
-        i++;
-    }
+	i = 0;
+	while (i < minimap_data.map_y_len)
+	{
+		j = 0;
+		while (j < minimap_data.map_x_len)
+		{
+			screen_x = j * minimap_data.cell_size;
+			screen_y = i * minimap_data.cell_size;
+			draw_minimap_cell(config, minimap_data, j, i, screen_x, screen_y);
+			j++;
+		}
+		i++;
+	}
 }
 
 // 5. Main minimap function that orchestrates the drawing
-void draw_minimap(t_gamedata *config)
+void	draw_minimap(t_gamedata *config)
 {
-    t_minimap_data minimap_data;
+	t_minimap_data	minimap_data;
 
-    fill_minimap_data(&minimap_data, config);
-
-    if (!config->show_minimap)
-        return;
-
-    // Clear the minimap surface
-    clear_minimap_surface(config, minimap_data);
-
-    // Draw the map grid (walls and floor)
-    draw_minimap_grid(config, minimap_data);
-
-    // Draw the player position
-    draw_player_position(config, minimap_data);
-
-    // Draw the player direction
-    draw_player_direction(config, minimap_data);
+	fill_minimap_data(&minimap_data, config);
+	if (!config->show_minimap)
+		return;
+	// Clear the minimap surface
+	clear_minimap_surface(config, minimap_data);
+	// Draw the map grid (walls and floor)
+	draw_minimap_grid(config, minimap_data);
+	// Draw the player position
+	draw_player_position(config, minimap_data);
+	// Draw the player direction
+	draw_player_direction(config, minimap_data);
 }
 
 int	main(int argc, char *argv[])
@@ -340,8 +368,8 @@ int	main(int argc, char *argv[])
 	int				map_x;
 	int				map_y;
 	char			**map;
-	int				img_instance;
-	int				minimap_instance;
+	// int				img_instance;
+	// int				minimap_instance;
 
 	fd = 0;
 	config = NULL;
@@ -366,23 +394,49 @@ int	main(int argc, char *argv[])
 		// 	config->player.dir.y = 0;
 		// if (!config->player.fov)
 		// 	config->player.fov = 90;
+
+		//just for testing reasons
 		ft_testprint(config);
-		if (!(config->cub3d_data.mlx = mlx_init(640, 480, "cub3Deluxe", true)))
-			ft_error_handling(20, NULL, config);
-		config->cub3d_data.img = mlx_new_image(config->cub3d_data.mlx, 640, 480);
-		config->cub3d_data.minimap_surface = mlx_new_image(config->cub3d_data.mlx, 640, 480);
-		load_wall_textures(config);
-		img_instance = mlx_image_to_window(config->cub3d_data.mlx, config->cub3d_data.img, 0, 0);
-		mlx_set_instance_depth(&config->cub3d_data.img->instances[img_instance], 0);
-		minimap_instance = mlx_image_to_window(config->cub3d_data.mlx, config->cub3d_data.minimap_surface, 0, 0);
-		mlx_set_instance_depth(&config->cub3d_data.minimap_surface->instances[minimap_instance], 1);
-		map = config->map;
-		map_x = ft_strlen(map[0]);
-		map_y = ft_arrlen(map);
+
+		//initiate mlx-data with game-config-data (validated)
+		ft_init_mlx(config);
+		// if (!(config->cub3d_data.mlx = mlx_init(640, 480, "cub3Deluxe", true)))
+		// 	ft_error_handling(20, NULL, config);
+		// config->cub3d_data.img = mlx_new_image(config->cub3d_data.mlx, 640, 480);
+		// if (!config->cub3d_data.img)
+		// 	ft_error_handling(21, NULL, config);
+		// config->cub3d_data.minimap_surface = mlx_new_image(config->cub3d_data.mlx, 640, 480);
+		// if (!config->cub3d_data.minimap_surface)	
+		// 	ft_error_handling(21, NULL, config);
+		// load_wall_textures(config);
+		// img_instance = mlx_image_to_window(config->cub3d_data.mlx, config->cub3d_data.img, 0, 0);
+		// if (img_instance < 0)
+		// 	ft_error_handling(22, NULL, config);
+		// //set the depth of each image (z-index), higher values appear above lower ones
+		// mlx_set_instance_depth(&config->cub3d_data.img->instances[img_instance], 0);
+		// minimap_instance = mlx_image_to_window(config->cub3d_data.mlx, config->cub3d_data.minimap_surface, 0, 0);
+		// if (minimap_instance < 0)
+		// 	ft_error_handling(22, NULL, config);
+		// //depth of minimap is higher than cub3D-image
+		// mlx_set_instance_depth(&config->cub3d_data.minimap_surface->instances[minimap_instance], 1);
+
+		
+		//set size of map -> maybe move to parsing part, if required,
+		//seems to not have any specific use
+		// map = config->map;
+		// map_x = ft_strlen(map[0]);
+		// map_y = ft_arrlen(map);
+
+		//adapt image size in case of window resizing
 		mlx_resize_hook(config->cub3d_data.mlx, resize, config);
+		//handling of keyboard use
 		mlx_key_hook(config->cub3d_data.mlx, key_handler, config);
+		//raycasting-part
 		mlx_loop_hook(config->cub3d_data.mlx, render, config);
+		//game loop
 		mlx_loop(config->cub3d_data.mlx);
+
+		//cleaning up
 		close(fd);
 		delete_images(config);
 		mlx_close_window(config->cub3d_data.mlx);
@@ -394,6 +448,10 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
+/**
+ * @brief function to delete the images that have been created for
+ * game execution
+ */
 void	delete_images(t_gamedata *config)
 {
 	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.img);
@@ -405,6 +463,9 @@ void	delete_images(t_gamedata *config)
 	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.south);
 }
 
+/**
+ * @brief function to assign the textures to cub3D (mlx-)images
+ */
 void	load_wall_textures(t_gamedata * config)
 {
 	config->cub3d_data.east =
@@ -416,14 +477,21 @@ void	load_wall_textures(t_gamedata * config)
 	config->cub3d_data.south =
 		load_single_wall_texture(config, config->t_south);
 }
-
+/**
+ * @brief function to create a mlx_image out of a path
+ * to png-texture
+ */
 mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
 {
 	mlx_texture_t	*t;
 	mlx_image_t		*ttxt;
 
 	t = mlx_load_png(path);
+	if (!t)
+		ft_error_handling(23, NULL, config);
 	ttxt = mlx_texture_to_image(config->cub3d_data.mlx, t);
+	if (!ttxt)
+		ft_error_handling(24, NULL, config);
 	mlx_delete_texture(t);
 	return (ttxt);
 }

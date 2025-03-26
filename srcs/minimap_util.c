@@ -3,21 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/22 17:13:24 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:08:19 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data)
+/**
+ * @brief function to clear all pixels of the minimap image
+ * by assigning the defined minimap background color to them 
+ * (overwriting in case there had been a color before)
+ */
+void    clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data)
 {
-    int i;
-	int	j;
+    int     i;
+	int	    j;
 
     i = 0;
+    j = 0;
     while (i < config->cub3d_data.minimap_surface->height)
     {
         j = 0;

@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/22 17:13:21 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:16:46 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+/**
+ * @brief handler function for mlx_loop_hook
+ * it renders each pixel of the image
+ * 
+ * @param param A user-defined pointer that can store extra data 
+ * (in this case: the struct t_gamedata with game-config's data).
+ */
 void	render(void *param)
 {
 	t_gamedata	*config;

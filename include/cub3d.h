@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/22 17:15:42 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:29:22 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 typedef struct s_gamedata {
-	char		*t_north;
-	char		*t_south;
-	char		*t_east;
-	char		*t_west;
-	t_color		*floor;
-	t_color		*ceiling;
-	char		**map;
-	t_player	player;
-	t_cub3d		cub3d_data;
-	int			window_width;
-	int			window_height;
-	bool		show_minimap;
+	char			*t_north;
+	char			*t_south;
+	char			*t_east;
+	char			*t_west;
+	t_color			*floor;
+	t_color			*ceiling;
+	char			**map;
+	t_player		player;
+	t_cub3d			cub3d_data;
+	int				window_width;
+	int				window_height;
+	bool			show_minimap;
 }		t_gamedata;
 
 typedef enum e_direction{
@@ -85,23 +85,23 @@ typedef enum e_direction{
 
 typedef struct s_minimap_data
 {
-	int minimap_size;
-	int cell_size;
-	int map_x_len;
-	int map_y_len;
-	t_color wall_color;
-	t_color floor_color;
-	t_color player_color;
-	t_color bg_color;
-} t_minimap_data;
+	int				minimap_size;
+	int				cell_size;
+	int				map_x_len;
+	int				map_y_len;
+	t_color			wall_color;
+	t_color			floor_color;
+	t_color			player_color;
+	t_color			bg_color;
+}		t_minimap_data;
 
 typedef struct s_hit_info
 {
-	t_vector2 pos;
-	t_direction side;
-	int hit;
-	float perp_wall_dist;
-} t_hit_info;
+	t_vector2		pos;
+	t_direction		side;
+	int				hit;
+	float			perp_wall_dist;
+}		t_hit_info;
 
 typedef struct s_ray {
     t_vector2 dir;       // Ray direction
@@ -141,6 +141,9 @@ void		ft_refill_map(char **dest, char **src);
 void		ft_testprint(t_gamedata *config);
 void		ft_testprint_maparray(char **map_arr);
 
+//initiate_mlx.c
+void	    ft_init_mlx(t_gamedata *config);
+
 //vector functions
 t_vector2	newvector(double x, double y);
 t_vector2	addvectors(t_vector2 vector1, t_vector2 vector2);
@@ -160,12 +163,12 @@ void		fillFloor(t_gamedata *config);
 void		ft_create_minimap(t_gamedata *config);
 void		render(void *param);
 void		delete_images(t_gamedata *config);
-void load_wall_textures(t_gamedata *config);
+void		load_wall_textures(t_gamedata *config);
 mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
 void		draw_minimap(t_gamedata *config);
 void		key_handler(mlx_key_data_t keydata, void *param);
-void cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
-void pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
+void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
+void		pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
 void		resize(int width, int height, void *param);
 void		key_handler(mlx_key_data_t keydata, void *param);
 void fill_upper_half(mlx_image_t *img, t_color color);

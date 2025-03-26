@@ -28,6 +28,7 @@ SRCS =	main.c \
 			parsing/map_playercheck.c \
 			parsing/enclosure.c \
 			parsing/parsing_utils.c \
+			initiate_mlx.c \
 			renderer/surface_drawing.c\
 			renderer/renderer.c \
 			free.c \

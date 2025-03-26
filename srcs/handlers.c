@@ -3,25 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:48 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/15 19:01:38 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:15:49 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3d.h"
 
+/**
+ * DESCRIPTION:
+ * this file consists of functions that serve as handler-functions for
+ * certain mlx-lib-functions
+ */
 
-
-
+/**
+ * @brief handler function for mlx_resize_hook. 
+ * It tries to resize the image after resizing the window.
+ * 
+ * TODO: The old image seems to remain unchanged 
+ * and should be maybe manually freed if no longer needed.
+ * 
+ * @param with new width after resizing
+ * @param height new height after resizing
+ * @param param A user-defined pointer that can store extra data 
+ * (in this case: the struct t_gamedata with game-config's data).
+ */
 void	resize(int width, int height, void *param)
 {
 	t_gamedata	*config;
 
 	config = (t_gamedata *)param;
-	mlx_resize_image(config->cub3d_data.img, width, height);
+	if (!mlx_resize_image(config->cub3d_data.img, width, height))
+		ft_error_handling(25, NULL, config);
 }
+
+/**
+ * @brief handler function for mlx_key_hook
+ * 
+ * TODO: split into several functions
+ * TODO: free everything in case of ESCAPE
+ */
 void	key_handler(mlx_key_data_t keydata, void *param)
 {
 	t_gamedata *config = (t_gamedata *)param;
