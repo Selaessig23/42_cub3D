@@ -4,12 +4,12 @@
 </div>
 <div align="center">
   <sub>Written by <a href="https://portfolio.w2wizard.dev/">W2.Wizard</a> for Codam</sub>
-    <div align="center">
+	<div align="center">
 	</br>
 	<img src="https://img.shields.io/github/license/codam-coding-college/MLX42" alt="License GPL2.0"> 
 	<img src="https://github.com/codam-coding-college/MLX42/actions/workflows/ci.yml/badge.svg" alt="Build">
 	<img src="https://img.shields.io/github/forks/codam-coding-college/MLX42" alt="Forks">
-    </div>
+	</div>
 </div>
 
 MLX42 is a performant, easy to use, cross-platform, minimal windowing graphics library to create graphical applications without having to work directly with the native windowing framework of the given operating system.
@@ -278,7 +278,7 @@ static mlx_image_t* image;
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
-    return (r << 24 | g << 16 | b << 8 | a);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
 void ft_randomize(void* param)

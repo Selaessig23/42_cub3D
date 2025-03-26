@@ -33,6 +33,8 @@ SRCS =	main.c \
 			free.c \
 			error_handling.c \
 			test.c \
+			handlers.c\
+			minimap_util.c \
 			vector/vector_add.c  \
 			vector/vector_div.c  \
 			vector/vector_ln.c   \

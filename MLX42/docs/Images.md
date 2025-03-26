@@ -59,7 +59,7 @@ int32_t	main(void)
 	// Start mlx
 	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!mlx)
-        error();
+		error();
 
 	// Create a new image
 	mlx_image_t* img = mlx_new_image(mlx, 512, 512);
@@ -71,7 +71,7 @@ int32_t	main(void)
 
 	// Display an instance of the image
 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
-        error();
+		error();
 
 	mlx_loop(mlx);
 

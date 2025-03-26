@@ -104,11 +104,11 @@ int	main(void)
 	hex = 11011011;
 	result = ft_dprintf(fd, "Me: he asked me if %s in %s\n%c "
 	"pointer: %p\nint = %d\nunsigned int:%u\n%x\n%X\n",
-       	arg1, arg2, arg0, pointer, i, ui, hex, hex);
+	   	arg1, arg2, arg0, pointer, i, ui, hex, hex);
 	printf("Result me: %d\n\n", result);
 	result = printf("Ex: he asked me if %s in %s\n%c "
 	"pointer: %p\nint = %d\nunsigned int:%u\n%x\n%X\n",
-       	arg1, arg2, arg0, pointer, i, ui, hex, hex);
+	   	arg1, arg2, arg0, pointer, i, ui, hex, hex);
 	printf("Result ex: %d\n", result);
 	return (0);
 }

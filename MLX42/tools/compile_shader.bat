@@ -8,16 +8,16 @@ SETLOCAL EnableDelayedExpansion
 
 :: If no arguments have been given to the script
 IF "%~1"=="" (
-    echo ERROR: missing arguments, use as follows: %~nx0 ^<ShaderFile^> ^<Mode^> 1>&2
-    ENDLOCAL
-    EXIT /B 1
+	echo ERROR: missing arguments, use as follows: %~nx0 ^<ShaderFile^> ^<Mode^> 1>&2
+	ENDLOCAL
+	EXIT /B 1
 )
 
 :: Check if file exists
 IF NOT EXIST "%~1" (
-    echo ERROR: shader file not found: %~1 1>&2
-    ENDLOCAL
-    EXIT /B 2
+	echo ERROR: shader file not found: %~1 1>&2
+	ENDLOCAL
+	EXIT /B 2
 )
 
 :: Extract the shader type (file extension without the dot)
@@ -36,25 +36,25 @@ echo.
 
 :: Check the Mode argument (WASM specific output if Mode == 1)
 IF "%~2"=="1" (
-    echo const char* %SHADERTYPE%_shader = "#version 300 es\n"
-    echo     "precision mediump float;\n"
+	echo const char* %SHADERTYPE%_shader = "#version 300 es\n"
+	echo     "precision mediump float;\n"
 ) ELSE (
-    FOR /F "delims=" %%A IN ('more +0 "%~1"') DO (
-        echo const char* %SHADERTYPE%_shader = "%%A\n"
-        GOTO next
-    )
+	FOR /F "delims=" %%A IN ('more +0 "%~1"') DO (
+		echo const char* %SHADERTYPE%_shader = "%%A\n"
+		GOTO next
+	)
 )
 
 :next
 :: Read and process the rest of the shader file
 FOR /F "usebackq delims=" %%A IN ("%~1") DO (
-    IF NOT "%%A"=="" (
-        IF "%%A"=="}" (
-            echo     "%%A";
-        ) ELSE (
-            echo     "%%A"
-        )
-    )
+	IF NOT "%%A"=="" (
+		IF "%%A"=="}" (
+			echo     "%%A";
+		) ELSE (
+			echo     "%%A"
+		)
+	)
 )
 
 ENDLOCAL

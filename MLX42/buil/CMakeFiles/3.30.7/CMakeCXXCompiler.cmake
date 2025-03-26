@@ -50,9 +50,9 @@ set(CMAKE_CXX_IGNORE_EXTENSIONS inl;h;hpp;HPP;H;o;O;obj;OBJ;def;DEF;rc;RC)
 
 foreach (lang IN ITEMS C OBJC OBJCXX)
   if (CMAKE_${lang}_COMPILER_ID_RUN)
-    foreach(extension IN LISTS CMAKE_${lang}_SOURCE_FILE_EXTENSIONS)
-      list(REMOVE_ITEM CMAKE_CXX_SOURCE_FILE_EXTENSIONS ${extension})
-    endforeach()
+	foreach(extension IN LISTS CMAKE_${lang}_SOURCE_FILE_EXTENSIONS)
+	  list(REMOVE_ITEM CMAKE_CXX_SOURCE_FILE_EXTENSIONS ${extension})
+	endforeach()
   endif()
 endforeach()
 

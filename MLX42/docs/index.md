@@ -13,7 +13,7 @@ See copyright and license notice in the root project for more information.
 </br>
 
 <div align="center">
-    <h1>Welcome to the MLX42 documentation</h1>
+	<h1>Welcome to the MLX42 documentation</h1>
 </div>
 
 # Introduction
