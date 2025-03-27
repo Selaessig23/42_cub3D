@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/27 15:57:42 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:02:36 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ typedef struct s_render_line {
     int screen_x;        // X position on screen
 } t_render_line;
 
-
+//parsing
 int			ft_access_check(char *inputfile);
 int			ft_extension_check(char *input);
 void		ft_error_handling(int err, char *addinfo, t_gamedata *config);
@@ -142,7 +142,7 @@ void		ft_testprint(t_gamedata *config);
 void		ft_testprint_maparray(char **map_arr);
 
 //initiate_mlx.c
-void	    ft_init_mlx(t_gamedata *config);
+void		ft_init_mlx(t_gamedata *config);
 //cleanup.c
 void		ft_cleanup(t_gamedata *config, bool error);
 //locomotion.c
@@ -169,24 +169,20 @@ double		vectorln(t_vector2 vector);
 
 //test functions
 mlx_image_t	*createSurface(t_gamedata *config);
-
-
-//unsorted
 // void		drawLine(t_color color, mlx_image_t *minimap_surface,
 // 				t_vector2 start, t_vector2 end);
 // void		fillCeiling(t_gamedata *config);
 // void		fillFloor(t_gamedata *config);
-void		ft_create_minimap(t_gamedata *config);
-
 // void		delete_images(t_gamedata *config);
 // void		load_wall_textures(t_gamedata *config);
 // mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
+
+//unsorted
+void		ft_create_minimap(t_gamedata *config);
 void		draw_minimap(t_gamedata *config);
 void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
 void		pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
-
-
-void draw_player_position(t_gamedata *config, t_minimap_data minimap_data);
-void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data);
-void clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data);
+void		draw_player_position(t_gamedata *config, t_minimap_data minimap_data);
+void		draw_player_direction(t_gamedata *config, t_minimap_data minimap_data);
+void		clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data);
 #endif

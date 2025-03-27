@@ -6,35 +6,13 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/27 15:28:28 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:34:14 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-/**
- * @brief function to clear all pixels of the minimap image
- * by assigning the defined minimap background color to them 
- * (overwriting in case there had been a color before)
- */
-void    clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data)
-{
-    int     i;
-	int	    j;
 
-    i = 0;
-    j = 0;
-    while (i < config->cub3d_data.minimap_surface->height)
-    {
-        j = 0;
-        while (j < config->cub3d_data.minimap_surface->width)
-        {
-            putPixel(minimap_data.bg_color, config->cub3d_data.minimap_surface, j, i);
-            j++;
-        }
-        i++;
-    }
-}
 void draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
 {
     int i;
@@ -80,25 +58,7 @@ void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
  * -----------------------------------------------------------------------------------------------------
  */
 
-/**
- * @brief function to assign values to the minimap struct
- */
-void	fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
-{
-	minimap_data->cell_size = 10;
-	minimap_data->map_y_len = ft_arrlen(config->map);
-	minimap_data->map_x_len = ft_strlen(config->map[0]);
-	if (minimap_data->map_x_len > minimap_data->map_y_len)
-		minimap_data->minimap_size = 
-			minimap_data->map_x_len * minimap_data->cell_size;
-	else
-		minimap_data->minimap_size = 
-			minimap_data->map_y_len * minimap_data->cell_size;
-	minimap_data->wall_color = (t_color){0xFFAAAAFF};
-	minimap_data->floor_color = (t_color){0x66FF00AA};
-	minimap_data->player_color = (t_color){0xFF0000FF};
-	minimap_data->bg_color = (t_color){0x33333388};
-}
+
 
 /**
  *  Draw a single cell of the minimap grid
@@ -135,7 +95,12 @@ void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 	}
 }
 
-// Draw the entire minimap grid by iterating through the map
+/** 
+ * @brief Draw the entire minimap grid 
+ * (transform each tile into a pixel of minimap-image) 
+ * by iterating through the map
+ * 
+ */
 void	draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 {
 	int	i;
@@ -156,6 +121,56 @@ void	draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 		}
 		i++;
 	}
+}
+
+/**
+ * @brief function to clear all pixels of the minimap image
+ * by assigning the defined minimap background color to them 
+ * (overwriting in case there had been a color before)
+ * each pixel of minimap will be rendered
+ */
+void	clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (i < config->cub3d_data.minimap_surface->height)
+	{
+		j = 0;
+		while (j < config->cub3d_data.minimap_surface->width)
+		{
+			putPixel(minimap_data.bg_color, 
+				config->cub3d_data.minimap_surface, j, i);
+			j++;
+		}
+		i++;
+	}
+}
+
+/**
+ * @brief function to assign values to the minimap struct.
+ * Each tile of the map-input is is drawn as a 
+ * cell_size * cell_size pixel square.
+ * The minimap size is calculated based on the larger dimension of the game map.
+ * Otherwise a long map might be cut off.
+ */
+void	fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
+{
+	minimap_data->cell_size = 10;
+	minimap_data->map_y_len = ft_arrlen(config->map);
+	minimap_data->map_x_len = ft_strlen(config->map[0]);
+	if (minimap_data->map_x_len > minimap_data->map_y_len)
+		minimap_data->minimap_size = 
+			minimap_data->map_x_len * minimap_data->cell_size;
+	else
+		minimap_data->minimap_size = 
+			minimap_data->map_y_len * minimap_data->cell_size;
+	minimap_data->wall_color = (t_color){0xFFAAAAFF};
+	minimap_data->floor_color = (t_color){0x66FF00AA};
+	minimap_data->player_color = (t_color){0xFF0000FF};
+	minimap_data->bg_color = (t_color){0x33333388};
 }
 
 // 5. Main minimap function that orchestrates the drawing
