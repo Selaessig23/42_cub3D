@@ -4,9 +4,11 @@
 /**
  * DESCRPIPTION:
  * file that organises the setup of mlx-lib-functions
+ * 1) create window
+ * 2) create images
+ * 3) load textures
+ * 4) define depth (z-index)
  * 
- * TODO: check what happens in case of an mlx-function error (do we have to 
- * close the images correctly?)
  */
 
 /**
@@ -55,10 +57,16 @@ static mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
 
 	t = mlx_load_png(path);
 	if (!t)
+	{
+		ft_cleanup(config, true);
 		ft_error_handling(23, NULL, config);
+	}
 	ttxt = mlx_texture_to_image(config->cub3d_data.mlx, t);
 	if (!ttxt)
+	{
+		ft_cleanup(config, true);
 		ft_error_handling(24, NULL, config);
+	}
 	mlx_delete_texture(t);
 	return (ttxt);
 }
