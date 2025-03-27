@@ -39,6 +39,9 @@ void	ft_cleanup(t_gamedata *config, bool error)
 	mlx_close_window(config->cub3d_data.mlx);
 	mlx_terminate(config->cub3d_data.mlx);
 	if (error == 0)
+	{
 		ft_free_config(config);
+		exit (0);
+	}
 }
 

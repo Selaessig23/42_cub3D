@@ -30,12 +30,12 @@ SRCS =	main.c \
 			parsing/parsing_utils.c \
 			initiate_mlx.c \
 			renderer/surface_drawing.c\
-			renderer/renderer.c \
 			cleanup.c \
 			free.c \
 			error_handling.c \
 			test.c \
 			handlers.c\
+			locomotion.c \
 			minimap_util.c \
 			vector/vector_add.c  \
 			vector/vector_div.c  \
