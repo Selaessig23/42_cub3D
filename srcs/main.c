@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/26 14:30:06 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:04:09 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,7 +378,7 @@ int	main(int argc, char *argv[])
 		if (!ft_extension_check(argv[1]))
 			fd = ft_access_check(argv[1]);
 		config = ft_initiate_data(fd);
-
+		close(fd);
         //without this we can floating point problems - i think it is the equivalent of using a bigger collision box
         config->player.pos.x += 0.1;
         config->player.pos.y += 0.1;
@@ -435,63 +435,10 @@ int	main(int argc, char *argv[])
 		mlx_loop_hook(config->cub3d_data.mlx, render, config);
 		//game loop
 		mlx_loop(config->cub3d_data.mlx);
-
 		//cleaning up
-		close(fd);
-		delete_images(config);
-		mlx_close_window(config->cub3d_data.mlx);
-		mlx_terminate(config->cub3d_data.mlx);
-		ft_free_config(config);
+		ft_cleanup(config, false);
 	}
 	else
 		ft_error_handling(0, NULL, NULL);
 	return (0);
-}
-
-/**
- * @brief function to delete the images that have been created for
- * game execution
- */
-void	delete_images(t_gamedata *config)
-{
-	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.img);
-	mlx_delete_image(config->cub3d_data.mlx,
-					 config->cub3d_data.minimap_surface);
-	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.east);
-	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.west);
-	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.north);
-	mlx_delete_image(config->cub3d_data.mlx, config->cub3d_data.south);
-}
-
-/**
- * @brief function to assign the textures to cub3D (mlx-)images
- */
-void	load_wall_textures(t_gamedata * config)
-{
-	config->cub3d_data.east =
-		load_single_wall_texture(config, config->t_east);
-	config->cub3d_data.west =
-		load_single_wall_texture(config, config->t_west);
-	config->cub3d_data.north =
-		load_single_wall_texture(config, config->t_north);
-	config->cub3d_data.south =
-		load_single_wall_texture(config, config->t_south);
-}
-/**
- * @brief function to create a mlx_image out of a path
- * to png-texture
- */
-mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
-{
-	mlx_texture_t	*t;
-	mlx_image_t		*ttxt;
-
-	t = mlx_load_png(path);
-	if (!t)
-		ft_error_handling(23, NULL, config);
-	ttxt = mlx_texture_to_image(config->cub3d_data.mlx, t);
-	if (!ttxt)
-		ft_error_handling(24, NULL, config);
-	mlx_delete_texture(t);
-	return (ttxt);
 }

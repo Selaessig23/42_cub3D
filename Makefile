@@ -31,6 +31,7 @@ SRCS =	main.c \
 			initiate_mlx.c \
 			renderer/surface_drawing.c\
 			renderer/renderer.c \
+			cleanup.c \
 			free.c \
 			error_handling.c \
 			test.c \

@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/26 14:29:22 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:06:34 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,8 @@ void		ft_testprint_maparray(char **map_arr);
 
 //initiate_mlx.c
 void	    ft_init_mlx(t_gamedata *config);
-
+//cleanup.c
+void		ft_cleanup(t_gamedata *config, bool error);
 //vector functions
 t_vector2	newvector(double x, double y);
 t_vector2	addvectors(t_vector2 vector1, t_vector2 vector2);
@@ -162,9 +163,9 @@ void		fillCeiling(t_gamedata *config);
 void		fillFloor(t_gamedata *config);
 void		ft_create_minimap(t_gamedata *config);
 void		render(void *param);
-void		delete_images(t_gamedata *config);
-void		load_wall_textures(t_gamedata *config);
-mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
+// void		delete_images(t_gamedata *config);
+// void		load_wall_textures(t_gamedata *config);
+// mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
 void		draw_minimap(t_gamedata *config);
 void		key_handler(mlx_key_data_t keydata, void *param);
 void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
