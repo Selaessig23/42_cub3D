@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   surface_drawing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/11 23:07:58 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:58:26 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "cub3d.h"
 //Drawing functions
 
 mlx_image_t	*createSurface(t_gamedata *config)
@@ -76,24 +76,7 @@ mlx_texture_t* createSurface(t_gamedata *config)
 }
 	*/
 
-//this function draws a pixel of parameter color at position x,y on the surface
-void	putPixel(t_color color, mlx_image_t* img, uint32_t x, uint32_t y)
-{
-	int			pixel_index;
 
-
-	pixel_index = 0;
-	// printf("red: %i, green: %i, blue: %i, alpha: %i\n", color.red, color.green, color.blue, color.alpha);
-	if (x < img->width && y < img->height)
-	{
-		// pixel_index = (y * img->width + x) * 4;
-		pixel_index = (y * img->width + x) * sizeof(int32_t);
-		img->pixels[pixel_index] = color.red;
-		img->pixels[pixel_index + 1] = color.green;
-		img->pixels[pixel_index + 2] = color.blue;
-		img->pixels[pixel_index + 3] = color.alpha;
-	}
-}
 
 //for minimap - here we should use the MINIMAP drawing surface
 void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 start, t_vector2 end)

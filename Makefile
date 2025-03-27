@@ -29,14 +29,12 @@ SRCS =	main.c \
 			parsing/enclosure.c \
 			parsing/parsing_utils.c \
 			initiate_mlx.c \
-			renderer/surface_drawing.c\
-			cleanup.c \
-			free.c \
-			error_handling.c \
-			test.c \
 			handlers.c\
 			locomotion.c \
-			minimap_util.c \
+			renderer/minimap_util.c \
+			renderer/raycasting.c \
+			renderer/background.c \
+			renderer/color_pixel.c \
 			vector/vector_add.c  \
 			vector/vector_div.c  \
 			vector/vector_ln.c   \
@@ -45,7 +43,10 @@ SRCS =	main.c \
 			vector/vector_norm.c \
 			vector/vector_rot.c  \
 			vector/vector_sub.c \
-			renderer/minimap.c
+			cleanup.c \
+			free.c \
+			error_handling.c \
+			test.c \
 
 #variable substitution
 OBJS = $(SRCS:%.c=obj/%.o)
