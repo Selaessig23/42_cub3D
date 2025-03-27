@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/27 16:34:14 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:40:42 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 /**
  *  Draw a single cell of the minimap grid
  * 
- * TODO: decrease number of parameter to 4
+ * TODO: decrease number of parameters to 4
  */ 
 void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 	int map_x, int map_y, int screen_x, int screen_y)
