@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/27 13:16:28 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:59:00 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	key_handler(mlx_key_data_t keydata, void *param)
 		ft_player_rotation(keydata, config);
 	if ((keydata.key == MLX_KEY_TAB) && (keydata.action == MLX_PRESS))
 	{
-		config->show_minimap = !config->show_minimap;
-		printf("show minimap: %i\n", config->show_minimap);
+		// config->show_minimap = !config->show_minimap;
+		ft_minimap_switcher(config);
 	}
 }
 

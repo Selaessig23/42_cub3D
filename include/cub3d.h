@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/27 16:02:36 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:04:37 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void		ft_testprint_maparray(char **map_arr);
 
 //initiate_mlx.c
 void		ft_init_mlx(t_gamedata *config);
+void		ft_init_imgs(t_gamedata *config); //if not required by minimap_switcher in minimap.c change to static
 //cleanup.c
 void		ft_cleanup(t_gamedata *config, bool error);
 //locomotion.c
@@ -152,11 +153,25 @@ void		ft_player_movement(mlx_key_data_t keydata, t_gamedata *config);
 void		key_handler(mlx_key_data_t keydata, void *param);
 void		render(void *param);
 void		resize(int width, int height, void *param);
-//background.c
+
+//renderer/minimap/minimap.c
+void		ft_minimap_switcher(t_gamedata *config);
+void		draw_minimap(t_gamedata *config);
+//renderer/minimap/mm_draw_grid.c
+void		draw_minimap_grid(t_gamedata *config, 
+				t_minimap_data minimap_data);
+//renderer/minimap/mm_draw_player.c
+void		draw_player_position(t_gamedata *config, 
+				t_minimap_data minimap_data);
+void		draw_player_direction(t_gamedata *config, 
+				t_minimap_data minimap_data);
+//renderer/cub3d/background.c
 void		fill_lower_half(mlx_image_t *img, t_color color);
 void		fill_upper_half(mlx_image_t *img, t_color color);
-//color_pixel.c
+
+//renderer/color_pixel.c
 void		putPixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y);
+
 //vector functions
 t_vector2	newvector(double x, double y);
 t_vector2	addvectors(t_vector2 vector1, t_vector2 vector2);
@@ -168,7 +183,7 @@ t_vector2	rotatevector(t_vector2 vector, double angle);
 double		vectorln(t_vector2 vector);
 
 //test functions
-mlx_image_t	*createSurface(t_gamedata *config);
+// mlx_image_t	*createSurface(t_gamedata *config);
 // void		drawLine(t_color color, mlx_image_t *minimap_surface,
 // 				t_vector2 start, t_vector2 end);
 // void		fillCeiling(t_gamedata *config);
@@ -179,10 +194,9 @@ mlx_image_t	*createSurface(t_gamedata *config);
 
 //unsorted
 void		ft_create_minimap(t_gamedata *config);
-void		draw_minimap(t_gamedata *config);
+
 void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
 void		pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
-void		draw_player_position(t_gamedata *config, t_minimap_data minimap_data);
-void		draw_player_direction(t_gamedata *config, t_minimap_data minimap_data);
-void		clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data);
+
+// void		clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data);
 #endif

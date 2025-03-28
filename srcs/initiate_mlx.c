@@ -90,7 +90,7 @@ static void	load_wall_textures(t_gamedata *config)
  * @brief function to initiate the two layers cub3D-image and
  * minimap-image
  */
-static void	ft_init_imgs(t_gamedata *config)
+void	ft_init_imgs(t_gamedata *config)
 {
 	config->cub3d_data.img = 
 		mlx_new_image(config->cub3d_data.mlx, 640, 480);

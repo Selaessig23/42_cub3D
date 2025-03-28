@@ -31,9 +31,11 @@ SRCS =	main.c \
 			initiate_mlx.c \
 			handlers.c\
 			locomotion.c \
-			renderer/minimap_util.c \
+			renderer/minimap/minimap.c \
+			renderer/minimap/mm_draw_grid.c \
+			renderer/minimap/mm_draw_player.c \
 			renderer/raycasting.c \
-			renderer/background.c \
+			renderer/cub3d/background.c \
 			renderer/color_pixel.c \
 			vector/vector_add.c  \
 			vector/vector_div.c  \
