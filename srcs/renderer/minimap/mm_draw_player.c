@@ -40,6 +40,7 @@ void	draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
 
 /**
  * @brief Draw the player direction line
+ * 1st it sets a color for the direction triangle
  * 1st new player pos is evaluated (considering cell size)
  * 
  */

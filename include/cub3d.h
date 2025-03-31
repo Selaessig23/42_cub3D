@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/28 16:04:37 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:25:37 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,22 +104,22 @@ typedef struct s_hit_info
 }		t_hit_info;
 
 typedef struct s_ray {
-    t_vector2 dir;       // Ray direction
-    t_vector2 delta_dist; // Delta distance
-    t_vector2 side_dist;  // Side distance
-    int map_x;           // Current map x position
-    int map_y;           // Current map y position
-    int step_x;          // Step direction in x
-    int step_y;          // Step direction in y
-    float wall_x;        // Where exactly the wall was hit
-} t_ray;
+	t_vector2		dir;       // Ray direction
+	t_vector2		delta_dist; // Delta distance
+	t_vector2		side_dist;  // Side distance
+	int				map_x;           // Current map x position
+	int				map_y;           // Current map y position
+	int				step_x;          // Step direction in x
+	int				step_y;          // Step direction in y
+	float			wall_x;        // Where exactly the wall was hit
+}		t_ray;
 
 typedef struct s_render_line {
-    int height;          // Height of line to draw
-    int draw_start;      // Start y position
-    int draw_end;        // End y position
-    int screen_x;        // X position on screen
-} t_render_line;
+	int				height;          // Height of line to draw
+	int 			draw_start;      // Start y position
+	int 			draw_end;        // End y position
+	int				screen_x;        // X position on screen
+}		t_render_line;
 
 //parsing
 int			ft_access_check(char *inputfile);
