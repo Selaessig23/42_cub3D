@@ -13,7 +13,10 @@
  * --> easy to simplify this function
  * maybe integrate linear interpolation
  * 
- * TODO: decrease number of parameters to 4
+ * TODO: 
+ * decrease number of parameters to 4
+ * consider 25-lines limitations
+ * 
  */ 
 static void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 	int map_x, int map_y)

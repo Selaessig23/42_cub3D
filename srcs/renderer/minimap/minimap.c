@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/28 16:34:57 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/01 10:30:52 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	ft_minimap_switcher(t_gamedata *config)
 	if (config->show_minimap)
 	{
 		config->show_minimap = false;
-		// mlx_delete_image(config->cub3d_data.mlx,
-		// 	config->cub3d_data.minimap_surface);
 		mlx_set_instance_depth
 			(&config->cub3d_data.img->instances[0], 1);
 		mlx_set_instance_depth
@@ -37,7 +35,6 @@ void	ft_minimap_switcher(t_gamedata *config)
 	else
 	{
 		config->show_minimap = true;
-		// ft_init_imgs(config);
 		mlx_set_instance_depth
 			(&config->cub3d_data.img->instances[0], 0);
 		mlx_set_instance_depth

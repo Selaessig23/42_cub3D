@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   vector_mult.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:53 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/15 16:50:39 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/01 10:26:17 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+/**
+ * @brief scalar multiplication: 
+ * It scales the vector’s magnitude while maintaining its direction.
+ * 
+ * 
+ */
 t_vector2	multiplyvector(t_vector2 vector, double scalar)
 {
 	t_vector2	newvector;
