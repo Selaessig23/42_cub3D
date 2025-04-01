@@ -43,9 +43,27 @@ static void	ft_check_and_assign_path_texture(t_gamedata **p_config,
 }
 
 /**
+ * @brief function that checks extension of texture-
+ * path (must be .png). 
+ * 
+ * @return if png it returns 1, if not png it returns 0
+ */
+int	ft_check_texture_extension(char *path_texture)
+{
+	if (!ft_strncmp(&path_texture[ft_strlen(path_texture) - 4], 
+			".png", 4))
+		return (1);
+	else
+		return (0);
+}
+
+/**
  * @brief function that checks for the path of the texture in
  * input file and sends the path to ft_open_texture(p_config, line, temp)
  * to check accessibility of the file and assign a fd to the config struct
+ * 
+ * consider: in case of extension error of texture (non-png), texture-path
+ * will be freed in ft_error_handling
  */
 
 void	ft_set_texture(t_gamedata **p_config, char *line, int fd)
@@ -83,6 +101,11 @@ void	ft_set_texture(t_gamedata **p_config, char *line, int fd)
 	// printf("last char of temp: %i\n", temp[j - i]);
 	if (line[j - i])
 		path_texture[j - i] = '\0';
+	if (!ft_check_texture_extension(path_texture))
+	{
+		ft_freeing_support(fd, line);
+		ft_error_handling(13, path_texture, *p_config);
+	}
 	ft_check_and_assign_path_texture(p_config, line, path_texture, fd);
 	// free(temp);
 }

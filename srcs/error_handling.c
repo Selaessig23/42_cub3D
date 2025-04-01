@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/03/26 11:31:58 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:05:38 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ void	ft_error_parsing_2(int err, char *addinfo)
 	else if (err == 12)
 		ft_dprintf(2, "How will you play with several players "
 			"at the same time, idiot? Check your map, it is invalid!\n");
+	else if (err == 13)
+		ft_dprintf(2, "Texture requires \'.png\'-extension. "
+			"Please check wrong extension of %s\n", addinfo);
 }
 
 /**
