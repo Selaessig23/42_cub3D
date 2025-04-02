@@ -3,74 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/28 15:46:25 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:22:03 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-/*
-mlx_image_t	*create_square(mlx_t *mlx, uint32_t size, t_color color)
-{
-	mlx_image_t	*img;
 
-	img = mlx_new_image(mlx, size, size);
-	if (!img)
-		return (NULL);
-	// Fill the image with the specified color
-	for (uint32_t y = 0; y < size; y++)
-	{
-		for (uint32_t x = 0; x < size; x++)
-		{
-			putPixel(color, img, x, y );
-		}
-	}
-	return (img);
-}
-*/
-
-/*
-mlx_image_t	*create_transparent_pattern(mlx_t *mlx, uint32_t size, uint32_t color)
-{
-	mlx_image_t	*img;
-
-	img = mlx_new_image(mlx, size, size);
-	if (!img)
-		return (NULL);
-	// Create a checkerboard pattern with some pixels fully transparent
-	for (uint32_t y = 0; y < size; y++)
-	{
-		for (uint32_t x = 0; x < size; x++)
-		{
-			// Make a checkerboard pattern by making some pixels transparent
-			if ((x / 10 + y / 10) % 2 == 0)
-				mlx_put_pixel(img, x, y, color);
-			else
-				mlx_put_pixel(img, x, y, 0x00000000); // Fully transparent
-		}
-	}
-	return (img);
-}
-*/
-
-/**
- * 
- 
-void	copy_texture(mlx_image_t *img, mlx_image_t *texture, uint32_t x, uint32_t y)
-{
-	 for (uint32_t i = 0; i < texture->height; i++)
-	 {
-
-			t_color color = {0xFFAAAA11};
-
-
-			putPixel(color, img, x, y + i);
-		//uint32_t color = texture->pixels[i * texture->width + texture->width / 2];
-	 }
-}
-*/
 
 int	main(int argc, char *argv[])
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/01 12:20:13 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:39:11 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,12 @@ typedef struct s_render_line {
 	int				screen_x;        // X position on screen
 }		t_render_line;
 
+typedef struct s_triangle {
+	t_vector2	v1;
+	t_vector2	v2;
+	t_vector2	v3;
+} t_triangle;
+
 //parsing
 int			ft_access_check(char *inputfile);
 int			ft_extension_check(char *input);
@@ -160,6 +166,7 @@ void		draw_minimap(t_gamedata *config);
 //renderer/minimap/mm_draw_grid.c
 void		draw_minimap_grid(t_gamedata *config, 
 				t_minimap_data minimap_data);
+void	draw_player_fov(t_gamedata *config, t_minimap_data minimap_data);
 //renderer/minimap/mm_draw_player.c
 void		draw_player_position(t_gamedata *config, 
 				t_minimap_data minimap_data);

@@ -1,6 +1,30 @@
 
 #include "../include/cub3d.h"
 
+static void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 start, t_vector2 end)
+{
+    t_vector2 delta;
+    t_vector2 step;
+    int longest;
+    int i;
+
+    delta = subtractvectors(end, start);
+    longest = (int)fabs(delta.x) > (int)fabs(delta.y) ? (int)fabs(delta.x) : (int)fabs(delta.y);
+    step = dividevector(delta, longest);
+    i = 0;
+    while (i < longest)
+    {
+        // Add bounds checking
+        if (start.x >= 0 && start.x < minimap_surface->width && 
+            start.y >= 0 && start.y < minimap_surface->height)
+        {
+            putPixel(color, minimap_surface, (int)start.x, (int)start.y);
+        }
+        start = addvectors(start, step);
+        i++;
+    }
+}
+
 /**
  * DESCRIPTION:
  * 
@@ -37,7 +61,43 @@ void	draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
 		i++;
 	}
 }
-
+void draw_player_fov(t_gamedata *config, t_minimap_data minimap_data)
+{
+    t_vector2 player_pos;
+    t_vector2 dir_end;
+    t_vector2 left_ray, right_ray;
+    t_color color_view;
+    double fov_angle = 60 * (3.14 / 180.0); // Convert FOV angle to radians
+    
+    color_view = (t_color){0xA9A9A880};
+    player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
+    
+    // Calculate the main direction ray
+    dir_end = addvectors(player_pos, 
+            multiplyvector(normalizevector(config->player.dir), 20));
+    
+    // Draw the center direction line
+    drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, dir_end);
+    
+    // Calculate left and right edges of FOV
+    double dir_angle = atan2(config->player.dir.y, config->player.dir.x);
+    double left_angle = dir_angle - (fov_angle / 2);
+    double right_angle = dir_angle + (fov_angle / 2);
+    
+    // Calculate the endpoints for left and right FOV rays
+    left_ray.x = player_pos.x + cos(left_angle) * 20;
+    left_ray.y = player_pos.y + sin(left_angle) * 20;
+    
+    right_ray.x = player_pos.x + cos(right_angle) * 20;
+    right_ray.y = player_pos.y + sin(right_angle) * 20;
+    
+    // Draw the FOV edges
+    drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, left_ray);
+    drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, right_ray);
+    
+    // Optional: Draw an arc connecting the edges to visualize FOV area
+    // This would require an additional arc drawing function
+}
 /*
 // Draws a line between two points using MiniLibX's pixel drawing function.
 void draw_line(mlx_image_t *img, t_color color, t_vector2 start, t_vector2 end)

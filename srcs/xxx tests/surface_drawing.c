@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   surface_drawing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:58:44 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/27 15:58:26 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:36:34 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,26 @@ mlx_texture_t* createSurface(t_gamedata *config)
 //for minimap - here we should use the MINIMAP drawing surface
 void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 start, t_vector2 end)
 {
-	t_vector2 delta;
-	t_vector2 step;
-	int longest;
-	int i;
+    t_vector2 delta;
+    t_vector2 step;
+    int longest;
+    int i;
 
-	(void)color;
-	(void)minimap_surface;
-	delta = subtractvectors(end, start);
-	longest = (int)fabs(delta.x) > (int)fabs(delta.y) ? (int)fabs(delta.x) : (int)fabs(delta.y);
-	step = dividevector(delta, longest);
-	i = 0;
-	while (i < longest)
-	{
-		putPixel(color, minimap_surface, (int)start.x, (int)start.y);
-		start = addvectors(start, step);
-		i++;
-	}
+    delta = subtractvectors(end, start);
+    longest = (int)fabs(delta.x) > (int)fabs(delta.y) ? (int)fabs(delta.x) : (int)fabs(delta.y);
+    step = dividevector(delta, longest);
+    i = 0;
+    while (i < longest)
+    {
+        // Add bounds checking
+        if (start.x >= 0 && start.x < minimap_surface->width && 
+            start.y >= 0 && start.y < minimap_surface->height)
+        {
+            putPixel(color, minimap_surface, (int)start.x, (int)start.y);
+        }
+        start = addvectors(start, step);
+        i++;
+    }
 }
 /*
 //this function fills the top half of the surface with the ceiling color

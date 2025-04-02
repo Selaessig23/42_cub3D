@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/01 10:30:52 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:38:39 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,5 @@ void	draw_minimap(t_gamedata *config)
 	clear_minimap_surface(config, minimap_data);
 	draw_minimap_grid(config, minimap_data);
 	draw_player_position(config, minimap_data);
-	draw_player_direction(config, minimap_data);
+	draw_player_fov(config, minimap_data);
 }
