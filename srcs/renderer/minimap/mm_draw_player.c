@@ -14,7 +14,6 @@ static void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 star
     i = 0;
     while (i < longest)
     {
-        // Add bounds checking
         if (start.x >= 0 && start.x < minimap_surface->width && 
             start.y >= 0 && start.y < minimap_surface->height)
         {
