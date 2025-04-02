@@ -2,7 +2,9 @@
 #include "cub3d.h"
 
 /**
- * DESCRIPTION:
+ * DESCRIPTION: this file organises the raycasting for cub3d-img
+ * and initiates values for required structs 
+ * (t_hit_info, t_ray) as well
  */
 
 /**
@@ -46,113 +48,6 @@ static void	calculate_render_line(t_render_line *line, mlx_image_t *img,
 		line->draw_end = img->height - 1;
 }
 
-/**
- * @brief function to set the color of the rendered texture-pixel
- */
-t_color	pixel_to_color(uint8_t *pixel)
-{
-	t_color	color;
-
-	color.red = pixel[0];
-	color.green = pixel[1];
-	color.blue = pixel[2];
-	color.alpha = pixel[3];
-
-	return (color);
-}
-
-/**
- * @brief 
- * 
- * TODO: less parameter (max 4), avoid for-loop
- */
-void copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
-	int screen_x, int draw_start, int draw_end, float wall_x)
-{
-	int		tex_x;
-	int		tex_y;
-	uint8_t	*pixel;
-	float	step;
-
-	tex_x = (int)(wall_x * texture->width);
-	if (tex_x < 0)
-		tex_x = 0;
-	if (tex_x >= texture->width)
-		tex_x = texture->width - 1;
-	for (int screen_y = draw_start; screen_y < draw_end; screen_y++)
-	{
-		step = (float)texture->height / (draw_end - draw_start);
-		tex_y = (int)((screen_y - draw_start) * step);
-		if (tex_y < 0)
-			tex_y = 0;
-		if (tex_y >= texture->height)
-			tex_y = texture->height - 1;
-		pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
-		putPixel(pixel_to_color(pixel), render_img, screen_x, screen_y);
-	}
-}
-
-/**
- * @brief
- * 
- * TODO: less parameter (max 4)
- */
-void pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, 
-	int x, int draw_start, int draw_end, float wall_x)
-{
-	mlx_image_t	*texture;
-
-	if (side == DIR_NORTH)
-		texture = config->cub3d_data.north;
-	else if (side == DIR_SOUTH)
-		texture = config->cub3d_data.south;
-	else if (side == DIR_EAST)
-		texture = config->cub3d_data.east;
-	else
-		texture = config->cub3d_data.west;
-	copy_texture_line(img, texture, x, draw_start, draw_end, wall_x);
-}
-
-/**
- * @brief Digital Differential Analysis (DDA)
- * to find which squares of the map the ray hits, 
- * and stop the algorithm once a square that is a wall (or space) is hit
- * 
- * Steps:
- * 1) Jump to next map square, either in x-direction, or in y-direction
- * 2) Check if ray has hit a wall
- */
-static void	perform_dda(char **map, t_ray *ray, t_hit_info *hit_info)
-{
-	hit_info->hit = 0;
-
-	while (!hit_info->hit) 
-	{
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x;
-			if (ray->step_x > 0)
-				hit_info->side = DIR_WEST; // Hit the west face (coming from east)
-			else
-				hit_info->side = DIR_EAST; // Hit the east face (coming from west)
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y;
-			if (ray->step_y > 0)
-				hit_info->side = DIR_NORTH; // Hit the north face (coming from south)
-			else
-				hit_info->side = DIR_SOUTH; // Hit the south face (coming from north)
-		}
-		if (map[ray->map_y][ray->map_x] == '1' 
-			|| map[ray->map_y][ray->map_x] == ' ')
-			hit_info->hit = 1;
-	}
-}
-
-
 t_hit_info	init_hit_info(void)
 {
 	t_hit_info	hit_info;
@@ -164,6 +59,8 @@ t_hit_info	init_hit_info(void)
 
 /**
  * @brief function that initiates the ray-struct
+ * 1) It calculates the side distance and checks in which direction to step
+ * 
  * 	t_vector2 dir;        -> Ray direction: players pos considering camera and view adjustment
  *	t_vector2 delta_dist; -> Delta distance: Stores how far the ray has to travel along each axis 
  		(x and y) to move exactly one full tile in the respective direction.
@@ -193,8 +90,16 @@ static void init_ray(t_ray *ray, t_player player, float camera_x)
 	ray->dir.y = player.dir.y - player.dir.x * camera_x * 0.66f; // Field of view adjustment
 	ray->map_x = (int)player.pos.x;
 	ray->map_y = (int)player.pos.y;
-	ray->delta_dist.x = (ray->dir.x == 0) ? 1e30 : fabs(1.0f / ray->dir.x);
-	ray->delta_dist.y = (ray->dir.y == 0) ? 1e30 : fabs(1.0f / ray->dir.y);
+	// ray->delta_dist.x = (ray->dir.x == 0) ? 1e30 : fabs(1.0f / ray->dir.x);
+	// ray->delta_dist.y = (ray->dir.y == 0) ? 1e30 : fabs(1.0f / ray->dir.y);
+	if (ray->dir.x == 0)
+		ray->delta_dist.x = 1e30;
+	else
+		ray->delta_dist.x = fabs(1.0f / ray->dir.x);
+	if (ray->dir.y == 0)
+		ray->delta_dist.y = 1e30;
+	else
+		ray->delta_dist.y = fabs(1.0f / ray->dir.y);
 	if (ray->dir.x < 0)
 	{
 		ray->step_x = -1;

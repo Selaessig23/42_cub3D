@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/01 09:57:56 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:20:13 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,16 @@ void		draw_player_position(t_gamedata *config,
 				t_minimap_data minimap_data);
 void		draw_player_direction(t_gamedata *config, 
 				t_minimap_data minimap_data);
+//renderer/cub3d/renderer.c
+void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
 //renderer/cub3d/background.c
 void		fill_lower_half(mlx_image_t *img, t_color color);
 void		fill_upper_half(mlx_image_t *img, t_color color);
+//renderer/cub3d/dda.c
+void	perform_dda(char **map, t_ray *ray, t_hit_info *hit_info);
+//renderer/cub3d/texture_cast.c
+void pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, 
+	int x, int draw_start, int draw_end, float wall_x);
 
 //renderer/color_pixel.c
 void		putPixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y);
@@ -191,12 +198,9 @@ double		vectorln(t_vector2 vector);
 // void		delete_images(t_gamedata *config);
 // void		load_wall_textures(t_gamedata *config);
 // mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
+// void		ft_create_minimap(t_gamedata *config);
 
-//unsorted
-void		ft_create_minimap(t_gamedata *config);
-
-void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
-void		pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
-
+//unsorted static functions
+// void		pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
 // void		clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data);
 #endif
