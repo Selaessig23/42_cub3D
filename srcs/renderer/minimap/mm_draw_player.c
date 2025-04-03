@@ -60,6 +60,7 @@ void	draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
 		i++;
 	}
 }
+
 void draw_player_fov(t_gamedata *config, t_minimap_data minimap_data)
 {
     t_vector2 player_pos;
@@ -93,10 +94,10 @@ void draw_player_fov(t_gamedata *config, t_minimap_data minimap_data)
     // Draw the FOV edges
     drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, left_ray);
     drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, right_ray);
-    
     // Optional: Draw an arc connecting the edges to visualize FOV area
     // This would require an additional arc drawing function
 }
+
 /*
 // Draws a line between two points using MiniLibX's pixel drawing function.
 void draw_line(mlx_image_t *img, t_color color, t_vector2 start, t_vector2 end)

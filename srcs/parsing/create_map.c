@@ -7,8 +7,12 @@
  * errors (validation of map)
  * 
  * CHECK: the algorithm will stop using input from the file
- * until end of file | newline was found | wrong letter was found
- * --> correct / desired behaviour?
+ * until end of file | (empty line = newline) was found 
+ * | wrong letter was found at beginning of line
+ * everything comes after will be simply ignored
+ * --> correct / desired behaviour? 
+ * (it would also be possible to return an error instead except
+ * in case if eof)
  */
 
 /**

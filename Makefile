@@ -20,7 +20,8 @@ LDFLAGS = -lglfw -lm
 #sources
 SRCS =	main.c \
 			parsing/command_line_input_check.c \
-			parsing/initiate_data.c \
+			parsing/parsing.c \
+			parsing/identifier_check.c \
 			parsing/create_texture.c \
 			parsing/create_color.c \
 			parsing/create_map.c \

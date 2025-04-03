@@ -10,19 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* NAME: convert a string to an integer */
-/* DESCRIPTION: */
-/* The atoi() function converts the initial portion */
-/* of the string pointed to by nptr to int. */
-/* RETURN VALUE: */
-/* The converted value or 0 on error. */
+/** NAME: convert a string to an integer
+ * DESCRIPTION:
+ * The atoi() function converts the initial portion
+ * of the string pointed to by nptr to int.
+ * @return:
+ * The converted value or 0 on error.
+ * 
+ * CAUTION: changed to return size_t to check for ints > MAX_INT
+ */
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+size_t	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	m;
-	int	r;
+	size_t	i;
+	size_t	m;
+	size_t	r;
 
 	i = 0;
 	m = 0;

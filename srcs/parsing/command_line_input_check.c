@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:43:02 by mstracke          #+#    #+#             */
-/*   Updated: 2025/02/17 14:43:54 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:20:16 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ int	ft_extension_check(char *input)
 		ft_error_handling(1, NULL, NULL);
 	return (0);
 }
-

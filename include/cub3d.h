@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/02 15:39:11 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:04:30 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,17 @@ typedef struct s_triangle {
 } t_triangle;
 
 //parsing
+//parsing.c
+t_gamedata	*ft_initiate_data(int fd);
+//identifier_check.c
+void		ft_gnl_infileloop(int fd, t_gamedata **p_config);
+int			ft_search_map(char *line);
+
 int			ft_access_check(char *inputfile);
 int			ft_extension_check(char *input);
 void		ft_error_handling(int err, char *addinfo, t_gamedata *config);
-t_gamedata	*ft_initiate_data(int fd);
-int			ft_search_map(char *line);
+
+
 void		ft_set_texture(t_gamedata **p_config, char *line, int fd_infile);
 void		ft_set_color(t_gamedata **p_config, char *line, int fd);
 int			ft_set_map(t_gamedata **p_config, char *line, int fd);
@@ -166,7 +172,7 @@ void		draw_minimap(t_gamedata *config);
 //renderer/minimap/mm_draw_grid.c
 void		draw_minimap_grid(t_gamedata *config, 
 				t_minimap_data minimap_data);
-void	draw_player_fov(t_gamedata *config, t_minimap_data minimap_data);
+void		draw_player_fov(t_gamedata *config, t_minimap_data minimap_data);
 //renderer/minimap/mm_draw_player.c
 void		draw_player_position(t_gamedata *config, 
 				t_minimap_data minimap_data);
@@ -178,9 +184,9 @@ void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
 void		fill_lower_half(mlx_image_t *img, t_color color);
 void		fill_upper_half(mlx_image_t *img, t_color color);
 //renderer/cub3d/dda.c
-void	perform_dda(char **map, t_ray *ray, t_hit_info *hit_info);
+void		perform_dda(char **map, t_ray *ray, t_hit_info *hit_info);
 //renderer/cub3d/texture_cast.c
-void pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, 
+void		pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, 
 	int x, int draw_start, int draw_end, float wall_x);
 
 //renderer/color_pixel.c
