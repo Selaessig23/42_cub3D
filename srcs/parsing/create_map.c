@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_map.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 10:57:07 by mstracke          #+#    #+#             */
+/*   Updated: 2025/04/07 11:09:35 by mstracke         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /**
@@ -10,13 +22,34 @@
  * until end of file | (empty line = newline) was found 
  * | wrong letter was found at beginning of line
  * everything comes after will be simply ignored
- * --> correct / desired behaviour? 
- * (it would also be possible to return an error instead except
- * in case if eof)
+ * CHECK: --> correct / desired behaviour? 
+ * (it would also be possible to return an error instead 
+ * simply exlcuding it from map creation, except
+ * case of eof)
  */
+
+static void	ft_improve_and_check_map(t_gamedata **p_config, int fd)
+{
+	t_gamedata	*config;
+	char		**map_cpy;
+
+	config = *p_config;
+	ft_map_enlarger(p_config, fd);
+	map_cpy = ft_arrdup(config->map);
+	if (!map_cpy)
+	{
+		close (fd);
+		ft_error_handling(9, NULL, *p_config);
+	}
+	// ft_testprint_maparray(config->map);
+	ft_wall_check(*p_config, fd, map_cpy);
+	ft_free(map_cpy);
+}
 
 /**
  * @brief function to check the line of map for valid characters
+ * 
+ * CHECK: maybe integrate space_jump here as well
  * 
  * @return returns 1 if map is valid
  * 0 if NOT valid
@@ -89,71 +122,6 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 	}
 	return (map);
 }
-/**
- * @brief helper function for ft_map_enlarger, it allocates a new string
- * for new line in map with max length and fills the line with 
- * content of old line of map + spaces
- */
-void	ft_realloc_mapline(t_gamedata **p_config, int fd, int index, int len)
-{
-	char		*new_mapline;
-	char		*old_mapline;
-	t_gamedata	*config;
-
-	config = *p_config;
-	old_mapline = config->map[index];
-	new_mapline = (char *)malloc(sizeof(char) * len + 1);
-	if (!new_mapline)
-	{
-		close (fd);
-		ft_error_handling(9, NULL, *p_config);
-	}
-	ft_strcpy(new_mapline, old_mapline);
-	ft_memset(&new_mapline[ft_strlen(old_mapline)], 
-		' ', (len + 1) - ft_strlen(old_mapline));
-	new_mapline[len] = '\0';
-	config->map[index] = new_mapline;
-	free(old_mapline);
-}
-
-/**
- * @brief function to increase the length of each string
- * (line) of the map to the max length of map array
- * 1st it checks for the max length of a line of map
- * 2nd it iterates through map to adapt each line to max length
- * (it length of line is smaller than max length)
- */
-void	ft_map_enlarger(t_gamedata **p_config, int fd)
-{
-	t_gamedata	*config;
-	size_t			len;
-	int			i;
-
-	config = *p_config;
-	i = 0;
-	len = 0;
-	while (config->map[i])
-	{
-		if (ft_strlen(config->map[i]) > len)
-			len = ft_strlen(config->map[i]);
-		i += 1;
-	}
-	i = 0;
-	while (config->map[i])
-	{
-		if (ft_strlen(config->map[i]) < len)
-			ft_realloc_mapline(p_config, fd, i, len);
-		i += 1;
-	}
-	//just for testing reasons
-	// i = 0;
-	// while (config->map[i])
-	// {
-	// 	printf("Length line %i: %li\n", i, ft_strlen(config->map[i]));
-	// 	i += 1;
-	// }
-	// printf("Length array total %li\n", ft_arrlen(config->map));
-}
 
 /**
  * @brief function that assigns the content of input file,
@@ -169,11 +137,11 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 	t_gamedata	*config;
 	char		*map_clean;
 	//char		**index;
-	char		**map_cpy;
+	// char		**map_cpy;
 
 	config = *p_config;
 	// index = NULL;
-	map_cpy = NULL;
+	// map_cpy = NULL;
 	if (!ft_map_valid_check(line))
 	{
 		ft_freeing_support(fd, line);
@@ -187,28 +155,22 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 		close (fd);
 		ft_error_handling(9, NULL, *p_config);
 	}
-	ft_map_enlarger(p_config, fd);
-	map_cpy = ft_arrdup(config->map);
-	if (!map_cpy)
-	{
-		close (fd);
-		ft_error_handling(9, NULL, *p_config);
-	}
-	// index = ft_split(map_clean, '\n');
-	// map_cpy = ft_split(map_clean, '\n');
-	// ft_zero_index(index);
-	// ft_testprint_maparray(config->map);
-	if (!ft_wall_check(*p_config, fd, map_cpy)
-		|| !ft_player_check(*p_config, fd))
-	{
-		// ft_free(index);
-		ft_free(map_cpy);
-		close (fd);
-		ft_error_handling(11, NULL, *p_config);
-	}
-	// ft_free(index);
-	printf("x_config = %f\n", config->player.pos.x);
-	printf("y_config = %f\n", config->player.pos.y);
-	ft_free(map_cpy);
+	ft_improve_and_check_map(p_config, fd);
+	// ft_map_enlarger(p_config, fd);
+	// map_cpy = ft_arrdup(config->map);
+	// if (!map_cpy)
+	// {
+	// 	close (fd);
+	// 	ft_error_handling(9, NULL, *p_config);
+	// }
+	// // index = ft_split(map_clean, '\n');
+	// // map_cpy = ft_split(map_clean, '\n');
+	// // ft_zero_index(index);
+	// // ft_testprint_maparray(config->map);
+	// ft_wall_check(*p_config, fd, map_cpy);
+	// // ft_free(index);
+	// // printf("x_config = %f\n", config->player.pos.x);
+	// // printf("y_config = %f\n", config->player.pos.y);
+	// ft_free(map_cpy);
 	return (1);
 }

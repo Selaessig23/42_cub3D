@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/03 16:58:42 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:57:19 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ int	main(int argc, char *argv[])
 		//just for testing reasons
 		ft_testprint(config);
 		//initiate mlx-data with game-config-data (validated)
-		ft_init_mlx(config);
-		//adapt image size in case of window resizing
-		mlx_resize_hook(config->cub3d_data.mlx, resize, config);
-		//handling of keyboard use
-		mlx_key_hook(config->cub3d_data.mlx, key_handler, config);
-		//raycasting-part
-		mlx_loop_hook(config->cub3d_data.mlx, render, config);
-		//game loop
-		mlx_loop(config->cub3d_data.mlx);
-		//cleaning up
-		ft_cleanup(config, false);
-		// ft_free_config(config);
+		// ft_init_mlx(config);
+		// //adapt image size in case of window resizing
+		// mlx_resize_hook(config->cub3d_data.mlx, resize, config);
+		// //handling of keyboard use
+		// mlx_key_hook(config->cub3d_data.mlx, key_handler, config);
+		// //raycasting-part
+		// mlx_loop_hook(config->cub3d_data.mlx, render, config);
+		// //game loop
+		// mlx_loop(config->cub3d_data.mlx);
+		// //cleaning up
+		// ft_cleanup(config, false);
+		ft_free_config(config);
 	}
 	else
 		ft_error_handling(0, NULL, NULL);

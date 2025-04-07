@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/03 16:12:01 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:10:55 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	ft_error_parsing_2(int err, char *addinfo)
  */
 void	ft_error_handling(int err, char *addinfo, t_gamedata *config)
 {
+	ft_dprintf(2, "Error\n");
 	if (err < 9)
 		ft_error_parsing_1(err, addinfo);
 	else if (err == 9)

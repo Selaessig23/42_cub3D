@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:07:46 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/03 16:51:01 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:14:01 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char	*ft_create_texture_path(t_gamedata **p_config, int fd, char *line,
 	}
 	if (line[j - start])
 		path_texture[j - start] = '\0';
-	printf("path_texture: $%s$\n", path_texture);
 	return (path_texture);
 }
 
@@ -114,10 +113,9 @@ void	ft_set_texture(t_gamedata **p_config, char *line, int fd)
 	char		*path_texture;
 
 	i = ft_startjumper(line);
-	i += 2; //for identifier
+	i += 2;
 	path_texture = NULL;
 	i += ft_startjumper(&line[i]);
-	printf("whole gnl line: %s extracted line -> %s\n", line, &line[i]);
 	if (!line[i] || line[i] == '\n')
 	{
 		path_texture = ft_substr(line, 0, 2);

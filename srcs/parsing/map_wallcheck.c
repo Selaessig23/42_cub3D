@@ -3,7 +3,11 @@
 /**
  * DESCRIPTION: 
  * file to check if the map is closed/surrounded by walls, 
- * if not the program must returns an errormessage and exits.
+ * if not the program must return an errormessage and exit.
+ * 
+ * it checks each side of the map for walls. if there is
+ * a space it calls the function ft_check_cave which checks 
+ * if the space (cave) is surrounded by walls
  * 
  * check what happens if map starts with 0
  */
@@ -18,14 +22,13 @@ int	ft_west_check(char **map, char **index)
 	while (map[i] && map[i][j])
 	{
 		j = 0;
-		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'W'))
+		if (map[i][j] == ' ' && !ft_check_cave(index, i, j, 'W'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
 		else
 			i += 1;
 		ft_refill_map(index, map);
-		// ft_zero_index(index);
 	}
 	return (1);
 }
@@ -39,7 +42,7 @@ int	ft_east_check(char **map, char **index)
 	j = ft_strlen(map[i]) - 1;
 	while (map[i] && map[i][j])
 	{
-		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'E'))
+		if (map[i][j] == ' ' && !ft_check_cave(index, i, j, 'E'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
@@ -48,7 +51,6 @@ int	ft_east_check(char **map, char **index)
 		if (map[i])
 			j = ft_strlen(map[i]) - 1;
 		ft_refill_map(index, map);
-		// ft_zero_index(index);
 	}
 	return (1);
 }
@@ -62,7 +64,7 @@ int	ft_south_check(char **map, char **index)
 	j = ft_strlen(map[i]) - 1;
 	while (j >= 0)
 	{
-		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'S'))
+		if (map[i][j] == ' ' && !ft_check_cave(index, i, j, 'S'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
@@ -75,7 +77,6 @@ int	ft_south_check(char **map, char **index)
 		// 	k += 1;
 		// }
 		ft_refill_map(index, map);
-		// ft_zero_index(index);
 	}
 	return (1);
 }
@@ -89,7 +90,7 @@ int	ft_north_check(char **map, char **index)
 	j = 0;
 	while (map[i][j])
 	{
-		if (map[i][j] == ' ' && !ft_check_carve(index, i, j, 'N'))
+		if (map[i][j] == ' ' && !ft_check_cave(index, i, j, 'N'))
 			return (0);
 		else if (map[i][j] == '0')
 			return (0);
@@ -102,12 +103,17 @@ int	ft_north_check(char **map, char **index)
 		// 	k += 1;
 		// }
 		ft_refill_map(index, map);
-		// ft_zero_index(index);
 	}
 	return (1);
 }
 
-//north and west check has to be fixed, still error prone in case of carves
+/**
+ * @brief function to check if the map is surrounded by walls
+ * it checks each side of the map for walls
+ * 
+ * ???north and west check has to be fixed, 
+ * still error prone in case of carves???
+ */
 int	ft_wall_check(t_gamedata *config, int fd, char **index)
 {
 	if (!ft_east_check(config->map, index))
@@ -134,6 +140,5 @@ int	ft_wall_check(t_gamedata *config, int fd, char **index)
 		close(fd);
 		ft_error_handling(10, ft_strdup("SOUTH"), config);
 	}
-	// printf("why bitch\n");
 	return (1);
 }

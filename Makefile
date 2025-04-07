@@ -25,9 +25,10 @@ SRCS =	main.c \
 			parsing/create_texture.c \
 			parsing/create_color.c \
 			parsing/create_map.c \
+			parsing/map_enlarger.c \
 			parsing/map_wallcheck.c \
-			parsing/map_playercheck.c \
-			parsing/enclosure.c \
+			parsing/map_outer_cave_check.c \
+			parsing/create_player.c \
 			parsing/parsing_utils.c \
 			initiate_mlx.c \
 			handlers.c\

@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:43 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/03 12:06:00 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/07 10:26:46 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,11 @@ static int	ft_search_textures(t_gamedata *config, char *line, int fd)
 }
 
 /**
- * @brief loop to read content of input file (line per line)
+ * @brief loop to read content of input file (line per line).
+ * it checks for identifiers to fill struct for game config
  * if it finds map content, the loop will end, as the map
  * has to be the last part in input file as per requirements
- * (therefor following content (lines) will be read in ft_set_map
+ * (therefore following content (lines) will be read in ft_set_map
  * and content of char *line of this function will be used for map
  * creation or freed in ft_set_map if an error occurs)
  *
@@ -177,6 +178,11 @@ void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 		else if (ft_search_map(line))
 		{
 			ft_set_map(p_config, line, fd);
+			if (!ft_player_check(*p_config, fd))
+			{
+				close (fd);
+				ft_error_handling(11, NULL, *p_config);
+			}
 			break ;
 		}
 		else if (ft_search_colors(*p_config, line, fd))

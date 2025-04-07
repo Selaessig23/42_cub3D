@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/03 12:04:30 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:11:03 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ typedef struct s_ray {
 
 typedef struct s_render_line {
 	int				height;          // Height of line to draw
-	int 			draw_start;      // Start y position
-	int 			draw_end;        // End y position
+	int				draw_start;      // Start y position
+	int				draw_end;        // End y position
 	int				screen_x;        // X position on screen
 }		t_render_line;
 
@@ -125,39 +125,40 @@ typedef struct s_triangle {
 	t_vector2	v1;
 	t_vector2	v2;
 	t_vector2	v3;
-} t_triangle;
+}		t_triangle;
 
 //parsing
-//parsing.c
+//parsing/command_line_input_check.c
+int			ft_access_check(char *inputfile);
+int			ft_extension_check(char *input);
+//parsing/parsing.c
 t_gamedata	*ft_initiate_data(int fd);
 //identifier_check.c
 void		ft_gnl_infileloop(int fd, t_gamedata **p_config);
 int			ft_search_map(char *line);
 
-int			ft_access_check(char *inputfile);
-int			ft_extension_check(char *input);
-void		ft_error_handling(int err, char *addinfo, t_gamedata *config);
-
-
+//parsing/create_texture.c
 void		ft_set_texture(t_gamedata **p_config, char *line, int fd_infile);
+//parsing/create_color.c
 void		ft_set_color(t_gamedata **p_config, char *line, int fd);
+//parsing/create_map.c
 int			ft_set_map(t_gamedata **p_config, char *line, int fd);
+//parsing/map_enlarger.c
+void		ft_map_enlarger(t_gamedata **p_config, int fd);
+//parsing/map_wallcheck.c
 int			ft_wall_check(t_gamedata *config, int fd, char **index);
-int			ft_check_carve(char **map, int startarr, int startstr,
+//parsing/map_outer_cave_check.c
+int			ft_check_cave(char **map, int startarr, int startstr,
 				char prev_direction);
+//parsing/create_player.c
 int			ft_player_check(t_gamedata *config, int fd);
-void		ft_freeing_support(int fd, char *line);
-void		ft_free_config(t_gamedata *config);
+//parsing/parsing_utils.c
 int			ft_startjumper(char *str);
 void		ft_refill_map(char **dest, char **src);
-void		ft_testprint(t_gamedata *config);
-void		ft_testprint_maparray(char **map_arr);
 
 //initiate_mlx.c
 void		ft_init_mlx(t_gamedata *config);
 void		ft_init_imgs(t_gamedata *config); //if not required by minimap_switcher in minimap.c change to static
-//cleanup.c
-void		ft_cleanup(t_gamedata *config, bool error);
 //locomotion.c
 void		ft_player_rotation(mlx_key_data_t keydata, t_gamedata *config);
 void		ft_player_movement(mlx_key_data_t keydata, t_gamedata *config);
@@ -188,7 +189,6 @@ void		perform_dda(char **map, t_ray *ray, t_hit_info *hit_info);
 //renderer/cub3d/texture_cast.c
 void		pick_and_place(t_direction side, t_gamedata * config, mlx_image_t * img, 
 	int x, int draw_start, int draw_end, float wall_x);
-
 //renderer/color_pixel.c
 void		putPixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y);
 
@@ -201,6 +201,18 @@ t_vector2	dividevector(t_vector2 vector, double scalar);
 t_vector2	normalizevector(t_vector2 vector);
 t_vector2	rotatevector(t_vector2 vector, double angle);
 double		vectorln(t_vector2 vector);
+
+//error_handling.c
+void		ft_error_handling(int err, char *addinfo, t_gamedata *config);
+//cleanup.c
+void		ft_cleanup(t_gamedata *config, bool error);
+//free.c
+void		ft_freeing_support(int fd, char *line);
+void		ft_free_config(t_gamedata *config);
+
+//just for testing of parsing-part
+void		ft_testprint(t_gamedata *config);
+void		ft_testprint_maparray(char **map_arr);
 
 //test functions
 // mlx_image_t	*createSurface(t_gamedata *config);

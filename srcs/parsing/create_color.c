@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/03 16:15:48 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:34:16 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,22 @@
  */
 
 /**
- * @brief helper function to free within 25 lines limit
+ * @brief function to create an allocated color_struct for t_gamedata config
+ * and connect the extracted color values to it
+ * alpha value is defined here
  */
-static void	ft_free_helper_for_extract(t_color *color, char *line,
-	int fd)
+t_color	*ft_connect_color_values(int color_red, int color_green, int color_blue)
 {
-	if (color)
-		free(color);
-	ft_freeing_support(fd, line);
+	t_color		*color;
+
+	color = ft_calloc(1, sizeof(t_color));
+	if (!color)
+		return (NULL);
+	color->red = color_red;
+	color->green = color_green;
+	color->blue = color_blue;
+	color->alpha = 255;
+	return (color);
 }
 
 /**
@@ -59,14 +67,21 @@ static int	check_color(t_gamedata *config, int color,
 		|| color == -1
 		|| color == -1)
 	{
-		ft_free_helper_for_extract(NULL, line, fd);
+		ft_freeing_support(fd, line);
 		ft_error_handling(9, NULL, config);
 	}
 	else if (color == -2
 		|| color == -2
 		|| color == -2)
 	{
-		ft_free_helper_for_extract(NULL, line, fd);
+		ft_freeing_support(fd, line);
+		ft_error_handling(6, NULL, config);
+	}
+	else if (color == -3
+		|| color == -3
+		|| color == -3)
+	{
+		ft_freeing_support(fd, line);
 		ft_error_handling(6, NULL, config);
 	}
 	return (color);
@@ -90,10 +105,13 @@ static int	extr_color(t_color *color, char *to_extract,
 	int			endindex;
 	long long	color_value;
 
+	if (!to_extract[*startindex] || to_extract[*startindex] == '\n')
+		return (-3);
 	endindex = *startindex;
 	color_value = 0;
 	temp = NULL;
-	while (ft_isdigit(to_extract[endindex]))
+	while (to_extract[endindex] && to_extract[endindex] != '\n' 
+		&& ft_isdigit(to_extract[endindex]))
 		endindex += 1;
 	temp = ft_substr(to_extract, *startindex, endindex);
 	if (!temp)
@@ -103,7 +121,6 @@ static int	extr_color(t_color *color, char *to_extract,
 		|| color_value > 255
 		|| color_value > 255)
 		return (-2);
-	// printf("color value: %i\n", color_value);
 	free(temp);
 	*startindex = endindex;
 	return (color_value);
@@ -120,29 +137,28 @@ static int	extr_color(t_color *color, char *to_extract,
 t_color	*ft_assign_color(t_gamedata **p_config, 
 			char *line, int *start, int fd)
 {
-	t_gamedata	*config;
 	t_color		*color;
-	long long	color_value;
+	long long	color_red;
+	long long	color_green;
+	long long	color_blue;
 
-	config = *p_config;
-	color = ft_calloc(1, sizeof(t_color));
+
+	color_red = check_color(*p_config, extr_color(color, line, start), 
+			line, fd);
+	while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
+		*start += 1;
+	color_green = check_color(*p_config, extr_color(color, line, start), 
+			line, fd);
+	while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
+		*start += 1;
+	color_blue = check_color(*p_config, extr_color(color, line, start), 
+			line, fd);
+	color = ft_connect_color_values(color_red, color_green, color_blue);
 	if (!color)
 	{
-		ft_free_helper_for_extract(NULL, line, fd);
+		ft_freeing_support(fd, line);
 		ft_error_handling(9, NULL, *p_config);
 	}
-	color_value = check_color(config, extr_color(color, line, start), line, fd);
-	color->red = color_value;
-	// printf("color value: %i\n", color->red);
-	while (!ft_isdigit(line[*start]))
-		*start += 1;
-	color_value = check_color(config, extr_color(color, line, start), line, fd);
-	color->green = color_value;
-	while (!ft_isdigit(line[*start]))
-		*start += 1;
-	color_value = check_color(config, extr_color(color, line, start), line, fd);
-	color->blue = color_value;
-	color->alpha = 255;
 	return (color);
 }
 
@@ -168,11 +184,12 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 	config = *p_config;
 	start = 1;
 	i = 0;
-	while (line[start] && !ft_isdigit(line[start]))
+	while (line[start] && line[start] != '\n'
+		&& !ft_isdigit(line[start]))
 		start += 1;
 	if (!line[start] || line[start] == '\n')
 	{
-		ft_free_helper_for_extract(NULL, line, fd);
+		ft_freeing_support(fd, line);
 		ft_error_handling(4,
 			ft_strdup("ceiling color (\"C\") or floor color (\"F\")"), *p_config);
 	}

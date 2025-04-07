@@ -1,9 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_player.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 10:28:45 by mstracke          #+#    #+#             */
+/*   Updated: 2025/04/07 10:28:52 by mstracke         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /**
  * DESCRIPTION:
  * in this file the map is checked for valid player information
- * and if valid, the player's position is set if
+ * if valid, the player's position is set
+ * if invalid (no player, more than one player) program 
+ * exits and returns error message
  */
 
 /**
@@ -38,7 +52,8 @@ static t_vector2	ft_set_players_dir(t_gamedata **p_config, char dir)
 }
 
 /**
- * @brief function to set the players position and direction
+ * @brief function to set the players position in the grid
+ * and checks for players direction
  * 
  */
 static void	ft_set_player(t_gamedata **p_config, int x, int y, char dir)
