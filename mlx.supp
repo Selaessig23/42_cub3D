@@ -1,0 +1,65 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    mlx.supp                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/08 11:14:29 by mstracke          #+#    #+#              #
+#    Updated: 2025/04/08 11:25:35 by mstracke         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# This is a suppression file for Valgrind
+
+{
+	mlx_glfw_leak
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	fun:calloc
+	fun:realloc
+	fun:_dl_map_object_deps
+	obj:*/MLX42/*
+}
+
+# Suppress memory that is still reachable from libX11 (used by mlx)
+# These allocations remain reachable by design after X11 init
+{
+	X11 still reachable
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	fun:_XrmInternalStringToQuark
+	obj:*/libX11.so*
+}
+
+# Suppress memory that is still reachable from GLFW (used internally by mlx)
+# GLFW initializes system resources and leaves them reachable
+{
+   glfw still reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:glfwInit
+   obj:*/libglfw.so*
+}
+
+# Suppress memory that is reachable due to LLVM’s initialization (likely due to linked system tools)
+# LLVM loads global data structures that persist
+{
+   llvm startup overhead
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:*/libLLVM-*.so*
+}
+
+# Suppress stdlibc++ heap memory allocated at startup (used by C++ libs if linked, even via dependencies)
+# These allocations are not leaks, they are held until shutdown
+{
+   stdc++ malloc
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:*/libstdc++.so*
+}

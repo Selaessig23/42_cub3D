@@ -12,7 +12,7 @@
 
   F asda -220 ,asda 100 , 0
 
-   C asda 2  s  20 sadasdadsa12 222333
+   C asda 220  s  20 sadasdadsa12 222333
 
 
 
@@ -23,7 +23,7 @@
        11111111111110000001 11101
   111         1000000000001 11111   1
 1111111111111 1001110000001      
-1000000000111 1001100111111111111
+100000000011111001100111111111111
 1111101111111 1011100000010001
 1111101111111 1011101010010001
    1000001101 10111000S0010001
@@ -32,10 +32,10 @@
 1111111111111 11111110111100011
   111     111 111 1101111010011
   1111    111 111 1111111111111
+                                                  
+  
+     
 
-adapt strategy to east and north
-
-s
-s
-
-think about rules when a map is wrong
+maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
+	//(difficult without being able to use realloc)
+	// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));

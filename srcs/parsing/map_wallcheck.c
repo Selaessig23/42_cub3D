@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_wallcheck.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 09:16:06 by mstracke          #+#    #+#             */
+/*   Updated: 2025/04/08 09:16:50 by mstracke         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /**
@@ -70,12 +82,6 @@ int	ft_south_check(char **map, char **index)
 			return (0);
 		else
 			j -= 1;
-		// int k = 0;
-		// while(index[k])
-		// {
-		// 	printf("index (%i): %s\n", k, index[k]);
-		// 	k += 1;
-		// }
 		ft_refill_map(index, map);
 	}
 	return (1);
@@ -96,12 +102,6 @@ int	ft_north_check(char **map, char **index)
 			return (0);
 		else
 			j += 1;
-		// int k = 0;
-		// while(index[k])
-		// {
-		// 	printf("index (%i): %s\n", k, index[k]);
-		// 	k += 1;
-		// }
 		ft_refill_map(index, map);
 	}
 	return (1);
@@ -112,7 +112,7 @@ int	ft_north_check(char **map, char **index)
  * it checks each side of the map for walls
  * 
  * ???north and west check has to be fixed, 
- * still error prone in case of carves???
+ * still error prone in case of caves???
  */
 int	ft_wall_check(t_gamedata *config, int fd, char **index)
 {

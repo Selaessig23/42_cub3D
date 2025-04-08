@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:57:07 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/07 11:09:35 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/08 09:38:28 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,28 @@
  * errors (validation of map)
  * 
  * CHECK: the algorithm will stop using input from the file
- * until end of file | (empty line = newline) was found 
- * | wrong letter was found at beginning of line
+ * until end of file | (empty line = newline) was found, 
  * everything comes after will be simply ignored
+ * if wrong letter was found at beginning of line or somewhere
+ * within the line, it will cause an error
+ * 
  * CHECK: --> correct / desired behaviour? 
  * (it would also be possible to return an error instead 
  * simply exlcuding it from map creation, except
- * case of eof)
+ * case of eof by simply commenting out this part of ft_gnl_maploop:
+ * 		else if (*line == '\n' || *line == '\0')
+ * 		{
+ * 			ft_freeing_support(fd, line);
+ * 			break ;
+ * 		}
+ * )
  */
 
+/**
+ * @brief function that extends the extracted map to equal length (x)
+ * for all lines (y) and organises the check of wall enclosure by
+ * creating a copy of the map for the wall_check-function
+ */
 static void	ft_improve_and_check_map(t_gamedata **p_config, int fd)
 {
 	t_gamedata	*config;
@@ -41,13 +54,15 @@ static void	ft_improve_and_check_map(t_gamedata **p_config, int fd)
 		close (fd);
 		ft_error_handling(9, NULL, *p_config);
 	}
-	// ft_testprint_maparray(config->map);
 	ft_wall_check(*p_config, fd, map_cpy);
 	ft_free(map_cpy);
 }
 
 /**
  * @brief function to check the line of map for valid characters
+ * eof or line with line[0] = \n significates end of map
+ * if there is a line with only spaces and next line 
+ * has wrong characters this would cause a parsing error message
  * 
  * CHECK: maybe integrate space_jump here as well
  * 
@@ -69,22 +84,24 @@ static int	ft_map_valid_check(char *line)
 	}
 	return (1);
 }
+
 /**
  * @brief adds a new line of input (gnl) to existing string
+ * 
+ * maybe use 
+ * ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1))
+ * instead (difficult without being able to use realloc)
+ * 
  */
 char	*ft_concat(char *str_old, char *str_toadd, t_gamedata **p_config)
 {
 	char	*temp;
 	char	*str_new;
 
-	// maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
-	//(difficult without being able to use realloc)
-	// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));
 	temp = str_old;
 	str_new = ft_strjoin(str_old, str_toadd);
 	free(temp);
 	free(str_toadd);
-	// printf("hello 2\n");
 	if (!str_new)
 		ft_error_handling(9, NULL, *p_config);
 	return (str_new);
@@ -128,20 +145,13 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
  * identified as part of map (last part of content in file, 
  * allowed characters: 0, 1, N, S, E, W)
  * 
- * CHECK: DO I need to delete the \n of last char of last line?
- * (NO in case of creating an array of chars out of it, then using it
- * as a delimiter for split)
  */
 int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
 	char		*map_clean;
-	//char		**index;
-	// char		**map_cpy;
 
 	config = *p_config;
-	// index = NULL;
-	// map_cpy = NULL;
 	if (!ft_map_valid_check(line))
 	{
 		ft_freeing_support(fd, line);
@@ -156,21 +166,5 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 		ft_error_handling(9, NULL, *p_config);
 	}
 	ft_improve_and_check_map(p_config, fd);
-	// ft_map_enlarger(p_config, fd);
-	// map_cpy = ft_arrdup(config->map);
-	// if (!map_cpy)
-	// {
-	// 	close (fd);
-	// 	ft_error_handling(9, NULL, *p_config);
-	// }
-	// // index = ft_split(map_clean, '\n');
-	// // map_cpy = ft_split(map_clean, '\n');
-	// // ft_zero_index(index);
-	// // ft_testprint_maparray(config->map);
-	// ft_wall_check(*p_config, fd, map_cpy);
-	// // ft_free(index);
-	// // printf("x_config = %f\n", config->player.pos.x);
-	// // printf("y_config = %f\n", config->player.pos.y);
-	// ft_free(map_cpy);
 	return (1);
 }

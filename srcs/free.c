@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstracke <mstracke@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 10:31:45 by mstracke          #+#    #+#             */
+/*   Updated: 2025/04/08 10:31:48 by mstracke         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /**
@@ -31,14 +43,6 @@ void	ft_freeing_support(int fd, char *line)
  */
 void	ft_free_config(t_gamedata *config)
 {
-	// if (config->fd_east > 2)
-	// 	close(config->fd_east);
-	// if (config->fd_north > 2)
-	// 	close(config->fd_north);
-	// if (config->fd_south > 2)
-	// 	close(config->fd_south);
-	// if (config->fd_west > 2)
-	// 	close(config->fd_west);
 	if (config->t_east)
 		free(config->t_east);
 	if (config->t_north)

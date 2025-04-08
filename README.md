@@ -31,3 +31,6 @@ Please execute with ./cub3d [infile.cub]
 
 ## to check:
 > what about very big maps?
+
+## known bugs
+> if user tries to load a texture with .png extension that is not a valid png-file -> valgrind issues and undefined behaviour

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 10:08:24 by mstracke          #+#    #+#             */
+/*   Updated: 2025/04/08 10:27:17 by mstracke         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /**
@@ -9,7 +21,7 @@
 /**
  * @brief this functions returns a start index to jump
  * over spaces, 
- * (newlines and tabs) 
+ * (newlines and tabs: //	|| (str[i] >= 9 && str[i] <= 12))
  * at the beginning of a string
  */
 int	ft_startjumper(char *str)
@@ -18,31 +30,10 @@ int	ft_startjumper(char *str)
 
 	i = 0;
 	while (str[i] 
-		&& ((str[i] == ' ')
-		//	|| (str[i] >= 9 && str[i] <= 12)
-		))
+		&& ((str[i] == ' ')))
 		i += 1;
 	return (i);
 }
-
-
-/**
- * function to create an index for the map check
- * 
- * NOT NECESSARY -> a more convenient solution was found to 
- * avoid having more than 5 arguments in enclosure.c for carve-checks
- */
-// void	ft_zero_index(char **index)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	while (index[i])
-// 	{
-// 		ft_memset(index[i], '-', ft_strlen(index[i]));
-// 		i += 1;
-// 	}
-// }
 
 /**
  * @brief function to re-establish the map for carve-checks

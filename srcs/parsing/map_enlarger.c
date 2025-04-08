@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:37:01 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/07 11:12:37 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/08 09:15:12 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 /**
  * DESCRIPTION:
- * this file creates a (cleaned) map out of the input file,
- * assigns it to the game config struct and checks for
- * errors (validation of map)
+ * this file enlarges the extracted map with spaces so that all lines (y)
+ * have the same length (x). this is useful for the wall check.
  */
 
 /**

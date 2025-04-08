@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/07 17:34:16 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/08 10:27:39 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * C 225t,  30!,  0
  * it will not return an error for cases like this, it just 
  * reads the digits, therefore also in case of negative values
- * (it will just ignore the dash)
+ * it will just ignore the dash
  * --> correct / desired behaviour?
  *
  */
@@ -56,7 +56,9 @@ t_color	*ft_connect_color_values(int color_red, int color_green, int color_blue)
  * to describe a malloc issue;
  * -2 was used in ft_extract_color 
  * to describe values that are bigger than 255;
- * in these case program frees correctly, 
+ * -3 was used in ft_extract_color to 
+ * describe a missing value
+ * in these cases program frees correctly, 
  * returns an error and exits in this case
  * 
  */
@@ -142,7 +144,6 @@ t_color	*ft_assign_color(t_gamedata **p_config,
 	long long	color_green;
 	long long	color_blue;
 
-
 	color_red = check_color(*p_config, extr_color(color, line, start), 
 			line, fd);
 	while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
@@ -190,7 +191,7 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 	if (!line[start] || line[start] == '\n')
 	{
 		ft_freeing_support(fd, line);
-		ft_error_handling(4,
+		ft_error_handling(4, 
 			ft_strdup("ceiling color (\"C\") or floor color (\"F\")"), *p_config);
 	}
 	color = ft_assign_color(p_config, line, &start, fd);

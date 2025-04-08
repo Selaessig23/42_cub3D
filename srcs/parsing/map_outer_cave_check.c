@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:15:38 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/07 15:26:13 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/08 09:31:36 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,24 @@
  */
 
 /**
- * @brief checks one field in the map if it is a wall (1 or ' ')
- * or an empty space (floor)
+ * @brief checks one field in the map if it is a wall (1), floor (0)
+ * or an empty space
  * 
  * If it is a space it overwrites the space with a 'C', which means
- * that this field of thr grid was already checked, and returns 0.
+ * that this field of the grid was already checked, and returns 0.
  * 
- * If it is a wall or index is =< 0 (which means the edge of 
+ * If it is a wall or index is < 0 (which means the edge of 
  * the grid was reached) it returns 1.
  * 
  * If it is a floor (0), here: 'else'-condition,  it returns -1.
  */
-int ft_check_field(char **map,  int startarr, int startstr)
+int	ft_check_field(char **map, int startarr, int startstr)
 {
 	if (startarr < 0 || startstr < 0)
 		return (1);
-	if ((size_t)startarr >= ft_arrlen(map) 
+	if ((size_t)startarr >= ft_arrlen(map)
 		|| (size_t)startstr >= ft_strlen(map[startarr]))
-	// if (!map[startarr] || !map[startarr][startstr])
 		return (1);
-	// index[startarr][startstr] = map[startarr][startstr];
-	// if (map[startarr][startstr] == ' ')
-	// {
-	// 	index[startarr][startstr] = map[startarr][startstr];
-	// 	return (0);
-	// }
 	if (map[startarr][startstr] == 'C')
 		return (0);
 	if (map[startarr][startstr] == ' ')
@@ -51,14 +44,8 @@ int ft_check_field(char **map,  int startarr, int startstr)
 		map[startarr][startstr] = 'C';
 		return (0);
 	}
-	// else if (map[startarr][startstr] == '1')
-	// {
-	// 	index[startarr][startstr] = map[startarr][startstr];
-	// 	return (1);
-	// }
 	else if (map[startarr][startstr] == '1')
 	{
-		// map[startarr][startstr] = 'C';
 		return (1);
 	}
 	else
@@ -91,7 +78,6 @@ int	ft_check_we_passage(char **map, int startarr, int startstr,
 {
 	if (startarr < 0 || startstr < 0)
 		return (1);
-	// if (!map[startarr] || !map[startarr][startstr]
 	if ((size_t)startarr >= ft_arrlen(map) 
 		|| (size_t)startstr >= ft_strlen(map[startarr])
 		|| map[startarr][startstr] == 'C')
@@ -109,7 +95,6 @@ int	ft_check_we_passage(char **map, int startarr, int startstr,
 	if (ft_check_field(map, startarr, startstr) == 0)
 		if (!ft_check_cave(map, startarr, startstr, prev_direction))
 			return (0);
-	// printf("test yes: map-1 = %c, map0 = %c, map+1 = %c\n", map[startarr][startstr - 1], map[startarr][startstr], map[startarr][startstr + 1]);
 	return (1);
 }
 
@@ -139,7 +124,6 @@ int	ft_check_ns_passage(char **map, int startarr, int startstr,
 {
 	if (startarr < 0 || startstr < 0)
 		return (1);
-	// if (!map[startarr] || !map[startarr][startstr]
 	if ((size_t)startarr >= ft_arrlen(map) 
 		|| (size_t)startstr >= ft_strlen(map[startarr])
 		|| map[startarr][startstr] == 'C')
@@ -157,7 +141,6 @@ int	ft_check_ns_passage(char **map, int startarr, int startstr,
 	if (ft_check_field(map, startarr, startstr) == 0)
 		if (!ft_check_cave(map, startarr, startstr, prev_direction))
 			return (0);
-	// printf("test 2 yes\n");
 	return (1);
 }
 
@@ -188,7 +171,6 @@ static int	ft_check_cave_ii(char **map, int startarr, int startstr,
 	}
 }
 
-
 /**
  * @brief function that organises the cave-check by 
  * sending it to a field checker depending on which direction
@@ -206,7 +188,6 @@ static int	ft_check_cave_ii(char **map, int startarr, int startstr,
 int	ft_check_cave(char **map, int startarr, int startstr, 
 		char prev_direction)
 {
-	// printf("test arr: %i, str: %i\n", startarr, startstr);
 	if (prev_direction == 'N')
 	{
 		if (ft_check_we_passage(map, startarr + 1, startstr, prev_direction))

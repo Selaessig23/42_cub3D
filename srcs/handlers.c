@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/03/28 15:59:00 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/08 10:30:27 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	render(void *param)
 /**
  * @brief handler function for mlx_key_hook
  * 
- * TODO: split into several functions
- * TODO: free everything in case of ESCAPE
+ * for move_speed and rotation_speed a smaller value would cause
+ * more precise movement / rotation
  * 
- * @param A user-defined pointer that can store extra data 
+ * @param param A user-defined pointer that can store extra data 
  * (in this case: the struct t_gamedata with game-config's data).
  */
 void	key_handler(mlx_key_data_t keydata, void *param)
@@ -56,10 +56,9 @@ void	key_handler(mlx_key_data_t keydata, void *param)
 	float		rotation_speed;
 
 	config = (t_gamedata *)param;
-	move_speed = 0.5; // Smaller value for more precise movement
-	rotation_speed = 0.15; // Smaller value for more precise rotation
+	move_speed = 0.5;
+	rotation_speed = 0.15;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		// mlx_close_window(config->cub3d_data.mlx);
 		ft_cleanup(config, false);
 	if ((keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W
 			|| keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S
@@ -73,7 +72,6 @@ void	key_handler(mlx_key_data_t keydata, void *param)
 		ft_player_rotation(keydata, config);
 	if ((keydata.key == MLX_KEY_TAB) && (keydata.action == MLX_PRESS))
 	{
-		// config->show_minimap = !config->show_minimap;
 		ft_minimap_switcher(config);
 	}
 }

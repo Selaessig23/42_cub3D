@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:28:45 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/07 10:28:52 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/08 10:27:55 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ static t_vector2	ft_set_players_dir(t_gamedata **p_config, char dir)
  * @brief function to set the players position in the grid
  * and checks for players direction
  * 
+ * add + 0.1 to players pos to 
+ * Avoid spawning exactly on a wall boundary
+ * Prevent the player from being stuck or instantly colliding with a wall
+ * Ensure rays are cast from within a tile, avoiding edge artifacts
+ * 
  */
 static void	ft_set_player(t_gamedata **p_config, int x, int y, char dir)
 {
@@ -63,14 +68,10 @@ static void	ft_set_player(t_gamedata **p_config, int x, int y, char dir)
 	t_vector2	player_pos;
 
 	config = *p_config;
-	config->player.pos.x = (double)x;
-	config->player.pos.y = (double)y;
+	config->player.pos.x = (double)x + 0.1;
+	config->player.pos.y = (double)y + 0.1;
 	config->player.dir = ft_set_players_dir(p_config, dir);
 	config->player.fov = 90;
-	// printf("x = %i, x_config = %f\n", x, config->player.pos.x);
-	// printf("y = %i, y_config = %f\n", y, config->player.pos.y);
-	// printf("x_config.dir = %f\n", config->player.dir.x);
-	// printf("y_config.dir = %f\n", config->player.dir.y);
 }
 
 /**
@@ -82,7 +83,6 @@ static int	ft_check_for_player_duplicates(t_gamedata *config, int fd)
 {
 	t_player	p;
 	t_vector2	player_pos;
-
 
 	p = config->player;
 	player_pos = p.pos;

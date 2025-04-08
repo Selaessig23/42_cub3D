@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initiate_mlx.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 10:30:54 by mstracke          #+#    #+#             */
+/*   Updated: 2025/04/08 10:31:09 by mstracke         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -28,6 +39,7 @@ static void	ft_place_image(t_gamedata *config,
 	int	img;
 	int	minimap;
 
+	minimap = 0;
 	img = mlx_image_to_window(config->cub3d_data.mlx, 
 			config->cub3d_data.img, 0, 0);
 	if (img < 0)
@@ -55,6 +67,8 @@ static mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
 	mlx_texture_t	*t;
 	mlx_image_t		*ttxt;
 
+	t = NULL;
+	ttxt = NULL;
 	t = mlx_load_png(path);
 	if (!t)
 	{
@@ -64,6 +78,7 @@ static mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
 	ttxt = mlx_texture_to_image(config->cub3d_data.mlx, t);
 	if (!ttxt)
 	{
+		mlx_delete_texture(t);
 		ft_cleanup(config, true);
 		ft_error_handling(24, NULL, config);
 	}
