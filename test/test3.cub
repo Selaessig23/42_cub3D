@@ -4,15 +4,15 @@
            
            sdasda
             asda
-  NO ./north.png
- SO ./south.png
-   WE ./west.png
-  EA ./east.png
+  NO./north.png
+ SO./south.png
+   WE./west.png
+  EA./east.png
 
 
-  F asda -220 ,asda 100 , 0
+  F 220,100,0
 
-   C asda 220  s  20 sadasdadsa12 222333
+   C229 ,   20 ,                   222
 
 
 

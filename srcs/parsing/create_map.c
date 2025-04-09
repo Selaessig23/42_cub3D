@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:57:07 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/08 09:38:28 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:51:00 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  * 			ft_freeing_support(fd, line);
  * 			break ;
  * 		}
- * )
+ * and return 0 in case of *line = \n in ft_map_valid_check)
  */
 
 /**

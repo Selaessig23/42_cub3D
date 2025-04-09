@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/08 10:27:39 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:13:10 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,12 +146,14 @@ t_color	*ft_assign_color(t_gamedata **p_config,
 
 	color_red = check_color(*p_config, extr_color(color, line, start), 
 			line, fd);
-	while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
-		*start += 1;
+	// while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
+	// 	*start += 1;
+	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
 	color_green = check_color(*p_config, extr_color(color, line, start), 
 			line, fd);
-	while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
-		*start += 1;
+	// while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
+	// 	*start += 1;
+	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
 	color_blue = check_color(*p_config, extr_color(color, line, start), 
 			line, fd);
 	color = ft_connect_color_values(color_red, color_green, color_blue);
@@ -183,11 +185,16 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 
 	color = NULL;
 	config = *p_config;
-	start = 1;
+	start = 0;
 	i = 0;
-	while (line[start] && line[start] != '\n'
-		&& !ft_isdigit(line[start]))
-		start += 1;
+	start += ft_startjumper(&line[start]) + 1;
+	// start = 1;
+	
+	// while (line[start] && line[start] != '\n'
+	// 	&& !ft_isdigit(line[start]))
+	// 	start += 1;
+	start += ft_startjumper(&line[start]);
+	printf("startindex: %i\n", start);
 	if (!line[start] || line[start] == '\n')
 	{
 		ft_freeing_support(fd, line);
