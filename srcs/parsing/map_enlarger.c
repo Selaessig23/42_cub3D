@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:37:01 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/08 09:15:12 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:29:39 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ static void	ft_realloc_mapline(t_gamedata **p_config,
  * 1st it checks for the max length of a line of map
  * 2nd it iterates through map to adapt each line to max length
  * (it length of line is smaller than max length)
+ * 
+ * if x or y of grid is bigger than 500 there will be a warning
+ * in terminal
  */
 void	ft_map_enlarger(t_gamedata **p_config, int fd)
 {
@@ -68,6 +71,10 @@ void	ft_map_enlarger(t_gamedata **p_config, int fd)
 			len = ft_strlen(config->map[i]);
 		i += 1;
 	}
+	if (len > 500 || i > 500)
+		ft_dprintf(1, "Wow, this maps seems to be huge. This could cause "\
+			"performance problems.\n Are you sure you use the required hardware "\
+			"to not experience performance problems?\n");
 	i = 0;
 	while (config->map[i])
 	{
