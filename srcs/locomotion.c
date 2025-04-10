@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:48 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/08 11:11:42 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:03:43 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@
  * 
  * @param up if true player needs to move up, if false down
  */
-static void	ft_player_move_updown(mlx_key_data_t keydata, 
-	t_gamedata *config, float move_speed, bool up)
+static void	ft_player_move_updown(t_gamedata *config, float move_speed, bool up)
 {
 	t_vector2	move_vec;
 	t_vector2	new_pos;
@@ -82,8 +81,7 @@ t_vector2	ft_strafe_dir(t_gamedata *config, float move_speed, bool right)
  * 
  * @param right if true, player needs to move right, if false left
  */
-static void	ft_player_move_rl(mlx_key_data_t keydata, 
-		t_gamedata *config, float move_speed, bool right)
+static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
 {
 	t_vector2	strafe_dir;
 	t_vector2	new_pos;
@@ -129,13 +127,13 @@ void	ft_player_movement(mlx_key_data_t keydata, t_gamedata *config)
 
 	move_speed = 0.5;
 	if (keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W)
-		ft_player_move_updown(keydata, config, move_speed, true);
+		ft_player_move_updown(config, move_speed, true);
 	else if (keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S)
-		ft_player_move_updown(keydata, config, move_speed, false);
+		ft_player_move_updown(config, move_speed, false);
 	else if (keydata.key == MLX_KEY_A)
-		ft_player_move_rl(keydata, config, move_speed, false);
+		ft_player_move_rl(config, move_speed, false);
 	else if (keydata.key == MLX_KEY_D)
-		ft_player_move_rl(keydata, config, move_speed, true);
+		ft_player_move_rl(config, move_speed, true);
 }
 
 /**

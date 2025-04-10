@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:28:45 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 15:50:28 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:02:22 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,23 @@ static t_vector2	ft_set_players_dir(char dir)
 {
 	t_vector2	player_dir;
 
+	player_dir.x = 0;
+	player_dir.y = 0;
 	if (dir == 'N')
 	{
-		player_dir.x = 0;
 		player_dir.y = 1;
 	}
 	else if (dir == 'E')
 	{
 		player_dir.x = -1;
-		player_dir.y = 0;
 	}
 	else if (dir == 'S')
 	{
-		player_dir.x = 0;
 		player_dir.y = -1;
 	}
 	else if (dir == 'W')
 	{
 		player_dir.x = 1;
-		player_dir.y = 0;
 	}
 	return (player_dir);
 }
@@ -64,8 +62,6 @@ static t_vector2	ft_set_players_dir(char dir)
 static void	ft_set_player(t_gamedata **p_config, int x, int y, char dir)
 {
 	t_gamedata	*config;
-	t_player	p;
-	t_vector2	player_pos;
 
 	config = *p_config;
 	config->player.pos.x = (double)x + 0.1;
