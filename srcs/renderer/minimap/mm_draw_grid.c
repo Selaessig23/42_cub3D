@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:36:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 17:38:54 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:01:36 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -43,9 +43,9 @@ static void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 		|| (map_y * minimap_data.cell_size) >= minimap_data.minimap_size)
 		return ;
 	if (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
-		cell_color = 0xFF22AAFF;
+		cell_color = minimap_data.wall_color;
 	else
-		cell_color = 0x002211FF;
+		cell_color = minimap_data.floor_color;
 	while ((cy < minimap_data.cell_size)
 		&& (((map_y * minimap_data.cell_size) + cy)
 			< minimap_data.minimap_size))

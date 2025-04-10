@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 17:52:51 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:56:13 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -49,7 +49,7 @@ void	ft_minimap_switcher(t_gamedata *config)
  * (overwriting in case there had been a color before)
  * each pixel of minimap will be rendered
  */
-static void	clear_minimap_surface(t_gamedata *config, 
+static void	clear_minimap_surface(t_gamedata *config,
 	t_minimap_data minimap_data)
 {
 	unsigned int		i;
@@ -62,7 +62,7 @@ static void	clear_minimap_surface(t_gamedata *config,
 		j = 0;
 		while (j < config->cub3d_data.minimap_surface->width)
 		{
-			putPixel(minimap_data.bg_color, 
+			putPixel(minimap_data.bg_color,
 				config->cub3d_data.minimap_surface, j, i);
 			j++;
 		}
@@ -83,11 +83,11 @@ static void	fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 	minimap_data->map_y_len = ft_arrlen(config->map);
 	minimap_data->map_x_len = ft_strlen(config->map[0]);
 	if (minimap_data->map_x_len > minimap_data->map_y_len)
-		minimap_data->minimap_size = 
-			minimap_data->map_x_len * minimap_data->cell_size;
+		minimap_data->minimap_size
+			= minimap_data->map_x_len * minimap_data->cell_size;
 	else
-		minimap_data->minimap_size = 
-			minimap_data->map_y_len * minimap_data->cell_size;
+		minimap_data->minimap_size
+			= minimap_data->map_y_len * minimap_data->cell_size;
 	minimap_data->wall_color = (t_color){0xFFAAAAFF};
 	minimap_data->floor_color = (t_color){0x66FF00AA};
 	minimap_data->player_color = (t_color){0xFF0000FF};
