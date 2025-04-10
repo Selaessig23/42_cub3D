@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:09:17 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 17:35:48 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:15:56 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -178,7 +178,7 @@ void	draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 	color_view = (t_color){0xA9A9A880};
 	player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
 	dir_end = addvectors(player_pos,
-			multiplyvector(normalizevector(config->player.dir), 10));
+			multiplyvector(normalizevector(config->player.dir), -10));
 
 	putPixel(color_view, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
 }

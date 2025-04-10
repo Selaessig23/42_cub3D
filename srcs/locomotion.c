@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   locomotion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:48 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 16:03:43 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:14:57 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3d.h"
 
@@ -88,18 +88,6 @@ static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
 	t_vector2	test_pos_x;
 	t_vector2	test_pos_y;
 
-	// if (right == true)
-	// {
-	// 	strafe_dir.x = config->player.dir.y;
-	// 	strafe_dir.y = -config->player.dir.x;
-	// }
-	// else
-	// {
-	// 	strafe_dir.x = -config->player.dir.y;
-	// 	strafe_dir.y = config->player.dir.x;
-	// }
-	// strafe_dir = normalizevector(strafe_dir);
-	// strafe_dir = multiplyvector(strafe_dir, move_speed);
 	strafe_dir = ft_strafe_dir(config, move_speed, right);
 	new_pos = addvectors(config->player.pos, strafe_dir);
 	test_pos_x.x = new_pos.x;
