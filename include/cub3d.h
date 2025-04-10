@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:47:34 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 21:54:32 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -121,6 +121,11 @@ typedef struct s_render_line {
 	int				screen_x;        // X position on screen
 }		t_render_line;
 
+typedef struct s_wall_slice {
+    int screen_x;
+    float wall_x;
+} t_wall_slice;
+
 typedef struct s_triangle {
 	t_vector2	v1;
 	t_vector2	v2;
@@ -212,7 +217,7 @@ mlx_image_t	*pick(t_direction side, t_gamedata * config);
 //renderer/color_pixel.c
 void		putpixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y);
 void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
-	int screen_x, t_render_line line, float wall_x);
+    t_render_line line, t_wall_slice wall_slice);
 //vector functions
 t_vector2	newvector(double x, double y);
 t_vector2	addvectors(t_vector2 vector1, t_vector2 vector2);

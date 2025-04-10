@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:40:06 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:45:41 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 22:22:52 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3d.h"
 
@@ -90,7 +90,7 @@ void	cast_ray_and_draw_wall(t_gamedata *config)
 		calculate_render_line(&line,
 			config->cub3d_data.img, hit_info.perp_wall_dist, x);
 		copy_texture_line(config->cub3d_data.img,
-			pick(hit_info.side, config), x, line, ray.wall_x);
+			pick(hit_info.side, config), line, t_wall_slice{x, ray.wall_x});
 		x++;
 	}
 }
