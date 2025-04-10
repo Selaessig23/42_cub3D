@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mm_draw_player.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 17:09:17 by pvasilan          #+#    #+#             */
+/*   Updated: 2025/04/10 17:09:18 by pvasilan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../include/cub3d.h"
 
-static void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 start, t_vector2 end)
+static  void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 start, t_vector2 end)
 {
     t_vector2 delta;
     t_vector2 step;
@@ -14,7 +26,7 @@ static void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 star
     i = 0;
     while (i < longest)
     {
-        if (start.x >= 0 && start.x < minimap_surface->width && 
+        if (start.x >= 0 && start.x < minimap_surface->width &&
             start.y >= 0 && start.y < minimap_surface->height)
         {
             putPixel(color, minimap_surface, (int)start.x, (int)start.y);
@@ -26,16 +38,16 @@ static void drawLine(t_color color, mlx_image_t *minimap_surface, t_vector2 star
 
 /**
  * DESCRIPTION:
- * 
+ *
  */
 
 /**
  * @brief the the position of the player
  * 1st new player pos is evaluated (considering cell size)
- * 2nd to draw a small filled (pixelated approximation of a) 
+ * 2nd to draw a small filled (pixelated approximation of a)
  * circle around the player, a small 5 x 5 grid is defined
- * 3rd checks if the i,j are inside the circle 
- * (using the circle formula: x2+y2≤r), 
+ * 3rd checks if the i,j are inside the circle
+ * (using the circle formula: x2+y2≤r),
  * if yes: overwrite grid with players 5x5-grid
  */
 void	draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
@@ -68,29 +80,29 @@ void draw_player_fov(t_gamedata *config, t_minimap_data minimap_data)
     t_vector2 left_ray, right_ray;
     t_color color_view;
     double fov_angle = 60 * (3.14 / 180.0); // Convert FOV angle to radians
-    
+
     color_view = (t_color){0xA9A9A880};
     player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
-    
+
     // Calculate the main direction ray
-    dir_end = addvectors(player_pos, 
+    dir_end = addvectors(player_pos,
             multiplyvector(normalizevector(config->player.dir), 20));
-    
+
     // Draw the center direction line
     drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, dir_end);
-    
+
     // Calculate left and right edges of FOV
     double dir_angle = atan2(config->player.dir.y, config->player.dir.x);
     double left_angle = dir_angle - (fov_angle / 2);
     double right_angle = dir_angle + (fov_angle / 2);
-    
+
     // Calculate the endpoints for left and right FOV rays
     left_ray.x = player_pos.x + cos(left_angle) * 20;
     left_ray.y = player_pos.y + sin(left_angle) * 20;
-    
+
     right_ray.x = player_pos.x + cos(right_angle) * 20;
     right_ray.y = player_pos.y + sin(right_angle) * 20;
-    
+
     // Draw the FOV edges
     drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, left_ray);
     drawLine(color_view, config->cub3d_data.minimap_surface, player_pos, right_ray);
@@ -131,12 +143,12 @@ void fill_triangle(mlx_image_t *img, t_color color, t_vector2 v0, t_vector2 v1, 
 {
     t_vector2 temp;
     int y, x;
-    
+
     // Sort vertices by ascending y-coordinate.
     if (v0.y > v1.y) { temp = v0; v0 = v1; v1 = temp; }
     if (v0.y > v2.y) { temp = v0; v0 = v2; v2 = temp; }
     if (v1.y > v2.y) { temp = v1; v1 = v2; v2 = temp; }
-    
+
     y = v0.y;
     while (y <= v2.y)
     {
@@ -144,7 +156,7 @@ void fill_triangle(mlx_image_t *img, t_color color, t_vector2 v0, t_vector2 v1, 
         int x_end = v0.x + (v1.x - v0.x) * (y - v0.y) / (v1.y - v0.y);
         if (y > v1.y)
             x_end = v1.x + (v2.x - v1.x) * (y - v1.y) / (v2.y - v1.y);
-        
+
         x = x_start;
         while (x <= x_end)
         {
@@ -161,7 +173,7 @@ void fill_triangle(mlx_image_t *img, t_color color, t_vector2 v0, t_vector2 v1, 
  * @brief Draw the player direction line
  * 1st it sets a color for the direction view
  * 1st new player pos is evaluated (considering cell size)
- * 
+ *
  */
 void	draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 {
@@ -172,7 +184,7 @@ void	draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 
 	color_view = (t_color){0xA9A9A880};
 	player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
-	dir_end = addvectors(player_pos, 
+	dir_end = addvectors(player_pos,
 			multiplyvector(normalizevector(config->player.dir), 10));
 
 	putPixel(color_view, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
