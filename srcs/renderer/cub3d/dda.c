@@ -1,9 +1,16 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dda.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 18:37:45 by pvasilan          #+#    #+#             */
+/*   Updated: 2025/04/10 18:38:37 by pvasilan         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
 
 #include "cub3d.h"
-
-/**
- * DESCRIPTION:
- */
 
 /**
  * @brief Digital Differential Analysis (DDA)
@@ -22,8 +29,7 @@
 void	perform_dda(char **map, t_ray *ray, t_hit_info *hit_info)
 {
 	hit_info->hit = 0;
-
-	while (!hit_info->hit) 
+	while (!hit_info->hit)
 	{
 		if (ray->side_dist.x < ray->side_dist.y)
 		{

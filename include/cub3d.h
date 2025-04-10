@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 17:16:44 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:20:12 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -189,6 +189,10 @@ void		draw_minimap(t_gamedata *config);
 //renderer/minimap/mm_draw_grid.c
 void		draw_minimap_grid(t_gamedata *config, 
 				t_minimap_data minimap_data);
+void	init_fov_data(t_gamedata *config,
+    t_minimap_data minimap_data, t_fov_data *fov_data);
+void	draw_fov_outline(t_fov_data *fov_data);
+void	draw_fov_arc(t_fov_data *fov_data);
 void		draw_player_fov(t_gamedata *config, t_minimap_data minimap_data);
 //renderer/minimap/mm_draw_player.c
 void		draw_player_position(t_gamedata *config, 
@@ -196,6 +200,7 @@ void		draw_player_position(t_gamedata *config,
 void		draw_player_direction(t_gamedata *config, 
 				t_minimap_data minimap_data);
 //renderer/cub3d/renderer.c
+void        init_ray(t_ray *ray, t_player player, float camera_x);
 void		cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config);
 //renderer/cub3d/background.c
 void		fill_lower_half(mlx_image_t *img, t_color color);

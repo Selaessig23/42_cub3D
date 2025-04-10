@@ -1,3 +1,14 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   background.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 18:35:57 by pvasilan          #+#    #+#             */
+/*   Updated: 2025/04/10 18:36:10 by pvasilan         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
 
 #include "cub3d.h"
 
@@ -14,7 +25,6 @@
  * stopping early if a wall pixel will overwrite them. 
  * This would reduce overdraw.
  */
-
 
 /**
  * @brief function to define floor-color for each pixel of 

@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 16:39:19 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:28:56 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,7 +35,7 @@ void	render(void *param)
 	config = (t_gamedata *)param;
 	fill_lower_half(config->cub3d_data.img, *config->floor);
 	fill_upper_half(config->cub3d_data.img, *config->ceiling);
-	cast_ray_and_draw_wall(config->map, config->cub3d_data.img, config);
+	cast_ray_and_draw_wall(config);
 	if (config->show_minimap)
 		draw_minimap(config);
 }

@@ -1,14 +1,15 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   initiate_mlx.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 10:30:54 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/08 10:31:09 by mstracke         ###   ########.fr       */
+/*   Created: 2025/04/10 18:39:55 by pvasilan          #+#    #+#             */
+/*   Updated: 2025/04/10 18:39:56 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
+
 
 #include "cub3d.h"
 
@@ -33,21 +34,21 @@
  * (when calling mlx_image_to_window for same image for several times).
  * 
  */
-static void	ft_place_image(t_gamedata *config, 
+static void	ft_place_image(t_gamedata *config,
 	int *img_instance, int *minimap_instance)
 {
 	int	img;
 	int	minimap;
 
 	minimap = 0;
-	img = mlx_image_to_window(config->cub3d_data.mlx, 
+	img = mlx_image_to_window(config->cub3d_data.mlx,
 			config->cub3d_data.img, 0, 0);
 	if (img < 0)
 	{
 		ft_cleanup(config, true);
 		ft_error_handling(22, NULL, config);
 	}
-	minimap = mlx_image_to_window(config->cub3d_data.mlx, 
+	minimap = mlx_image_to_window(config->cub3d_data.mlx,
 			config->cub3d_data.minimap_surface, 0, 0);
 	if (minimap < 0)
 	{
@@ -91,14 +92,14 @@ static mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path)
  */
 static void	load_wall_textures(t_gamedata *config)
 {
-	config->cub3d_data.east = 
-		load_single_wall_texture(config, config->t_east);
-	config->cub3d_data.west = 
-		load_single_wall_texture(config, config->t_west);
-	config->cub3d_data.north = 
-		load_single_wall_texture(config, config->t_north);
-	config->cub3d_data.south = 
-		load_single_wall_texture(config, config->t_south);
+	config->cub3d_data.east
+		= load_single_wall_texture(config, config->t_east);
+	config->cub3d_data.west
+		= load_single_wall_texture(config, config->t_west);
+	config->cub3d_data.north
+		= load_single_wall_texture(config, config->t_north);
+	config->cub3d_data.south
+		= load_single_wall_texture(config, config->t_south);
 }
 
 /**
@@ -107,15 +108,15 @@ static void	load_wall_textures(t_gamedata *config)
  */
 void	ft_init_imgs(t_gamedata *config)
 {
-	config->cub3d_data.img = 
-		mlx_new_image(config->cub3d_data.mlx, 640, 480);
+	config->cub3d_data.img
+		= mlx_new_image(config->cub3d_data.mlx, 640, 480);
 	if (!config->cub3d_data.img)
 	{
 		ft_cleanup(config, true);
 		ft_error_handling(21, NULL, config);
 	}
-	config->cub3d_data.minimap_surface = 
-		mlx_new_image(config->cub3d_data.mlx, 640, 480);
+	config->cub3d_data.minimap_surface
+		= mlx_new_image(config->cub3d_data.mlx, 640, 480);
 	if (!config->cub3d_data.minimap_surface)
 	{
 		ft_cleanup(config, true);

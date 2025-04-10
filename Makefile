@@ -38,10 +38,12 @@ SRCS =	main.c \
 			renderer/minimap/minimap.c \
 			renderer/minimap/mm_draw_grid.c \
 			renderer/minimap/mm_draw_player.c \
+			renderer/minimap/mm_utils.c \
 			renderer/cub3d/background.c \
 			renderer/cub3d/dda.c \
 			renderer/cub3d/texture_cast.c \
 			renderer/cub3d/raycasting.c \
+			renderer/cub3d/raycast_rays.c \
 			renderer/color_pixel.c \
 			vector/vector_add.c  \
 			vector/vector_div.c  \
