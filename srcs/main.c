@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 14:29:49 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:47:09 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ int	main(int argc, char *argv[])
 {
 	int				fd;
 	t_gamedata		*config;
-	int				map_x;
-	int				map_y;
-	char			**map;
 
 	fd = 0;
 	config = NULL;

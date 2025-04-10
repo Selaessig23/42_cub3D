@@ -3,7 +3,7 @@
 CUR_DIR = $(shell pwd)
 NAME = cub3D
 CC = cc
-CFLAGS =  -g -Iinclude -Isrcs
+CFLAGS = -Wall -Werror -Wextra -g -Iinclude -Isrcs
 
 #libraries
 #add pathes of lib to cflags to find headers easily

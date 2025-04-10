@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 14:29:15 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:49:00 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ static int	check_color(t_gamedata *config, int color,
  * @return in case there is an malloc issue, function returns -1,
  * otherwise it returns the extracted color value
  */
-static int	extr_color(t_color *color, char *to_extract, 
-				int *startindex)
+static int	extr_color(char *to_extract, int *startindex)
 {
 	char		*temp;
 	int			endindex;
@@ -147,13 +146,13 @@ t_color	*ft_assign_color(t_gamedata **p_config,
 	long long	color_green;
 	long long	color_blue;
 
-	color_red = check_color(*p_config, extr_color(color, line, start), 
+	color_red = check_color(*p_config, extr_color(line, start), 
 			line, fd);
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
-	color_green = check_color(*p_config, extr_color(color, line, start), 
+	color_green = check_color(*p_config, extr_color(line, start), 
 			line, fd);
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
-	color_blue = check_color(*p_config, extr_color(color, line, start), 
+	color_blue = check_color(*p_config, extr_color(line, start), 
 			line, fd);
 	color = ft_connect_color_values(color_red, color_green, color_blue);
 	if (!color)

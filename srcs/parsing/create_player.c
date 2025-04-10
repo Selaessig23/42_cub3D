@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:28:45 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/08 10:27:55 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:50:28 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  * @brief function to set players direction
  * (helper function for ft_set_player)
  */
-static t_vector2	ft_set_players_dir(t_gamedata **p_config, char dir)
+static t_vector2	ft_set_players_dir(char dir)
 {
 	t_vector2	player_dir;
 
@@ -70,7 +70,7 @@ static void	ft_set_player(t_gamedata **p_config, int x, int y, char dir)
 	config = *p_config;
 	config->player.pos.x = (double)x + 0.1;
 	config->player.pos.y = (double)y + 0.1;
-	config->player.dir = ft_set_players_dir(p_config, dir);
+	config->player.dir = ft_set_players_dir(dir);
 	config->player.fov = 90;
 }
 
