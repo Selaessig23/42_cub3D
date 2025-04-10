@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 22:33:29 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 22:35:49 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -187,7 +187,7 @@ int			ft_map_is_last(t_gamedata *config);
 void		ft_new_line_looper(char *line, t_gamedata *config, int fd, char *map);
 //initiate_mlx.c
 void		ft_init_mlx(t_gamedata *config);
-void		ft_init_imgs(t_gamedata *config); //if not required by minimap_switcher in minimap.c change to static
+void		ft_init_imgs(t_gamedata *config);
 //locomotion.c
 void		ft_player_rotation(mlx_key_data_t keydata, t_gamedata *config);
 void		ft_player_movement(mlx_key_data_t keydata, t_gamedata *config);
@@ -202,10 +202,10 @@ void		draw_minimap(t_gamedata *config);
 //renderer/minimap/mm_draw_grid.c
 void		draw_minimap_grid(t_gamedata *config,
 				t_minimap_data minimap_data);
-void	init_fov_data(t_gamedata *config,
-    t_minimap_data minimap_data, t_fov_data *fov_data);
-void	draw_fov_outline(t_fov_data *fov_data);
-void	draw_fov_arc(t_fov_data *fov_data);
+void		init_fov_data(t_gamedata *config,
+				t_minimap_data minimap_data, t_fov_data *fov_data);
+void		draw_fov_outline(t_fov_data *fov_data);
+void		draw_fov_arc(t_fov_data *fov_data);
 void		draw_player_fov(t_gamedata *config, t_minimap_data minimap_data);
 //renderer/minimap/mm_draw_player.c
 void		draw_player_position(t_gamedata *config,
@@ -213,7 +213,7 @@ void		draw_player_position(t_gamedata *config,
 void		draw_player_direction(t_gamedata *config,
 				t_minimap_data minimap_data);
 //renderer/cub3d/renderer.c
-void        init_ray(t_ray *ray, t_player player, float camera_x);
+void		init_ray(t_ray *ray, t_player player, float camera_x);
 void		cast_ray_and_draw_wall(t_gamedata *config);
 //renderer/cub3d/background.c
 void		fill_lower_half(mlx_image_t *img, t_color color);
@@ -221,11 +221,11 @@ void		fill_upper_half(mlx_image_t *img, t_color color);
 //renderer/cub3d/dda.c
 void		perform_dda(char **map, t_ray *ray, t_hit_info *hit_info);
 //renderer/cub3d/texture_cast.c
-mlx_image_t	*pick(t_direction side, t_gamedata * config);
+mlx_image_t	*pick(t_direction side, t_gamedata *config);
 //renderer/color_pixel.c
 void		putpixel(t_color color, mlx_image_t *img, uint32_t x, uint32_t y);
-void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
-    t_render_line line, t_wall_slice wall_slice);
+void		copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
+				t_render_line line, t_wall_slice wall_slice);
 //vector functions
 t_vector2	newvector(double x, double y);
 t_vector2	addvectors(t_vector2 vector1, t_vector2 vector2);
