@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 21:54:32 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 22:33:29 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -145,6 +145,14 @@ typedef struct s_fov_data {
     t_color     color_view;
     mlx_image_t *surface;
 } t_fov_data;
+
+typedef struct s_rect {
+    int x;
+    int y;
+    int width;
+    int height;
+} t_rect;
+
 
 
 //parsing
