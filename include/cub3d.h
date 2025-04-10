@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 14:03:22 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:16:44 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -126,6 +126,21 @@ typedef struct s_triangle {
 	t_vector2	v2;
 	t_vector2	v3;
 }		t_triangle;
+
+typedef struct s_fov_data {
+    t_vector2   player_pos;
+    t_vector2   dir_end;
+    t_vector2   left_ray;
+    t_vector2   right_ray;
+    double      dir_angle;
+    double      left_angle;
+    double      right_angle;
+    double      fov_angle;
+    int         radius;
+    t_color     color_view;
+    mlx_image_t *surface;
+} t_fov_data;
+
 
 //parsing
 //parsing/command_line_input_check.c
