@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   locomotion.c                                       :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:48 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:50:07 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 23:36:38 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3d.h"
 
@@ -28,10 +28,11 @@
  */
 static void	ft_player_move_updown(t_gamedata *config, float move_speed, bool up)
 {
-	t_vector2	move_vec;
-	t_vector2	new_pos;
-	t_vector2	test_pos_x;
-	t_vector2	test_pos_y;
+	const float		player_radius = 0.1;
+	t_vector2		move_vec;
+	t_vector2		new_pos;
+	t_vector2		test_pos_x;
+	t_vector2		test_pos_y;
 
 	move_vec = normalizevector(config->player.dir);
 	if (up == true)
@@ -43,11 +44,9 @@ static void	ft_player_move_updown(t_gamedata *config, float move_speed, bool up)
 	test_pos_x.y = config->player.pos.y;
 	test_pos_y.x = config->player.pos.x;
 	test_pos_y.y = new_pos.y;
-	if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
-	config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+	if (!ft_player_collision(config, test_pos_x, player_radius))
 		config->player.pos.x = new_pos.x;
-	if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
-	config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+	if (!ft_player_collision(config, test_pos_y, player_radius))
 		config->player.pos.y = new_pos.y;
 }
 
@@ -73,20 +72,13 @@ t_vector2	ft_strafe_dir(t_gamedata *config, float move_speed, bool right)
 	return (strafe_dir);
 }
 
-/**
- * @brief key handler for right/left movements of player
- * if there is a wall (= 1 or a space) on x or y,
- * player keeps current position on blocked x / y, while moving forward
- * in free direction (floor = 0)
- *
- * @param right if true, player needs to move right, if false left
- */
 static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
 {
 	t_vector2	strafe_dir;
 	t_vector2	new_pos;
 	t_vector2	test_pos_x;
 	t_vector2	test_pos_y;
+	const float	player_radius = 0.3;
 
 	strafe_dir = ft_strafe_dir(config, move_speed, right);
 	new_pos = addvectors(config->player.pos, strafe_dir);
@@ -94,11 +86,9 @@ static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
 	test_pos_x.y = config->player.pos.y;
 	test_pos_y.x = config->player.pos.x;
 	test_pos_y.y = new_pos.y;
-	if (config->map[(int)test_pos_x.y][(int)test_pos_x.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+	if (!ft_player_collision(config, test_pos_x, player_radius))
 		config->player.pos.x = new_pos.x;
-	if (config->map[(int)test_pos_y.y][(int)test_pos_y.x] != '1' &&
-		config->map[(int)test_pos_x.y][(int)test_pos_x.x] != ' ')
+	if (!ft_player_collision(config, test_pos_y, player_radius))
 		config->player.pos.y = new_pos.y;
 }
 

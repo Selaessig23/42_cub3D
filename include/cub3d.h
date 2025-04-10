@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 22:36:24 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 23:42:11 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -62,18 +62,18 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 typedef struct s_gamedata {
-	char			*t_north; //only for parsing
-	char			*t_south; //only for parsing
-	char			*t_east; //only for parsing
-	char			*t_west; //only for parsing
-	t_color			*floor; //required
-	t_color			*ceiling; //required
-	char			**map; //required
-	t_player		player; //required
-	t_cub3d			cub3d_data; //required
-	int				window_width; //not in use
-	int				window_height; //not in use
-	bool			show_minimap; //required
+	char			*t_north;
+	char			*t_south;
+	char			*t_east;
+	char			*t_west;
+	t_color			*floor;
+	t_color			*ceiling;
+	char			**map;
+	t_player		player;
+	t_cub3d			cub3d_data;
+	int				window_width;
+	int				window_height;
+	bool			show_minimap;
 }		t_gamedata;
 
 typedef enum e_direction{
@@ -104,27 +104,27 @@ typedef struct s_hit_info
 }		t_hit_info;
 
 typedef struct s_ray {
-	t_vector2		dir;       // Ray direction
-	t_vector2		delta_dist; // Delta distance
-	t_vector2		side_dist;  // Side distance
-	int				map_x;           // Current map x position
-	int				map_y;           // Current map y position
-	int				step_x;          // Step direction in x
-	int				step_y;          // Step direction in y
-	float			wall_x;        // Where exactly the wall was hit
+	t_vector2		dir;
+	t_vector2		delta_dist;
+	t_vector2		side_dist;
+	int				map_x;
+	int				map_y;
+	int				step_x;
+	int				step_y;
+	float			wall_x;
 }		t_ray;
 
 typedef struct s_render_line {
-	int				height;          // Height of line to draw
-	int				draw_start;      // Start y position
-	int				draw_end;        // End y position
-	int				screen_x;        // X position on screen
+	int				height;
+	int				draw_start;
+	int				draw_end;
+	int				screen_x;
 }		t_render_line;
 
 typedef struct s_wall_slice {
-    int screen_x;
-    float wall_x;
-} t_wall_slice;
+	int		screen_x;
+	float	wall_x;
+}	t_wall_slice;
 
 typedef struct s_triangle {
 	t_vector2	v1;
@@ -132,28 +132,26 @@ typedef struct s_triangle {
 	t_vector2	v3;
 }		t_triangle;
 
-typedef struct s_fov_data {
-    t_vector2   player_pos;
-    t_vector2   dir_end;
-    t_vector2   left_ray;
-    t_vector2   right_ray;
-    double      dir_angle;
-    double      left_angle;
-    double      right_angle;
-    double      fov_angle;
-    int         radius;
-    t_color     color_view;
-    mlx_image_t *surface;
-} t_fov_data;
+typedef structs_fov_data {
+	t_vector2	player_pos;
+	t_vector2	dir_end;
+	t_vector2	left_ray;
+	t_vector2	right_ray;
+	double		dir_angle;
+	double		left_angle;
+	double		right_angle;
+	double		fov_angle;
+	int			radius;
+	t_color		color_view;
+	mlx_image_t	*surface;
+}	t_fov_data;
 
 typedef struct s_rect {
-    int x;
-    int y;
-    int width;
-    int height;
-} t_rect;
-
-
+	int	x;
+	int	y;
+	int	width;
+	int	height;
+}	t_rect;
 
 //parsing
 //parsing/command_line_input_check.c
@@ -184,7 +182,8 @@ int			ft_startjumper(char *str);
 void		ft_refill_map(char **dest, char **src);
 int			ft_colorjumper(char *str, t_gamedata *config, char *line, int fd);
 int			ft_map_is_last(t_gamedata *config);
-void		ft_new_line_looper(char *line, t_gamedata *config, int fd, char *map);
+void		ft_new_line_looper(char *line,
+				t_gamedata *config, int fd, char *map);
 //initiate_mlx.c
 void		ft_init_mlx(t_gamedata *config);
 void		ft_init_imgs(t_gamedata *config);
@@ -243,23 +242,8 @@ void		ft_cleanup(t_gamedata *config, bool error);
 //free.c
 void		ft_freeing_support(int fd, char *line);
 void		ft_free_config(t_gamedata *config);
-
-//just for testing of parsing-part
 void		ft_testprint(t_gamedata *config);
 void		ft_testprint_maparray(char **map_arr);
-
-//test functions
-// mlx_image_t	*createSurface(t_gamedata *config);
-// void		drawLine(t_color color, mlx_image_t *minimap_surface,
-// 				t_vector2 start, t_vector2 end);
-// void		fillCeiling(t_gamedata *config);
-// void		fillFloor(t_gamedata *config);
-// void		delete_images(t_gamedata *config);
-// void		load_wall_textures(t_gamedata *config);
-// mlx_image_t	*load_single_wall_texture(t_gamedata *config, char *path);
-// void		ft_create_minimap(t_gamedata *config);
-
-//unsorted static functions
-// void		pick_and_place(t_direction side, t_gamedata *config, mlx_image_t *img, int x, int draw_start, int draw_end, float wall_x);
-// void		clear_minimap_surface(t_gamedata *config, t_minimap_data minimap_data);
+bool		ft_player_collision(t_gamedata *config,
+				t_vector2 pos, float player_radius);
 #endif

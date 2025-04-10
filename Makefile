@@ -35,6 +35,7 @@ SRCS =	main.c \
 			initiate_mlx.c \
 			handlers.c\
 			locomotion.c \
+			collision.c \
 			renderer/minimap/minimap.c \
 			renderer/minimap/mm_draw_grid.c \
 			renderer/minimap/mm_draw_player.c \

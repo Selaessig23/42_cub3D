@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:43:42 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 21:54:13 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 23:35:36 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -33,7 +33,7 @@ t_color	pixel_to_color(uint8_t *pixel)
  * 
  */
 void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
-	 t_render_line line, t_wall_slice wall_slice)
+					t_render_line line, t_wall_slice wall_slice)
 {
 	uint32_t		tex_x;
 	uint32_t		tex_y;
@@ -52,7 +52,8 @@ void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 		if (tex_y >= texture->height)
 			tex_y = texture->height - 1;
 		pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
-		putpixel(pixel_to_color(pixel), render_img, wall_slice.screen_x, screen_y);
+		putpixel(pixel_to_color(pixel),
+			render_img, wall_slice.screen_x, screen_y);
 		screen_y++;
 	}
 }
