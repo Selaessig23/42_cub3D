@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 10:31:45 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/08 10:31:48 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:48:54 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	ft_freeing_support(int fd, char *line)
 {
 	close(fd);
 	get_next_line(fd);
-	free(line);
-	line = NULL;
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
 }
 
 /**

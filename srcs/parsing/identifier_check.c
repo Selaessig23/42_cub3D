@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:43 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/07 10:26:46 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:26:22 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,18 @@ static int	ft_search_colors(t_gamedata *config, char *line, int fd)
 	int		i;
 
 	i = ft_startjumper(line);
-	if (!ft_strncmp(&line[i], "F", 1) && config->floor)
+	if (!ft_strncmp(&line[i], "F ", 2) && config->floor)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("floor color"), config);
 	}
-	else if (!ft_strncmp(&line[i], "C", 1) && config->ceiling)
+	else if (!ft_strncmp(&line[i], "C ", 2) && config->ceiling)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("ceiling color"), config);
 	}
-	else if (!ft_strncmp(&line[i], "F", 1)
-		|| !ft_strncmp(&line[i], "C", 1))
+	else if (!ft_strncmp(&line[i], "F ", 2)
+		|| !ft_strncmp(&line[i], "C ", 2))
 		return (1);
 	return (0);
 }
@@ -100,22 +100,22 @@ static int	ft_search_colors(t_gamedata *config, char *line, int fd)
 static void	ft_texture_duplicate_check(t_gamedata *config, 
 			char *line, int fd, int i)
 {
-	if (!ft_strncmp(&line[i], "NO", 2) && config->t_north)
+	if (!ft_strncmp(&line[i], "NO ", 3) && config->t_north)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("NORTH texture"), config);
 	}
-	else if (!ft_strncmp(&line[i], "SO", 2) && config->t_south)
+	else if (!ft_strncmp(&line[i], "SO ", 3) && config->t_south)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("SOUTH texture"), config);
 	}
-	else if (!ft_strncmp(&line[i], "WE", 2) && config->t_west)
+	else if (!ft_strncmp(&line[i], "WE ", 3) && config->t_west)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("WEST texture"), config);
 	}
-	else if (!ft_strncmp(&line[i], "EA", 2) && config->t_east)
+	else if (!ft_strncmp(&line[i], "EA ", 3) && config->t_east)
 	{
 		ft_freeing_support(fd, line);
 		ft_error_handling(8, ft_strdup("EAST texture"), config);
@@ -142,10 +142,10 @@ static int	ft_search_textures(t_gamedata *config, char *line, int fd)
 
 	i = ft_startjumper(line);
 	ft_texture_duplicate_check(config, line, fd, i);
-	if (!ft_strncmp(&line[i], "NO", 2)
-		|| (!ft_strncmp(&line[i], "SO", 2))
-		|| (!ft_strncmp(&line[i], "WE", 2))
-		|| (!ft_strncmp(&line[i], "EA", 2)))
+	if (!ft_strncmp(&line[i], "NO ", 3)
+		|| (!ft_strncmp(&line[i], "SO ", 3))
+		|| (!ft_strncmp(&line[i], "WE ", 3))
+		|| (!ft_strncmp(&line[i], "EA ", 3)))
 		return (1);
 	return (0);
 }
@@ -175,7 +175,7 @@ void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 			break ;
 		if (ft_search_textures(*p_config, line, fd))
 			ft_set_texture(p_config, line, fd);
-		else if (ft_search_map(line))
+		else if (ft_search_map(line) && ft_map_is_last(*p_config))
 		{
 			ft_set_map(p_config, line, fd);
 			if (!ft_player_check(*p_config, fd))

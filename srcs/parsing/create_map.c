@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:57:07 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/09 14:51:00 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:48:23 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ static void	ft_improve_and_check_map(t_gamedata **p_config, int fd)
 */ 
 static int	ft_map_valid_check(char *line)
 {
+	//check if desired
+	if (*line == '\n')
+		return (0);
+	//desired..
 	while (*line)
 	{
 		if (*line == '\n')
@@ -122,11 +126,12 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		else if (*line == '\n' || *line == '\0')
-		{
-			ft_freeing_support(fd, line);
-			break ;
-		}
+		//double-check desired behaviour
+		// else if (*line == '\n' || *line == '\0')
+		// {
+		// 	ft_freeing_support(fd, line);
+		// 	break ;
+		// }
 		else if (!ft_map_valid_check(line))
 		{
 			ft_freeing_support(fd, line);

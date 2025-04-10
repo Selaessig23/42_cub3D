@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:19 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/03 12:05:22 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:25:06 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,18 @@
  */
 
 /**
- * @brief final check if all necessary variables
- * for game configuration have been assigned,
+ * @brief helper function for ft_config_set_complete
+ * that prints error and exits programm in case of missing data
+ */
+static void	print_error_and_exit(t_gamedata *config, int fd, char *errmsg)
+{
+	ft_freeing_support(fd, NULL);
+	ft_error_handling(5, errmsg, config);
+}
+
+/**
+ * @brief check if all necessary variables
+ * for game configuration have been assigned except map,
  * otherwise send error message to ft_error_handling
  * (where everything gets freed and program exits)
  *
@@ -30,22 +40,22 @@
  * assigned, no value is not accepted
  * (could be adapted to no value == 0, if desired)
  */
-static int	ft_config_set_complete(t_gamedata *config)
+static int	ft_config_set_complete(t_gamedata *config, int fd)
 {
 	if (!config->t_north)
-		ft_error_handling(5, ft_strdup("Path north texture"), config);
+		print_error_and_exit(config, fd, ft_strdup("Path north texture"));
 	if (!config->t_south)
-		ft_error_handling(5, ft_strdup("Path south texture"), config);
+		print_error_and_exit(config, fd, ft_strdup("Path south texture"));
 	if (!config->t_east)
-		ft_error_handling(5, ft_strdup("Path east texture"), config);
+		print_error_and_exit(config, fd, ft_strdup("Path east texture"));
 	if (!config->t_west)
-		ft_error_handling(5, ft_strdup("Path west texture"), config);
+		print_error_and_exit(config, fd, ft_strdup("Path west texture"));
 	if (!config->floor)
-		ft_error_handling(5, ft_strdup("Floor color"), config);
+		print_error_and_exit(config, fd, ft_strdup("Floor color"));
 	if (!config->ceiling)
-		ft_error_handling(5, ft_strdup("Ceiling color"), config);
+		print_error_and_exit(config, fd, ft_strdup("Ceiling color"));
 	if (!config->map)
-		ft_error_handling(5, ft_strdup("Map"), config);
+		print_error_and_exit(config, fd, ft_strdup("Map"));
 	return (1);
 }
 
@@ -69,7 +79,7 @@ t_gamedata	*ft_initiate_data(int fd)
 	if (!config)
 		ft_error_handling(9, NULL, NULL);
 	ft_gnl_infileloop(fd, &config);
-	if (!ft_config_set_complete(config))
+	if (!ft_config_set_complete(config, fd))
 		return (NULL);
 	else
 		return (config);

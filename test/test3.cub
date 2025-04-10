@@ -4,15 +4,15 @@
            
            sdasda
             asda
-  NO./north.png
- SO./south.png
-   WE./west.png
-  EA./east.png
-
+  NO ./north.png
+ SO ./south.png
+   WE ./west.png
+  EA ./east.png
+asdadsaaa
 
   F 220,100,0
 
-   C229 ,   20 ,                   222
+   C 229 ,   20 ,                   222
 
 
 
@@ -32,10 +32,4 @@
 1111111111111 11111110111100011
   111     111 111 1101111010011
   1111    111 111 1111111111111
-                                                  
-  
-     
 
-maybe use ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1)) instead
-	//(difficult without being able to use realloc)
-	// ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1));

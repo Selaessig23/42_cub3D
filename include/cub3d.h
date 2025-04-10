@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/09 16:43:27 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:25:29 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ t_gamedata	*ft_initiate_data(int fd);
 //identifier_check.c
 void		ft_gnl_infileloop(int fd, t_gamedata **p_config);
 int			ft_search_map(char *line);
-
 //parsing/create_texture.c
 void		ft_set_texture(t_gamedata **p_config, char *line, int fd_infile);
 //parsing/create_color.c
@@ -156,6 +155,7 @@ int			ft_player_check(t_gamedata *config, int fd);
 int			ft_startjumper(char *str);
 void		ft_refill_map(char **dest, char **src);
 int			ft_colorjumper(char *str, t_gamedata *config, char *line, int fd);
+int			ft_map_is_last(t_gamedata *config);
 //initiate_mlx.c
 void		ft_init_mlx(t_gamedata *config);
 void		ft_init_imgs(t_gamedata *config); //if not required by minimap_switcher in minimap.c change to static

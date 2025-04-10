@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 10:08:24 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/09 17:24:12 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:47:51 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,22 @@
  */
 
 /**
- * @brief function to jump over spaces and ignore comma
+ * @brief function that checks if all required as already been
+ * filled as map has to be last content in file
+ */
+int	ft_map_is_last(t_gamedata *config)
+{
+	if (!config->t_north || !config->t_south 
+		|| !config->t_east || !config->t_west
+		|| !config->floor || !config->ceiling)
+		return (0);
+	else
+		return (1);
+}
+
+/**
+ * @brief function to jump over spaces (according to ft_startjumper) 
+ * and ignore comma
  * this functions serves for extracting colors from identifier ceiling
  * and floor
  * 
@@ -35,8 +50,6 @@ int	ft_colorjumper(char *str, t_gamedata *config, char *line, int fd)
 	i = 0;
 	printf("check comma index 1part: %i, $%s$\n", i, &str[i]);
 	i += ft_startjumper(str);
-	// while (str[i] && str[i] == ' ')
-	// 	i += 1;
 	printf("check comma index 2part: %i, $%s$\n", i, &str[i]);
 	if (str[i] && str[i] == ',')
 		i += 1;
@@ -45,8 +58,6 @@ int	ft_colorjumper(char *str, t_gamedata *config, char *line, int fd)
 		ft_freeing_support(fd, line);
 		ft_error_handling(6, NULL, config);
 	}
-	// while (str[i] && str[i] == ' ')
-	// 	i += 1;
 	i += ft_startjumper(&str[i]);
 	return (i);
 }

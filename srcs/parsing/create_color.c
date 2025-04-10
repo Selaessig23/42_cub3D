@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/09 17:13:10 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:46:19 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,10 @@ static int	extr_color(t_color *color, char *to_extract,
  * to the game config according to indentifier
  * of corresponding line in input file (ceiling / floor color)
  * 
+ * // while (line[*start] && line[*start] != '\n' 
+ * 		&& !ft_isdigit(line[*start]))/
+ * // 	*start += 1;
+ * 
  * it ignores all chars that are not digit between the color-
  * definitions (not only comma)
  */
@@ -146,13 +150,9 @@ t_color	*ft_assign_color(t_gamedata **p_config,
 
 	color_red = check_color(*p_config, extr_color(color, line, start), 
 			line, fd);
-	// while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
-	// 	*start += 1;
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
 	color_green = check_color(*p_config, extr_color(color, line, start), 
 			line, fd);
-	// while (line[*start] && line[*start] != '\n' && !ft_isdigit(line[*start]))
-	// 	*start += 1;
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
 	color_blue = check_color(*p_config, extr_color(color, line, start), 
 			line, fd);
@@ -169,7 +169,10 @@ t_color	*ft_assign_color(t_gamedata **p_config,
  * @brief function that sets the color for floor and ceiling
  * as identifiers were found in line of input file
  * 
- * it ignores all chars that are not digit at the front of line
+ * it ignores all chars that are not digit at the front of line:
+ * // while (line[start] && line[start] != '\n'
+ * // 	&& !ft_isdigit(line[start]))
+ * // 	start += 1;
  *
  * @param line the line of content inclusive the color identifier,
  * that has to be cleaned and than assigned to the game config variables
@@ -188,11 +191,6 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 	start = 0;
 	i = 0;
 	start += ft_startjumper(&line[start]) + 1;
-	// start = 1;
-	
-	// while (line[start] && line[start] != '\n'
-	// 	&& !ft_isdigit(line[start]))
-	// 	start += 1;
 	start += ft_startjumper(&line[start]);
 	printf("startindex: %i\n", start);
 	if (!line[start] || line[start] == '\n')
