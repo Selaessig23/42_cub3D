@@ -28,15 +28,15 @@ t_color	pixel_to_color(uint8_t *pixel)
 void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 	int screen_x, int draw_start, int draw_end, float wall_x)
 {
-	int		tex_x;
-	int		tex_y;
+	uint32_t		tex_x;
+	uint32_t		tex_y;
 	uint8_t	*pixel;
 	float	step;
 	int		screen_y;
 
 	tex_x = (int)(wall_x * texture->width);
-	if (tex_x < 0)
-		tex_x = 0;
+	// if (tex_x < 0)
+	// 	tex_x = 0;
 	if (tex_x >= texture->width)
 		tex_x = texture->width - 1;
 	screen_y = draw_start;
@@ -44,8 +44,8 @@ void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 	{
 		step = (float)texture->height / (draw_end - draw_start);
 		tex_y = (int)((screen_y - draw_start) * step);
-		if (tex_y < 0)
-			tex_y = 0;
+		// if (tex_y < 0)
+		// 	tex_y = 0;
 		if (tex_y >= texture->height)
 			tex_y = texture->height - 1;
 		pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
