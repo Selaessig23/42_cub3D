@@ -6,7 +6,7 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 17:56:13 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:03:07 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -79,7 +79,7 @@ static void	clear_minimap_surface(t_gamedata *config,
  */
 static void	fill_minimap_data(t_minimap_data *minimap_data, t_gamedata *config)
 {
-	minimap_data->cell_size = 10;
+	minimap_data->cell_size = 32;
 	minimap_data->map_y_len = ft_arrlen(config->map);
 	minimap_data->map_x_len = ft_strlen(config->map[0]);
 	if (minimap_data->map_x_len > minimap_data->map_y_len)
