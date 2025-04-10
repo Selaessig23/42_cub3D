@@ -1,3 +1,15 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mm_draw_grid.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 17:36:08 by pvasilan          #+#    #+#             */
+/*   Updated: 2025/04/10 17:38:54 by pvasilan         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 
 #include "../include/cub3d.h"
 
@@ -17,7 +29,7 @@
  * decrease number of parameters to 4
  * consider 25-lines limitations
  * 
- */ 
+ */
 static void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 	int map_x, int map_y)
 {
@@ -27,27 +39,24 @@ static void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 
 	cy = 0;
 	cx = 0;
-	if ((map_x * minimap_data.cell_size) >= minimap_data.minimap_size 
+	if ((map_x * minimap_data.cell_size) >= minimap_data.minimap_size
 		|| (map_y * minimap_data.cell_size) >= minimap_data.minimap_size)
 		return ;
 	if (config->map[map_y][map_x] == '1' || config->map[map_y][map_x] == ' ')
-		cell_color = minimap_data.wall_color;
-	// else if (config->map[map_y][map_x] == 'N' || config->map[map_y][map_x] == 'S' 
-	// 	|| config->map[map_y][map_x] == 'E' || config->map[map_y][map_x] == 'W' )
-	// 	cell_color = minimap_data.player_color;
+		cell_color = 0xFF22AAFF;
 	else
-		cell_color = minimap_data.floor_color;
-	while ((cy < minimap_data.cell_size) 
-		&& (((map_y * minimap_data.cell_size) + cy) 
+		cell_color = 0x002211FF;
+	while ((cy < minimap_data.cell_size)
+		&& (((map_y * minimap_data.cell_size) + cy)
 			< minimap_data.minimap_size))
 	{
 		cx = 0;
-		while (cx < minimap_data.cell_size 
-			&& ((map_x * minimap_data.cell_size) + cx) 
+		while (cx < minimap_data.cell_size
+			&& ((map_x * minimap_data.cell_size) + cx)
 			< minimap_data.minimap_size)
 		{
-			putPixel(cell_color, config->cub3d_data.minimap_surface, 
-				(map_x * minimap_data.cell_size) + cx, 
+			putPixel(cell_color, config->cub3d_data.minimap_surface,
+				(map_x * minimap_data.cell_size) + cx,
 				(map_y * minimap_data.cell_size) + cy);
 			cx++;
 		}
@@ -65,8 +74,6 @@ void	draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 {
 	int	i;
 	int	j;
-	// int	screen_x;
-	// int	screen_y;
 
 	i = 0;
 	j = 0;
@@ -75,8 +82,6 @@ void	draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 		j = 0;
 		while (j < minimap_data.map_x_len)
 		{
-			// screen_x = j * minimap_data.cell_size;
-			// screen_y = i * minimap_data.cell_size;
 			draw_minimap_cell(config, minimap_data, j, i);
 			j++;
 		}
