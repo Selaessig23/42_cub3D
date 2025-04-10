@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_texture.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:07:46 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/07 15:14:01 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:53:13 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
  */
 
 /**
- * @brief function to get fd of texture and assign it to 
+ * @brief function to get fd of texture and assign it to
  * the corresponding (direction) texture
  */
-static void	ft_check_and_assign_path_texture(t_gamedata **p_config, 
+static void	ft_check_and_assign_path_texture(t_gamedata **p_config,
 	char *line, char *path_texture, int fd_infile)
 {
 	t_gamedata	*config;
@@ -54,13 +54,13 @@ static void	ft_check_and_assign_path_texture(t_gamedata **p_config,
 
 /**
  * @brief function that checks extension of texture-
- * path (must be .png). 
- * 
+ * path (must be .png).
+ *
  * @return if png it returns 1, if not png it returns 0
  */
 int	ft_check_texture_extension(char *path_texture)
 {
-	if (!ft_strncmp(&path_texture[ft_strlen(path_texture) - 4], 
+	if (!ft_strncmp(&path_texture[ft_strlen(path_texture) - 4],
 			".png", 4))
 		return (1);
 	else
@@ -68,12 +68,12 @@ int	ft_check_texture_extension(char *path_texture)
 }
 
 /**
- * @brief function to extract the path of line 
+ * @brief function to extract the path of line
  * with texture-identifier of input file
- * 
+ *
  * @param start the index after the texture-identifier
  */
-char	*ft_create_texture_path(t_gamedata **p_config, int fd, char *line, 
+char	*ft_create_texture_path(t_gamedata **p_config, int fd, char *line,
 	int start)
 {
 	char	*path_texture;
@@ -81,7 +81,7 @@ char	*ft_create_texture_path(t_gamedata **p_config, int fd, char *line,
 
 	path_texture = NULL;
 	j = start + 1;
-	while (line[j] && line[j] != ' ' 
+	while (line[j] && line[j] != ' '
 		&& !(line[j] > 9 && line[j] < 12))
 		j += 1;
 	path_texture = ft_substr(line, start, j - start);
@@ -99,10 +99,10 @@ char	*ft_create_texture_path(t_gamedata **p_config, int fd, char *line,
  * @brief function that checks for the path of the texture in
  * input file and sends the path to ft_open_texture(p_config, line, temp)
  * to check accessibility of the file and assign path to the config struct
- * 
- * it will ignore all spaces in between identifier and value 
+ *
+ * it will ignore all spaces in between identifier and value
  * (according startjumper)
- * 
+ *
  * consider: in case of extension error of texture (non-png), texture-path
  * will be freed in ft_error_handling
  */

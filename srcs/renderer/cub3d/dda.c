@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
@@ -6,17 +6,17 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:37:45 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 18:38:37 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:46:26 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
 /**
  * @brief Digital Differential Analysis (DDA)
- * to find which squares of the map the ray hits, 
+ * to find which squares of the map the ray hits,
  * and stop the algorithm once a square that is a wall (or space) is hit
- * 
+ *
  * Steps:
  * 1) Jump to next map square, either in x-direction, or in y-direction
  *      (depending on which is closer)
@@ -49,7 +49,7 @@ void	perform_dda(char **map, t_ray *ray, t_hit_info *hit_info)
 			else
 				hit_info->side = DIR_SOUTH;
 		}
-		if (map[ray->map_y][ray->map_x] == '1' 
+		if (map[ray->map_y][ray->map_x] == '1'
 			|| map[ray->map_y][ray->map_x] == ' ')
 			hit_info->hit = 1;
 	}

@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mm_draw_grid.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:36:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 18:01:36 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:47:34 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 
 #include "../include/cub3d.h"
@@ -20,15 +20,10 @@
 
 /**
  * Draw a single cell of the minimap grid
- * screen_x && screen_y are simply 
+ * screen_x && screen_y are simply
  * map_x * cell_size (== 10) && map_y * cell_size (== 10)
  * --> easy to simplify this function
  * maybe integrate linear interpolation
- * 
- * TODO: 
- * decrease number of parameters to 4
- * consider 25-lines limitations
- * 
  */
 static void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 	int map_x, int map_y)
@@ -55,7 +50,7 @@ static void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 			&& ((map_x * minimap_data.cell_size) + cx)
 			< minimap_data.minimap_size)
 		{
-			putPixel(cell_color, config->cub3d_data.minimap_surface,
+			putpixel(cell_color, config->cub3d_data.minimap_surface,
 				(map_x * minimap_data.cell_size) + cx,
 				(map_y * minimap_data.cell_size) + cy);
 			cx++;
@@ -64,11 +59,11 @@ static void	draw_minimap_cell(t_gamedata *config, t_minimap_data minimap_data,
 	}
 }
 
-/** 
+/**
 * @brief Draw the entire minimap grid (walls and floor)
-* (transform each tile into a pixel of minimap-image) 
+* (transform each tile into a pixel of minimap-image)
 * by iterating through the map
-* 
+*
 */
 void	draw_minimap_grid(t_gamedata *config, t_minimap_data minimap_data)
 {

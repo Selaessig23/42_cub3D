@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_enlarger.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:37:01 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 15:29:39 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:55:51 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 /**
  * @brief helper function for ft_map_enlarger, it allocates a new string
- * for new line in map with max length and fills the line with 
+ * for new line in map with max length and fills the line with
  * content of old line of map + spaces
  */
-static void	ft_realloc_mapline(t_gamedata **p_config, 
+static void	ft_realloc_mapline(t_gamedata **p_config,
 	int fd, int index, int len)
 {
 	char		*new_mapline;
@@ -39,7 +39,7 @@ static void	ft_realloc_mapline(t_gamedata **p_config,
 		ft_error_handling(9, NULL, *p_config);
 	}
 	ft_strcpy(new_mapline, old_mapline);
-	ft_memset(&new_mapline[ft_strlen(old_mapline)], 
+	ft_memset(&new_mapline[ft_strlen(old_mapline)],
 		' ', (len + 1) - ft_strlen(old_mapline));
 	new_mapline[len] = '\0';
 	config->map[index] = new_mapline;
@@ -52,7 +52,7 @@ static void	ft_realloc_mapline(t_gamedata **p_config,
  * 1st it checks for the max length of a line of map
  * 2nd it iterates through map to adapt each line to max length
  * (it length of line is smaller than max length)
- * 
+ *
  * if x or y of grid is bigger than 500 there will be a warning
  * in terminal
  */
@@ -72,9 +72,7 @@ void	ft_map_enlarger(t_gamedata **p_config, int fd)
 		i += 1;
 	}
 	if (len > 500 || i > 500)
-		ft_dprintf(1, "Wow, this maps seems to be huge. This could cause "\
-			"performance problems.\n Are you sure you use the required hardware "\
-			"to not experience performance problems?\n");
+		ft_dprintf(1, "Wow, this maps seems to be huge.\n");
 	i = 0;
 	while (config->map[i])
 	{

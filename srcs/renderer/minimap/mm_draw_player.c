@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mm_draw_player.c                                   :+:      :+:    :+:   */
@@ -6,10 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:09:17 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:17:37 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:47:34 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
-
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
@@ -33,7 +32,7 @@ static	void	drawline(t_color color, mlx_image_t *minimap_surface,
 		if (start.x >= 0 && start.x < minimap_surface->width
 			&& start.y >= 0 && start.y < minimap_surface->height)
 		{
-			putPixel(color, minimap_surface, (int)start.x, (int)start.y);
+			putpixel(color, minimap_surface, (int)start.x, (int)start.y);
 		}
 		start = addvectors(start, step);
 		i++;
@@ -69,7 +68,7 @@ void	draw_player_position(t_gamedata *config, t_minimap_data minimap_data)
 		while (j <= 2)
 		{
 			if (i * i + j * j <= 4)
-				putPixel(minimap_data.player_color,
+				putpixel(minimap_data.player_color,
 					config->cub3d_data.minimap_surface,
 					player_pos.x + i, player_pos.y + j);
 			j++;
@@ -142,4 +141,3 @@ void	draw_fov_arc(t_fov_data *fov_data)
 		fov_data->left_ray = next_point;
 	}
 }
-

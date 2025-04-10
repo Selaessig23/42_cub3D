@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   locomotion.c                                       :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:48 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 18:14:57 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:50:07 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -20,10 +20,10 @@
 
 /**
  * @brief key handler for up/down movements of player
- * if there is a wall (= 1 or a space) on x or y, 
+ * if there is a wall (= 1 or a space) on x or y,
  * player keeps current position on blocked x / y, while moving forward
  * in free direction (floor = 0)
- * 
+ *
  * @param up if true player needs to move up, if false down
  */
 static void	ft_player_move_updown(t_gamedata *config, float move_speed, bool up)
@@ -75,10 +75,10 @@ t_vector2	ft_strafe_dir(t_gamedata *config, float move_speed, bool right)
 
 /**
  * @brief key handler for right/left movements of player
- * if there is a wall (= 1 or a space) on x or y, 
+ * if there is a wall (= 1 or a space) on x or y,
  * player keeps current position on blocked x / y, while moving forward
  * in free direction (floor = 0)
- * 
+ *
  * @param right if true, player needs to move right, if false left
  */
 static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
@@ -105,9 +105,9 @@ static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
 /**
  * @brief function to differentiate the direction of movement
  * and define the speed of the movement
- * 
+ *
  * move_speed = 0.5; --> Smaller value for more precise movement
- * 
+ *
  */
 void	ft_player_movement(mlx_key_data_t keydata, t_gamedata *config)
 {
@@ -127,9 +127,9 @@ void	ft_player_movement(mlx_key_data_t keydata, t_gamedata *config)
 /**
  * @brief function that organises the rotation in case of key input
  * and defines the rotation speed
- * 
+ *
  * rotation_speed = 0.15; --> Smaller value for more precise rotation
- * 
+ *
  */
 void	ft_player_rotation(mlx_key_data_t keydata, t_gamedata *config)
 {

@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mm_utils.c                                         :+:      :+:    :+:   */
@@ -6,20 +6,20 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:33:09 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:23:46 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:47:34 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 /**
  * @brief Draws the player's field of view on the minimap
- * 
+ *
  * This function renders the player's FOV as:
  * 1. A center direction line showing where the player is facing
  * 2. Two lines representing the left and right edges of the FOV
  * 3. An arc connecting the two edge lines to show the FOV area
- * 
+ *
  * @param config Game configuration containing player data
  * @param minimap_data Minimap data for scaling and positioning
  */
@@ -48,6 +48,6 @@ void	draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 	player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
 	dir_end = addvectors(player_pos,
 			multiplyvector(normalizevector(config->player.dir), -10));
-	putPixel(color_view, config->cub3d_data.minimap_surface,
+	putpixel(color_view, config->cub3d_data.minimap_surface,
 		dir_end.x, dir_end.y);
 }

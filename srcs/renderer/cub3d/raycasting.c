@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
@@ -6,22 +6,21 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:40:06 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:29:26 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:45:41 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
-
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
 /**
  * DESCRIPTION: this file organises the raycasting for cub3d-img
- * and initiates values for required structs 
+ * and initiates values for required structs
  * (t_hit_info, t_ray) as well
  */
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  * 1) Calculate distance of perpendicular ray to avoid fisheye-effect
  * 2) Calculate where exactly the wall was hit
  */
@@ -43,11 +42,11 @@ static void	calculate_wall_properties(t_ray *ray,
 
 /**
  * @brief
- * 
+ *
  * 1) Calculate height of line to draw on screen
  * 2) calculate lowest and highest pixel to fill in current stripe
  */
-static void	calculate_render_line(t_render_line *line, mlx_image_t *img, 
+static void	calculate_render_line(t_render_line *line, mlx_image_t *img,
 	float perp_wall_dist, int screen_x)
 {
 	line->height = (int)(img->height / perp_wall_dist);
@@ -69,9 +68,6 @@ t_hit_info	init_hit_info(void)
 	return (hit_info);
 }
 
-
-
-
 /**
  * @brief function that organises the raycasting of cub3d-img
  */
@@ -84,15 +80,17 @@ void	cast_ray_and_draw_wall(t_gamedata *config)
 	float			camera_x;
 
 	x = 0;
-	while (x < img->width)
+	while (x < config->cub3d_data.img->width)
 	{
-		camera_x = 2.0f * x / (float)img->width - 1.0f;
+		camera_x = 2.0f * x / (float)config->cub3d_data.img->width - 1.0f;
 		init_ray(&ray, config->player, camera_x);
 		hit_info = init_hit_info();
-		perform_dda(map, &ray, &hit_info);
+		perform_dda(config->map, &ray, &hit_info);
 		calculate_wall_properties(&ray, &hit_info, config->player.pos);
-		calculate_render_line(&line, img, hit_info.perp_wall_dist, x);
-		pick_and_place(hit_info.side, config, img, x, line, ray.wall_x);
+		calculate_render_line(&line,
+			config->cub3d_data.img, hit_info.perp_wall_dist, x);
+		copy_texture_line(config->cub3d_data.img,
+			pick(hit_info.side, config), x, line, ray.wall_x);
 		x++;
 	}
 }

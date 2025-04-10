@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 10:08:24 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 14:13:27 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:46:48 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_new_line_looper(char *line, t_gamedata *config, int fd, char *map)
  */
 int	ft_map_is_last(t_gamedata *config)
 {
-	if (!config->t_north || !config->t_south 
+	if (!config->t_north || !config->t_south
 		|| !config->t_east || !config->t_west
 		|| !config->floor || !config->ceiling)
 		return (0);
@@ -58,15 +58,15 @@ int	ft_map_is_last(t_gamedata *config)
 }
 
 /**
- * @brief function to jump over spaces (according to ft_startjumper) 
+ * @brief function to jump over spaces (according to ft_startjumper)
  * and ignore comma
  * this functions serves for extracting colors from identifier ceiling
  * and floor
- * 
+ *
  * it iterates through the string searching for the next comma while
  * ignoring spaces before and after. if there is no comma,
  * ir returns an error, frees all allocated data and exits program
- * 
+ *
  */
 int	ft_colorjumper(char *str, t_gamedata *config, char *line, int fd)
 {
@@ -87,7 +87,7 @@ int	ft_colorjumper(char *str, t_gamedata *config, char *line, int fd)
 
 /**
  * @brief this functions returns a start index to jump
- * over spaces, 
+ * over spaces,
  * (newlines and tabs: //	|| (str[i] >= 9 && str[i] <= 12))
  * at the beginning of a string
  */
@@ -96,7 +96,7 @@ int	ft_startjumper(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] 
+	while (str[i]
 		&& ((str[i] == ' ')))
 		i += 1;
 	return (i);

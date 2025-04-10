@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
@@ -6,15 +6,15 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 18:03:07 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:47:34 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 /**
  * DESCRIPTION:
- * file that organises the rendering of minimap and handles the mode of 
+ * file that organises the rendering of minimap and handles the mode of
  * the minimap (turned on / off)
  */
 
@@ -45,7 +45,7 @@ void	ft_minimap_switcher(t_gamedata *config)
 
 /**
  * @brief function to clear all pixels of the minimap image
- * by assigning the defined minimap background color to them 
+ * by assigning the defined minimap background color to them
  * (overwriting in case there had been a color before)
  * each pixel of minimap will be rendered
  */
@@ -62,7 +62,7 @@ static void	clear_minimap_surface(t_gamedata *config,
 		j = 0;
 		while (j < config->cub3d_data.minimap_surface->width)
 		{
-			putPixel(minimap_data.bg_color,
+			putpixel(minimap_data.bg_color,
 				config->cub3d_data.minimap_surface, j, i);
 			j++;
 		}
@@ -72,7 +72,7 @@ static void	clear_minimap_surface(t_gamedata *config,
 
 /**
  * @brief function to assign values to the minimap struct.
- * Each tile of the map-input is is drawn as a 
+ * Each tile of the map-input is is drawn as a
  * cell_size * cell_size pixel square.
  * The minimap size is calculated based on the larger dimension of the game map.
  * Otherwise a long map might be cut off.

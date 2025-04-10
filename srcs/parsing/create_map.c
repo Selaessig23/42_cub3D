@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:57:07 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 14:25:13 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:54:02 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
  * this file creates a (cleaned) map out of the input file,
  * assigns it to the game config struct and checks for
  * errors (validation of map)
- * 
+ *
  * CHECK: the algorithm will stop using input from the file
- * until end of file | (empty line = newline) was found, 
+ * until end of file | (empty line = newline) was found,
  * if wrong letter was found at beginning of line or somewhere
  * within the line, it will cause an error
- * 
+ *
  * if there is more map input or valid chars after empty line was
  * found it returns an error and exits
- * 
+ *
  */
 
 /**
@@ -53,18 +53,18 @@ static void	ft_improve_and_check_map(t_gamedata **p_config, int fd)
 /**
  * @brief function to check the line of map for valid characters
  * eof or line with line[0] = \n significates end of map
- * if there is a line with only spaces and next line 
+ * if there is a line with only spaces and next line
  * has wrong characters this would cause a parsing error message
- * 
+ *
  * 	//check if desired: in emptytline == wrong-input
  * if (*line == '\n')
  * 	return (0);
- * 
+ *
  * CHECK: maybe integrate space_jump here as well
- * 
+ *
  * @return returns 1 if map is valid
  * 0 if NOT valid
-*/ 
+*/
 static int	ft_map_valid_check(char *line)
 {
 	while (*line)
@@ -83,11 +83,11 @@ static int	ft_map_valid_check(char *line)
 
 /**
  * @brief adds a new line of input (gnl) to existing string
- * 
- * maybe use 
+ *
+ * maybe use
  * ft_strlcat(temp1, line, (ft_strlen(temp1) + ft_strlen(line) + 1))
  * instead (difficult without being able to use realloc)
- * 
+ *
  */
 char	*ft_concat(char *str_old, char *str_toadd, t_gamedata **p_config)
 {
@@ -106,10 +106,10 @@ char	*ft_concat(char *str_old, char *str_toadd, t_gamedata **p_config)
 /**
  * @brief function to loop through the end of input file,
  * which has to be the map input, and use each line for
- * map char creation until eol or invalid character. 
+ * map char creation until eol or invalid character.
  * Empty lines (*line == '\n') are only accepted if they
  * occur at end of file
- * 
+ *
  * if everything else after empty line should be ignored
  * (instead of checking if there is more input after emptyline):
  * // else if (*line == '\n' || *line == '\0')
@@ -145,14 +145,14 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
 
 /**
  * @brief function that assigns the content of input file,
- * identified as part of map (last part of content in file, 
+ * identified as part of map (last part of content in file,
  * allowed characters: 0, 1, N, S, E, W)
- * 
- * 1) after creating a map-string it 
+ *
+ * 1) after creating a map-string it
  * 2) creates a map-array of strings and
  * 3) extends this map to same length of strings and
  * 4) checks if map is surrounded by walls
- * 
+ *
  */
 int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 {

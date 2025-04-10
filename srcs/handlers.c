@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:28:56 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:50:10 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -24,8 +24,8 @@
 /**
  * @brief handler function for mlx_loop_hook
  * it renders each pixel of the image
- * 
- * @param param A user-defined pointer that can store extra data 
+ *
+ * @param param A user-defined pointer that can store extra data
  * (in this case: the struct t_gamedata with game-config's data).
  */
 void	render(void *param)
@@ -42,11 +42,11 @@ void	render(void *param)
 
 /**
  * @brief handler function for mlx_key_hook
- * 
+ *
  * for move_speed and rotation_speed a smaller value would cause
  * more precise movement / rotation
- * 
- * @param param A user-defined pointer that can store extra data 
+ *
+ * @param param A user-defined pointer that can store extra data
  * (in this case: the struct t_gamedata with game-config's data).
  */
 void	key_handler(mlx_key_data_t keydata, void *param)
@@ -73,15 +73,15 @@ void	key_handler(mlx_key_data_t keydata, void *param)
 }
 
 /**
- * @brief handler function for mlx_resize_hook. 
+ * @brief handler function for mlx_resize_hook.
  * It tries to resize the image after resizing the window.
- * 
- * TODO: The old image seems to remain unchanged 
+ *
+ * TODO: The old image seems to remain unchanged
  * and should be maybe manually freed if no longer needed.
- * 
+ *
  * @param with new width after resizing
  * @param height new height after resizing
- * @param param A user-defined pointer that can store extra data 
+ * @param param A user-defined pointer that can store extra data
  * (in this case: the struct t_gamedata with game-config's data).
  */
 void	resize(int width, int height, void *param)

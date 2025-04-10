@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:43 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 10:26:22 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:54:00 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
  * DESCRIPTION:
  * this file organises the check for indentifiers in input
  * file by reading line per line with function gnl
- * if identifier is found, all important information 
+ * if identifier is found, all important information
  * will be extracted by functions of further parsing-files
  * (organised in this file)
- * if identifiers occur twice an error in input-file 
- * is found and therefore some of the config variables 
- * could not be set up an error will be returned 
+ * if identifiers occur twice an error in input-file
+ * is found and therefore some of the config variables
+ * could not be set up an error will be returned
  * and the program exits.
  *
  *
@@ -59,15 +59,15 @@ int	ft_search_map(char *line)
 /**
  * @brief function that searches in input file for floor and ceiling
  * identifier ("F" / "C"), it ignores spaces
- * (| tabs | \n ) at the beginning of the line, 
+ * (| tabs | \n ) at the beginning of the line,
  * if it founds identifier although it was already defined it returns an error
  *
- * @param p_config pointer to the config-struct that keeps all 
+ * @param p_config pointer to the config-struct that keeps all
  * information of input file that is required for the game
  * @param line the line of the input file that has to be checked
  * @param fd file descriptor of input file (to close in case of error)
  * for color identifiers
- * 
+ *
  * @return 0 in case NO identifier was found,
  * 	1 if identifier was found
  */
@@ -97,7 +97,7 @@ static int	ft_search_colors(t_gamedata *config, char *line, int fd)
  * type of texture
  * (helper function for ft_search_textures)
  */
-static void	ft_texture_duplicate_check(t_gamedata *config, 
+static void	ft_texture_duplicate_check(t_gamedata *config,
 			char *line, int fd, int i)
 {
 	if (!ft_strncmp(&line[i], "NO ", 3) && config->t_north)
@@ -127,12 +127,12 @@ static void	ft_texture_duplicate_check(t_gamedata *config,
  * identifiers and checks if this identifier has already been
  * defined (== not clear definition of corresponding texture
  * identifier -> error message and exit)
- * 
+ *
  * @param fd file descriptor of input file (to close in case of error)
  * @param line line from input file that was read by gnl-function
- * @param p_config pointer to the config-struct that keeps all 
+ * @param p_config pointer to the config-struct that keeps all
  * information of input file that is required for the game
- * 
+ *
  * @return 0 in case NO identifier was found,
  * 	1 if identifier was found
  */
@@ -160,7 +160,7 @@ static int	ft_search_textures(t_gamedata *config, char *line, int fd)
  * creation or freed in ft_set_map if an error occurs)
  *
  * @param fd file descriptor of input file (for gnl-function)
- * @param p_config pointer to the config-struct that keeps all 
+ * @param p_config pointer to the config-struct that keeps all
  * information of input file that is required for the game
  */
 void	ft_gnl_infileloop(int fd, t_gamedata **p_config)

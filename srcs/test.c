@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 19:48:11 by pvasilan          #+#    #+#             */
+/*   Updated: 2025/04/10 19:53:55 by pvasilan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	ft_testprint_maparray(char **map_arr)
@@ -41,9 +53,5 @@ void	ft_testprint(t_gamedata *config)
 	printf("Player dir y = %f\n", config->player.dir.y);
 	ft_printf("Player fov: %i\n", config->player.fov);
 	ft_testprint_maparray(config->map);
-	ft_printf("------------------------------------"
-		"----------------------------\n");
-	// ft_printf("map:\n%s\n", config->map);
+	ft_printf("-----------------------\n");
 }
-
-

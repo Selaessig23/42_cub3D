@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_color.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 15:49:00 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:52:30 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * CHECK: the algorithm will
  * not ignore wrong letters in between the RGB-color-information
  * like C 225t,  30!,  0
- * it will return an error for cases like this, 
+ * it will return an error for cases like this,
  * it only ignores chars defined in startjump-function (spaces),
  * color values have to be seperated by comma,
  * like C 225,30 ,     0
@@ -48,23 +48,23 @@ t_color	*ft_connect_color_values(int color_red, int color_green, int color_blue)
 
 /**
  * @brief it validates the color values
- * as there can't be any negative-value (as 
+ * as there can't be any negative-value (as
  * only digits are accepted to be valid), the
  * negative value
  * -1 was used in ft_extract_color
  * to describe a malloc issue;
- * -2 was used in ft_extract_color 
+ * -2 was used in ft_extract_color
  * to describe values that are bigger than 255;
- * -3 was used in ft_extract_color to 
+ * -3 was used in ft_extract_color to
  * describe a missing value
- * in these cases program frees correctly, 
+ * in these cases program frees correctly,
  * returns an error and exits in this case
- * 
+ *
  */
 static int	check_color(t_gamedata *config, int color,
 	char *line, int fd)
 {
-	if (color == -1 
+	if (color == -1
 		|| color == -1
 		|| color == -1)
 	{
@@ -90,7 +90,7 @@ static int	check_color(t_gamedata *config, int color,
 
 /**
  * @brief function to extract the color value from to_extract
- * and transform it from char to an int. 
+ * and transform it from char to an int.
  * function als checks if color-value
  * is correct (>0 && < 256)
  *
@@ -110,7 +110,7 @@ static int	extr_color(char *to_extract, int *startindex)
 	endindex = *startindex;
 	color_value = 0;
 	temp = NULL;
-	while (to_extract[endindex] && to_extract[endindex] != '\n' 
+	while (to_extract[endindex] && to_extract[endindex] != '\n'
 		&& ft_isdigit(to_extract[endindex]))
 		endindex += 1;
 	temp = ft_substr(to_extract, *startindex, endindex);
@@ -130,15 +130,15 @@ static int	extr_color(char *to_extract, int *startindex)
  * @brief function that assigns the extracted color value
  * to the game config according to indentifier
  * of corresponding line in input file (ceiling / floor color)
- * 
- * // while (line[*start] && line[*start] != '\n' 
+ *
+ * // while (line[*start] && line[*start] != '\n'
  * 		&& !ft_isdigit(line[*start]))/
  * // 	*start += 1;
- * 
+ *
  * it ignores all chars that are not digit between the color-
  * definitions (not only comma)
  */
-t_color	*ft_assign_color(t_gamedata **p_config, 
+t_color	*ft_assign_color(t_gamedata **p_config,
 			char *line, int *start, int fd)
 {
 	t_color		*color;
@@ -146,13 +146,13 @@ t_color	*ft_assign_color(t_gamedata **p_config,
 	long long	color_green;
 	long long	color_blue;
 
-	color_red = check_color(*p_config, extr_color(line, start), 
+	color_red = check_color(*p_config, extr_color(line, start),
 			line, fd);
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
-	color_green = check_color(*p_config, extr_color(line, start), 
+	color_green = check_color(*p_config, extr_color(line, start),
 			line, fd);
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
-	color_blue = check_color(*p_config, extr_color(line, start), 
+	color_blue = check_color(*p_config, extr_color(line, start),
 			line, fd);
 	color = ft_connect_color_values(color_red, color_green, color_blue);
 	if (!color)
@@ -166,9 +166,9 @@ t_color	*ft_assign_color(t_gamedata **p_config,
 /**
  * @brief function that sets the color for floor and ceiling
  * as identifiers were found in line of input file
- * 
- * if all chars that are not digit should be ignored 
- * at the front of line (instead of only ignoring chars from 
+ *
+ * if all chars that are not digit should be ignored
+ * at the front of line (instead of only ignoring chars from
  * startjumper [apparantly spaces]):
  * // while (line[start] && line[start] != '\n'
  * // 	&& !ft_isdigit(line[start]))
@@ -195,8 +195,8 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 	if (!line[start] || line[start] == '\n')
 	{
 		ft_freeing_support(fd, line);
-		ft_error_handling(4, 
-			ft_strdup("ceiling color (\"C\") or floor color (\"F\")"), *p_config);
+		ft_error_handling(4,
+			ft_strdup("ceiling(\"C\") or floor(\"F\")"), *p_config);
 	}
 	color = ft_assign_color(p_config, line, &start, fd);
 	i = ft_startjumper(line);
