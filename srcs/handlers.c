@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/08 10:30:27 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:39:19 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3d.h"
 
@@ -52,12 +52,8 @@ void	render(void *param)
 void	key_handler(mlx_key_data_t keydata, void *param)
 {
 	t_gamedata	*config;
-	float		move_speed;
-	float		rotation_speed;
 
 	config = (t_gamedata *)param;
-	move_speed = 0.5;
-	rotation_speed = 0.15;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		ft_cleanup(config, false);
 	if ((keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W

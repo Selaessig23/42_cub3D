@@ -44,7 +44,7 @@ static void	calculate_render_line(t_render_line *line, mlx_image_t *img,
 	if (line->draw_start < 0)
 		line->draw_start = 0;
 	line->draw_end = img->height / 2 + line->height / 2;
-	if (line->draw_end >= img->height)
+	if ((unsigned int)line->draw_end >= img->height)
 		line->draw_end = img->height - 1;
 }
 
@@ -133,7 +133,7 @@ void	cast_ray_and_draw_wall(char **map, mlx_image_t *img, t_gamedata *config)
 	t_ray			ray;
 	t_hit_info		hit_info;
 	t_render_line	line;
-	int				x;
+	uint32_t				x;
 	float			camera_x;
 
 	x = 0;

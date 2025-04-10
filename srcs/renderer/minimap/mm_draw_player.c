@@ -169,31 +169,13 @@ void	draw_player_direction(t_gamedata *config, t_minimap_data minimap_data)
 	t_vector2	dir_end;
 	t_color		color_view;
 
-	t_vector2 left_vertex;
-	t_vector2 right_vertex;
-	t_vector2 perp_dir;
 
 	color_view = (t_color){0xA9A9A880};
 	player_pos = multiplyvector(config->player.pos, minimap_data.cell_size);
 	dir_end = addvectors(player_pos, 
 			multiplyvector(normalizevector(config->player.dir), 10));
 
-	// Draw line from player position to direction end point
-	// putPixel(color_view, config->cub3d_data.minimap_surface, player_pos.x, player_pos.x);
 	putPixel(color_view, config->cub3d_data.minimap_surface, dir_end.x, dir_end.y);
 
-	// Compute perpendicular direction for triangle's base.
-	// perp_dir = (t_vector2){-config->player.dir.y, config->player.dir.x};
-	// left_vertex = addvectors(player_pos, multiplyvector(perp_dir, 7));
-	// right_vertex = addvectors(player_pos, multiplyvector(perp_dir, -7));
-
-	// // Draw the triangle edges.
-	// draw_line(config->cub3d_data.minimap_surface, color_view, player_pos, left_vertex);
-	// draw_line(config->cub3d_data.minimap_surface, color_view, player_pos, right_vertex);
-	// draw_line(config->cub3d_data.minimap_surface, color_view, left_vertex, dir_end);
-	// draw_line(config->cub3d_data.minimap_surface, color_view, right_vertex, dir_end);
-
-	// // Fill the triangle to make it solid.
-	// fill_triangle(config->cub3d_data.minimap_surface, color_view, player_pos, left_vertex, right_vertex);
 
 }

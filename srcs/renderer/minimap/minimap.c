@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:10:08 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/02 15:38:39 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:39:39 by pvasilan         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../include/cub3d.h"
 
@@ -52,8 +52,8 @@ void	ft_minimap_switcher(t_gamedata *config)
 static void	clear_minimap_surface(t_gamedata *config, 
 	t_minimap_data minimap_data)
 {
-	int		i;
-	int		j;
+	unsigned int		i;
+	unsigned int		j;
 
 	i = 0;
 	j = 0;
