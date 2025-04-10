@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mlx_font.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 12:01:37 by W2Wizard          #+#    #+#             */
-/*   Updated: 2025/03/15 16:48:55 by pvasilan         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   mlx_font.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/22 12:01:37 by W2Wizard      #+#    #+#                 */
+/*   Updated: 2022/06/27 19:53:36 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ static void mlx_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffs
 
 const mlx_texture_t* mlx_get_font(void)
 {
-	return ((const mlx_texture_t*)&font_atlas);
+    return ((const mlx_texture_t*)&font_atlas);
 }
 
 int32_t mlx_get_texoffset(char c)
 {
-	const bool _isprint = isprint(c);
+    const bool _isprint = isprint(c);
 
-	// NOTE: Cheesy branchless operation :D
-	// +2 To skip line separator in texture
-	return (-1 * !_isprint + ((FONT_WIDTH + 2) * (c - 32)) * _isprint);
+    // NOTE: Cheesy branchless operation :D
+    // +2 To skip line separator in texture
+    return (-1 * !_isprint + ((FONT_WIDTH + 2) * (c - 32)) * _isprint);
 }
 
 mlx_image_t* mlx_put_string(mlx_t* mlx, const char* str, int32_t x, int32_t y)

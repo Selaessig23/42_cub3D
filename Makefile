@@ -12,6 +12,8 @@ LIBFT_PATH = $(CUR_DIR)/libft
 LIBFT_LIBRARY = $(CUR_DIR)/libft/libft.a
 LIBFT_CREATE = libft.a
 CFLAGS += -Ilibft
+# remove MLX_REPO if not desired download in case mlx does not exist
+MLX_REPO = https://github.com/codam-coding-college/MLX42.git
 MLX_PATH = $(CUR_DIR)/MLX42
 MLX42 = $(CUR_DIR)/MLX42/build/libmlx42.a
 CFLAGS += -I$(MLX_PATH)
@@ -85,6 +87,14 @@ $(LIBFT_CREATE):
 #	@echo CREATE OR UPDATE LIBFT
 
 $(MLX42):
+# remove this part in case of mlx should not be downloaded in case it does not exist -->
+	@if [ ! -d "$(MLX_PATH)" ]; then \
+		echo "Cloning MLX42..."; \
+		git clone $(MLX_REPO) $(MLX_PATH); \
+	else \
+		echo "-- MLX42 already exists."; \
+	fi
+# <--
 	@if [ ! -d "$(MLX_PATH)/build" ]; then \
 		cmake $(MLX_PATH) -B $(MLX_PATH)/build; \
 	fi

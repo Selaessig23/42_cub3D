@@ -6,14 +6,14 @@
 
 # If no arguments have been given
 if [ "$#" -ne 2 ]; then
-	echo "ERROR: missing arguments, use as follows: $0 <ShaderFile> <Mode>" 1>&2
-	exit 1
+    echo "ERROR: missing arguments, use as follows: $0 <ShaderFile> <Mode>" 1>&2
+    exit 1
 fi
 
 # If file cannot be found
 if [ ! -f "$1" ]; then
-	echo "ERROR: shader file not found: $1" 1>&2
-	exit 2
+    echo "ERROR: shader file not found: $1" 1>&2
+    exit 2
 fi
 
 SHADERTYPE="${1##*.}"
@@ -31,14 +31,14 @@ echo "#include \"MLX42/MLX42_Int.h\""
 echo ""
 
 {
-	if [ "$2" -eq 1 ]; then # Output WASM specific lines
-		echo "const char* ${SHADERTYPE}_shader = \"#version 300 es\\n\""
-		echo "	\"precision mediump float;\""
-	else # Non-Wasm, output the original shader version
-		echo "const char* ${SHADERTYPE}_shader = \"$(sed -n '1{p;q;}' "$1")\\n\""
-	fi
+    if [ "$2" -eq 1 ]; then # Output WASM specific lines
+        echo "const char* ${SHADERTYPE}_shader = \"#version 300 es\\n\""
+        echo "	\"precision mediump float;\""
+    else # Non-Wasm, output the original shader version
+        echo "const char* ${SHADERTYPE}_shader = \"$(sed -n '1{p;q;}' "$1")\\n\""
+    fi
 
-	# Read the rest of the shader file
+    # Read the rest of the shader file
 	read
 	while IFS= read -r LINE; do
 		if [ ! "${LINE}" = "" ]; then

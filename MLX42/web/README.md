@@ -33,7 +33,7 @@ Modify your main:
 ```c
 // Invoked instead of mlx_loop directly.
 void emscripten_main_loop() {
-	mlx_loop(mlx);
+    mlx_loop(mlx);
 }
 
 int32_t	main(int argc, char **argv)
@@ -60,8 +60,8 @@ int32_t	main(int argc, char **argv)
 	mlx_loop_hook(mlx, ft_randomize, mlx);
 	mlx_loop_hook(mlx, ft_hook, mlx);
 
-	// This function will set up the main loop
-	emscripten_set_main_loop(emscripten_main_loop, 0, true);
+    // This function will set up the main loop
+    emscripten_set_main_loop(emscripten_main_loop, 0, true);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
@@ -75,11 +75,11 @@ It is that easy to just re-deploy your own app into webassembly.
 ```bash
 # Compile C into JS/WASM
 emcc -O3 -I include -I mlx -pthread main.c \
-	-o ./web/demo.js \
-	./build/libmlx42.a \
-	-s USE_GLFW=3 -s USE_WEBGL2=1 -s FULL_ES3=1 -s WASM=1 \
-	-s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
-	-s ALLOW_MEMORY_GROWTH
+    -o ./web/demo.js \
+    ./build/libmlx42.a \
+    -s USE_GLFW=3 -s USE_WEBGL2=1 -s FULL_ES3=1 -s WASM=1 \
+    -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
+    -s ALLOW_MEMORY_GROWTH
 
 # Navigate into the web folder (if you're running this directly from this repo)
 cd web
@@ -110,7 +110,7 @@ name: Deploy static content to Pages
 
 on:
   push:
-	branches: ["master"] # Change to main or whatever fancy name
+    branches: ["master"] # Change to main or whatever fancy name
   workflow_dispatch:
 
 permissions:
@@ -127,24 +127,24 @@ concurrency:
 # Single deploy job since we're just deploying
 jobs:
   deploy:
-	environment:
-	  name: github-pages
-	  url: ${{ steps.deployment.outputs.page_url }}
-	runs-on: ubuntu-latest
-	#TODO: add a build step to get the wasm file instead of commiting it.
-	#Doesn't really matter atm since the git history is polluted anyway
-	steps:
-	  - name: Checkout
-		uses: actions/checkout@v4
-	  - name: Setup Pages
-		uses: actions/configure-pages@v5
-	  - name: Upload artifact
-		uses: actions/upload-pages-artifact@v3
-		with:
-		  path: './web' # <= Set this variable to the directory relative to the root of the repo.
-	  - name: Deploy to GitHub Pages
-		id: deployment
-		uses: actions/deploy-pages@v4
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    #TODO: add a build step to get the wasm file instead of commiting it.
+    #Doesn't really matter atm since the git history is polluted anyway
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './web' # <= Set this variable to the directory relative to the root of the repo.
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 Once you commit this file github will do it's magic and create a deployment.
