@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:15:38 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/08 09:31:36 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:12:04 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,9 @@ int	ft_check_ns_passage(char **map, int startarr, int startstr,
  * eastern or western direction
  * 1st part see below
  * 
+ * @return 0 in case there was a floor instead of expected wall,
+ * 1 in case of surrounded by walls
+ * 
  */
 static int	ft_check_cave_ii(char **map, int startarr, int startstr, 
 	char prev_direction)
@@ -182,7 +185,11 @@ static int	ft_check_cave_ii(char **map, int startarr, int startstr,
  * souther or northern direction
  * 2nd part: see above
  * 
- * maybe delete this function and call the corresponding 
+ * * @return 0 in case there was a floor instead of expected wall,
+ * 1 in case of surrounded by walls
+ * 
+ * maybe delete this function (& ft_check_cave_ii) 
+ * and call the corresponding 
  * function directly in direction check or passage check 
  */
 int	ft_check_cave(char **map, int startarr, int startstr, 

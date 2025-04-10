@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:13 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 10:27:34 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:29:49 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ int	main(int argc, char *argv[])
 			fd = ft_access_check(argv[1]);
 		config = ft_initiate_data(fd);
 		ft_freeing_support(fd, NULL);
-		// close(fd);
 		//just for testing reasons
-		ft_testprint(config);
+		// ft_testprint(config);
 		// initiate mlx-data with game-config-data (validated)
 		ft_init_mlx(config);
 		//adapt image size in case of window resizing
@@ -41,7 +40,7 @@ int	main(int argc, char *argv[])
 		mlx_loop_hook(config->cub3d_data.mlx, render, config);
 		//game loop
 		mlx_loop(config->cub3d_data.mlx);
-		//cleaning up
+		// cleaning up
 		ft_cleanup(config, false);
 		// ft_free_config(config);
 	}

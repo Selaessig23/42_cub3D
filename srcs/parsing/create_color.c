@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 10:46:19 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:29:15 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@
  * if input of input-file is valid
  *
  * CHECK: the algorithm will
- * ignore wrong letters in between the RGB-color-information
- * like
- * C 225t,  30!,  0
- * it will not return an error for cases like this, it just 
- * reads the digits, therefore also in case of negative values
- * it will just ignore the dash
- * --> correct / desired behaviour?
+ * not ignore wrong letters in between the RGB-color-information
+ * like C 225t,  30!,  0
+ * it will return an error for cases like this, 
+ * it only ignores chars defined in startjump-function (spaces),
+ * color values have to be seperated by comma,
+ * like C 225,30 ,     0
  *
  */
 
@@ -169,7 +168,9 @@ t_color	*ft_assign_color(t_gamedata **p_config,
  * @brief function that sets the color for floor and ceiling
  * as identifiers were found in line of input file
  * 
- * it ignores all chars that are not digit at the front of line:
+ * if all chars that are not digit should be ignored 
+ * at the front of line (instead of only ignoring chars from 
+ * startjumper [apparantly spaces]):
  * // while (line[start] && line[start] != '\n'
  * // 	&& !ft_isdigit(line[start]))
  * // 	start += 1;
@@ -192,7 +193,6 @@ void	ft_set_color(t_gamedata **p_config, char *line, int fd)
 	i = 0;
 	start += ft_startjumper(&line[start]) + 1;
 	start += ft_startjumper(&line[start]);
-	printf("startindex: %i\n", start);
 	if (!line[start] || line[start] == '\n')
 	{
 		ft_freeing_support(fd, line);

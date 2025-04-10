@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 10:25:29 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:03:22 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ int			ft_startjumper(char *str);
 void		ft_refill_map(char **dest, char **src);
 int			ft_colorjumper(char *str, t_gamedata *config, char *line, int fd);
 int			ft_map_is_last(t_gamedata *config);
+void		ft_new_line_looper(char *line, t_gamedata *config, int fd, char *map);
 //initiate_mlx.c
 void		ft_init_mlx(t_gamedata *config);
 void		ft_init_imgs(t_gamedata *config); //if not required by minimap_switcher in minimap.c change to static

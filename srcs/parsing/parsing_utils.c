@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 10:08:24 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 10:47:51 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:13:27 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,31 @@
  * this file keeps small simple functions that
  * are used by several other functions in different files
  */
+
+/**
+ * @brief this function handles new lines in map part of file
+ * (== last part of file)
+ * it will loop through the file until end of file (return)
+ * or another char than '\n' was found (== error and exit)
+ */
+void	ft_new_line_looper(char *line, t_gamedata *config, int fd, char *map)
+{
+	free(line);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		else if (*line != '\n')
+		{
+			ft_freeing_support(fd, line);
+			free(map);
+			map = NULL;
+			ft_error_handling(14, NULL, config);
+		}
+		free (line);
+	}
+}
 
 /**
  * @brief function that checks if all required as already been
@@ -48,9 +73,7 @@ int	ft_colorjumper(char *str, t_gamedata *config, char *line, int fd)
 	int	i;
 
 	i = 0;
-	printf("check comma index 1part: %i, $%s$\n", i, &str[i]);
 	i += ft_startjumper(str);
-	printf("check comma index 2part: %i, $%s$\n", i, &str[i]);
 	if (str[i] && str[i] == ',')
 		i += 1;
 	else
