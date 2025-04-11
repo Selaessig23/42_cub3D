@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 23:42:11 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:49:35 by mstracke         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -100,7 +100,7 @@ typedef struct s_hit_info
 	t_vector2		pos;
 	t_direction		side;
 	int				hit;
-	float			perp_wall_dist;
+	double			perp_wall_dist;
 }		t_hit_info;
 
 typedef struct s_ray {
@@ -111,7 +111,7 @@ typedef struct s_ray {
 	int				map_y;
 	int				step_x;
 	int				step_y;
-	float			wall_x;
+	double			wall_x;
 }		t_ray;
 
 typedef struct s_render_line {
@@ -123,7 +123,7 @@ typedef struct s_render_line {
 
 typedef struct s_wall_slice {
 	int		screen_x;
-	float	wall_x;
+	double	wall_x;
 }	t_wall_slice;
 
 typedef struct s_triangle {
@@ -132,7 +132,7 @@ typedef struct s_triangle {
 	t_vector2	v3;
 }		t_triangle;
 
-typedef structs_fov_data {
+typedef struct s_fov_data {
 	t_vector2	player_pos;
 	t_vector2	dir_end;
 	t_vector2	left_ray;
@@ -212,7 +212,7 @@ void		draw_player_position(t_gamedata *config,
 void		draw_player_direction(t_gamedata *config,
 				t_minimap_data minimap_data);
 //renderer/cub3d/renderer.c
-void		init_ray(t_ray *ray, t_player player, float camera_x);
+void		init_ray(t_ray *ray, t_player player, double camera_x);
 void		cast_ray_and_draw_wall(t_gamedata *config);
 //renderer/cub3d/background.c
 void		fill_lower_half(mlx_image_t *img, t_color color);
@@ -245,5 +245,5 @@ void		ft_free_config(t_gamedata *config);
 void		ft_testprint(t_gamedata *config);
 void		ft_testprint_maparray(char **map_arr);
 bool		ft_player_collision(t_gamedata *config,
-				t_vector2 pos, float player_radius);
+				t_vector2 pos, double player_radius);
 #endif

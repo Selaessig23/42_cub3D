@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   locomotion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:48 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 23:36:38 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:56:36 by mstracke         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -26,9 +26,9 @@
  *
  * @param up if true player needs to move up, if false down
  */
-static void	ft_player_move_updown(t_gamedata *config, float move_speed, bool up)
+static void	ft_player_move_updown(t_gamedata *config, double move_speed, bool up)
 {
-	const float		player_radius = 0.1;
+	const double		player_radius = 0.1;
 	t_vector2		move_vec;
 	t_vector2		new_pos;
 	t_vector2		test_pos_x;
@@ -53,7 +53,7 @@ static void	ft_player_move_updown(t_gamedata *config, float move_speed, bool up)
 /**
  * @brief helper function for player_move_rl to define strafe_dir
  */
-t_vector2	ft_strafe_dir(t_gamedata *config, float move_speed, bool right)
+t_vector2	ft_strafe_dir(t_gamedata *config, double move_speed, bool right)
 {
 	t_vector2	strafe_dir;
 
@@ -72,13 +72,13 @@ t_vector2	ft_strafe_dir(t_gamedata *config, float move_speed, bool right)
 	return (strafe_dir);
 }
 
-static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
+static void	ft_player_move_rl(t_gamedata *config, double move_speed, bool right)
 {
-	t_vector2	strafe_dir;
-	t_vector2	new_pos;
-	t_vector2	test_pos_x;
-	t_vector2	test_pos_y;
-	const float	player_radius = 0.3;
+	t_vector2		strafe_dir;
+	t_vector2		new_pos;
+	t_vector2		test_pos_x;
+	t_vector2		test_pos_y;
+	const double	player_radius = 0.3;
 
 	strafe_dir = ft_strafe_dir(config, move_speed, right);
 	new_pos = addvectors(config->player.pos, strafe_dir);
@@ -101,7 +101,7 @@ static void	ft_player_move_rl(t_gamedata *config, float move_speed, bool right)
  */
 void	ft_player_movement(mlx_key_data_t keydata, t_gamedata *config)
 {
-	float		move_speed;
+	double		move_speed;
 
 	move_speed = 0.5;
 	if (keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W)
@@ -123,7 +123,7 @@ void	ft_player_movement(mlx_key_data_t keydata, t_gamedata *config)
  */
 void	ft_player_rotation(mlx_key_data_t keydata, t_gamedata *config)
 {
-	float		rotation_speed;
+	double		rotation_speed;
 
 	rotation_speed = 0.15;
 	if (keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_Q)

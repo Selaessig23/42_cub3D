@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:05 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 19:50:10 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:57:00 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

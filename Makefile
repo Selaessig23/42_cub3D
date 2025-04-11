@@ -85,7 +85,6 @@ obj/%.o: srcs/%.c
 $(LIBFT_LIBRARY): $(LIBFT_CREATE)
 	@$(MAKE) -s -C libft
 
-
 $(LIBFT_CREATE):
 #	@echo CREATE OR UPDATE LIBFT
 

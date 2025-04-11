@@ -1,18 +1,18 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   raycast_rays.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:13:56 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 23:06:54 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:49:27 by mstracke         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
-static	void	init_ray_direction(t_ray *ray, t_player player, float camera_x)
+static	void	init_ray_direction(t_ray *ray, t_player player, double camera_x)
 {
 	ray->dir.x = player.dir.x + player.dir.y * camera_x * 0.66f;
 	ray->dir.y = player.dir.y - player.dir.x * camera_x * 0.66f;
@@ -55,7 +55,7 @@ static	void	init_ray_step_distances(t_ray *ray, t_player player)
 }
 
 // Main function that calls both helper functions
-void	init_ray(t_ray *ray, t_player player, float camera_x)
+void	init_ray(t_ray *ray, t_player player, double camera_x)
 {
 	init_ray_direction(ray, player, camera_x);
 	init_ray_step_distances(ray, player);

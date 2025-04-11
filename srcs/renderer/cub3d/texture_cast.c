@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   texture_cast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:43:42 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 23:35:36 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:49:29 by mstracke         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -38,7 +38,7 @@ void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 	uint32_t		tex_x;
 	uint32_t		tex_y;
 	uint8_t			*pixel;
-	float			step;
+	double			step;
 	int				screen_y;
 
 	tex_x = (int)(wall_slice.wall_x * texture->width);
@@ -47,7 +47,7 @@ void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 	screen_y = line.draw_start;
 	while (screen_y < line.draw_end)
 	{
-		step = (float)texture->height / (line.draw_end - line.draw_start);
+		step = (double)texture->height / (line.draw_end - line.draw_start);
 		tex_y = (int)((screen_y - line.draw_start) * step);
 		if (tex_y >= texture->height)
 			tex_y = texture->height - 1;

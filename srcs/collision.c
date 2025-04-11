@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   collision.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:21:56 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 23:34:42 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:49:20 by mstracke         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -19,7 +19,7 @@ static	bool	ft_is_wall_collision(t_gamedata *config, t_vector2 pos)
 }
 
 bool	ft_player_collision(t_gamedata *config,
-		t_vector2 pos, float player_radius)
+		t_vector2 pos, double player_radius)
 {
 	t_vector2	collision_points[4];
 	int			i;

@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:40:06 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/10 23:14:20 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:49:28 by mstracke         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -47,7 +47,7 @@ static void	calculate_wall_properties(t_ray *ray,
  * 2) calculate lowest and highest pixel to fill in current stripe
  */
 static void	calculate_render_line(t_render_line *line, mlx_image_t *img,
-	float perp_wall_dist, int screen_x)
+	double perp_wall_dist, int screen_x)
 {
 	line->height = (int)(img->height / perp_wall_dist);
 	line->screen_x = screen_x;
@@ -77,12 +77,12 @@ void	cast_ray_and_draw_wall(t_gamedata *config)
 	t_hit_info		hit_info;
 	t_render_line	line;
 	uint32_t		x;
-	float			camera_x;
+	double			camera_x;
 
 	x = 0;
 	while (x < config->cub3d_data.img->width)
 	{
-		camera_x = 2.0f * x / (float)config->cub3d_data.img->width - 1.0f;
+		camera_x = 2.0f * x / (double)config->cub3d_data.img->width - 1.0f;
 		init_ray(&ray, config->player, camera_x);
 		hit_info = init_hit_info();
 		perform_dda(config->map, &ray, &hit_info);

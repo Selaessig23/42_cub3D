@@ -8,10 +8,7 @@
  SO ./purple_stone.png
    WE ./color_stone.png
   EA ./east.png
-  NO ./blue_stone.png
- SO ./purple_stone.png
-   WE ./grey_stone.png
-  EA ./color_stone.png
+
 asdadsaaa
 as
   F 220,100,0
