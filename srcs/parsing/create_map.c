@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:57:07 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 19:54:02 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:58:34 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,11 @@ static char	*ft_gnl_maploop(char *map, int fd, t_gamedata **p_config)
  * 2) creates a map-array of strings and
  * 3) extends this map to same length of strings and
  * 4) checks if map is surrounded by walls
+ * 5) searches for player in the map and sets players pos and dir in
+ * config struct
  *
  */
-int	ft_set_map(t_gamedata **p_config, char *line, int fd)
+int	ft_set_map_player(t_gamedata **p_config, char *line, int fd)
 {
 	t_gamedata	*config;
 	char		*map_clean;
@@ -174,5 +176,10 @@ int	ft_set_map(t_gamedata **p_config, char *line, int fd)
 		ft_error_handling(9, NULL, *p_config);
 	}
 	ft_improve_and_check_map(p_config, fd);
+	if (!ft_player_check(*p_config, fd))
+	{
+		ft_freeing_support(fd, NULL);
+		ft_error_handling(11, NULL, *p_config);
+	}
 	return (1);
 }

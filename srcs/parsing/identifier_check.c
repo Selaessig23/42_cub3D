@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:43 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 19:54:00 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:58:57 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,16 +177,16 @@ void	ft_gnl_infileloop(int fd, t_gamedata **p_config)
 			ft_set_texture(p_config, line, fd);
 		else if (ft_search_map(line) && ft_map_is_last(*p_config))
 		{
-			ft_set_map(p_config, line, fd);
-			if (!ft_player_check(*p_config, fd))
-			{
-				close (fd);
-				ft_error_handling(11, NULL, *p_config);
-			}
+			ft_set_map_player(p_config, line, fd);
 			break ;
 		}
 		else if (ft_search_colors(*p_config, line, fd))
 			ft_set_color(p_config, line, fd);
+		else if (*line && line[ft_startjumper(line)] != '\n')
+		{
+			ft_freeing_support(fd, NULL);
+			ft_error_handling(15, line, *p_config);
+		}
 		free(line);
 	}
 }
