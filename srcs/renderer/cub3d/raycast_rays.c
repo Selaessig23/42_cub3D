@@ -12,10 +12,19 @@
 
 #include "cub3d.h"
 
+#define EPSILON 0.0001
+
 static	void	init_ray_direction(t_ray *ray, t_player player, double camera_x)
 {
 	ray->dir.x = player.dir.x + player.dir.y * camera_x * 0.66f;
 	ray->dir.y = player.dir.y - player.dir.x * camera_x * 0.66f;
+	
+	// Handle corner cases in ray direction
+	if (fabs(ray->dir.x) < EPSILON)
+		ray->dir.x = (ray->dir.x < 0) ? -EPSILON : EPSILON;
+	if (fabs(ray->dir.y) < EPSILON)
+		ray->dir.y = (ray->dir.y < 0) ? -EPSILON : EPSILON;
+	
 	ray->map_x = (int)player.pos.x;
 	ray->map_y = (int)player.pos.y;
 	if (ray->dir.x == 0)

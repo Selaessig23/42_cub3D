@@ -12,6 +12,8 @@
 
 #include "cub3d.h"
 
+#define EPSILON 0.0001
+
 /**
  * DESCRIPTION: this file organises the raycasting for cub3d-img
  * and initiates values for required structs
@@ -28,11 +30,21 @@ static void	calculate_wall_properties(t_ray *ray,
 	t_hit_info *hit_info, t_vector2 player_pos)
 {
 	if (hit_info->side == DIR_EAST || hit_info->side == DIR_WEST)
+	{
 		hit_info->perp_wall_dist = (ray->map_x - player_pos.x
 				+ (1 - ray->step_x) / 2) / ray->dir.x;
+		// Add corner case adjustment
+		if (fabs(ray->dir.y) < EPSILON)
+			hit_info->perp_wall_dist *= 1.01; // Slight adjustment for corner cases
+	}
 	else
+	{
 		hit_info->perp_wall_dist = (ray->map_y - player_pos.y
 				+ (1 - ray->step_y) / 2) / ray->dir.y;
+		// Add corner case adjustment
+		if (fabs(ray->dir.x) < EPSILON)
+			hit_info->perp_wall_dist *= 1.01; // Slight adjustment for corner cases
+	}
 	if (hit_info->side == DIR_EAST || hit_info->side == DIR_WEST)
 		ray->wall_x = player_pos.y + hit_info->perp_wall_dist * ray->dir.y;
 	else

@@ -1,0 +1,14 @@
+NO ./purple_stone.png
+SO ./grey_stone.png
+WE ./blue_stone.png
+EA ./color_stone.png
+
+F 220, 100, 0
+C 20, 100, 150
+
+11111111111
+10000000001
+10000000001
+10000100001
+100000000E1
+11111111111

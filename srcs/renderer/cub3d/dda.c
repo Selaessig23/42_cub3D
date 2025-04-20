@@ -12,25 +12,39 @@
 
 #include "cub3d.h"
 
-/**
- * @brief Digital Differential Analysis (DDA)
- * to find which squares of the map the ray hits,
- * and stop the algorithm once a square that is a wall (or space) is hit
- *
- * Steps:
- * 1) Jump to next map square, either in x-direction, or in y-direction
- *      (depending on which is closer)
- * 2) Check if ray has hit a wall (consider direction)
- *      hit_info->side = DIR_WEST --> Hit the west face (coming from east)
- *      hit_info->side = DIR_EAST --> Hit the east face (coming from west)
- *      hit_info->side = DIR_NORTH --> Hit the north face (coming from south)
- *      hit_info->side = DIR_SOUTH --> Hit the south face (coming from north)
- */
+#define EPSILON 0.0001
+
 void	perform_dda(char **map, t_ray *ray, t_hit_info *hit_info)
 {
 	hit_info->hit = 0;
+	hit_info->side = 0;
+	
 	while (!hit_info->hit)
 	{
+		if (fabs(ray->side_dist.x - ray->side_dist.y) < EPSILON)
+		{
+			// Corner case - check both directions
+			bool hit_x = map[ray->map_y][ray->map_x + ray->step_x] == '1';
+			bool hit_y = map[ray->map_y + ray->step_y][ray->map_x] == '1';
+			if (hit_x && hit_y)
+			{
+				// Corner hit - choose closest
+				if (ray->side_dist.x < ray->side_dist.y)
+				{
+					ray->side_dist.x += ray->delta_dist.x;
+					ray->map_x += ray->step_x;
+					hit_info->side = (ray->step_x > 0) ? DIR_WEST : DIR_EAST;
+				}
+				else
+				{
+					ray->side_dist.y += ray->delta_dist.y;
+					ray->map_y += ray->step_y;
+					hit_info->side = (ray->step_y > 0) ? DIR_NORTH : DIR_SOUTH;
+				}
+				hit_info->hit = 1;
+				break;
+			}
+		}
 		if (ray->side_dist.x < ray->side_dist.y)
 		{
 			ray->side_dist.x += ray->delta_dist.x;

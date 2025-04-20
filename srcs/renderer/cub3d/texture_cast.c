@@ -38,23 +38,27 @@ void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 	uint32_t		tex_x;
 	uint32_t		tex_y;
 	uint8_t			*pixel;
+	double			tex_pos;
 	double			step;
-	int				screen_y;
 
 	tex_x = (int)(wall_slice.wall_x * texture->width);
 	if (tex_x >= texture->width)
 		tex_x = texture->width - 1;
-	screen_y = line.draw_start;
-	while (screen_y < line.draw_end)
+	
+	// Calculate step for texture coordinate
+	step = 1.0 * texture->height / line.height;
+	
+	// Starting texture coordinate
+	tex_pos = (line.draw_start - render_img->height / 2 + line.height / 2) * step;
+	
+	while (line.draw_start < line.draw_end)
 	{
-		step = (double)texture->height / (line.draw_end - line.draw_start);
-		tex_y = (int)((screen_y - line.draw_start) * step);
-		if (tex_y >= texture->height)
-			tex_y = texture->height - 1;
+		tex_y = (int)tex_pos & (texture->height - 1);
+		tex_pos += step;
 		pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
 		putpixel(pixel_to_color(pixel),
-			render_img, wall_slice.screen_x, screen_y);
-		screen_y++;
+			render_img, wall_slice.screen_x, line.draw_start);
+		line.draw_start++;
 	}
 }
 
