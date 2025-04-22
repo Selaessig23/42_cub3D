@@ -36,6 +36,7 @@ SRCS =	main.c \
 			handlers.c\
 			locomotion.c \
 			collision.c \
+			ft_rotate.c \
 			renderer/minimap/minimap.c \
 			renderer/minimap/mm_draw_grid.c \
 			renderer/minimap/mm_draw_player.c \

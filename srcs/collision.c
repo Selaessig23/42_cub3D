@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collision.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:21:56 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/11 14:49:20 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:08:28 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,15 @@ bool	ft_player_collision(t_gamedata *config,
 	int			i;
 	double		angle;
 
-	// Center point
 	collision_points[0] = pos;
-	
-	// 8 points around the circle
-	for (i = 1; i < 9; i++)
+	i = 0;
+	while (i < 9)
 	{
-		angle = (i - 1) * M_PI_4; // 45 degrees between points
+		angle = (i - 1) * M_PI_4; 
 		collision_points[i].x = pos.x + cos(angle) * player_radius;
 		collision_points[i].y = pos.y + sin(angle) * player_radius;
+		i++;
 	}
-
-	// Check all points
 	i = 0;
 	while (i < 9)
 	{

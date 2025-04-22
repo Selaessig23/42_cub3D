@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:40:06 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/11 14:49:28 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:57:11 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,15 @@ static void	calculate_wall_properties(t_ray *ray,
 	{
 		hit_info->perp_wall_dist = (ray->map_x - player_pos.x
 				+ (1 - ray->step_x) / 2) / ray->dir.x;
-		// Add corner case adjustment
 		if (fabs(ray->dir.y) < EPSILON)
-			hit_info->perp_wall_dist *= 1.01; // Slight adjustment for corner cases
+			hit_info->perp_wall_dist *= 1.01;
 	}
 	else
 	{
 		hit_info->perp_wall_dist = (ray->map_y - player_pos.y
 				+ (1 - ray->step_y) / 2) / ray->dir.y;
-		// Add corner case adjustment
 		if (fabs(ray->dir.x) < EPSILON)
-			hit_info->perp_wall_dist *= 1.01; // Slight adjustment for corner cases
+			hit_info->perp_wall_dist *= 1.01;
 	}
 	if (hit_info->side == DIR_EAST || hit_info->side == DIR_WEST)
 		ray->wall_x = player_pos.y + hit_info->perp_wall_dist * ray->dir.y;

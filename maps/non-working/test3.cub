@@ -4,10 +4,10 @@
 
            sdasda
             asda
-  NO ./blue_stone.png
- SO ./purple_stone.png
-   WE ./color_stone.png
-  EA ./east.png
+NO ./data/blue_stone.png
+SO ./data/purple_stone.png
+WE ./data/color_stone.png
+EA ./data/grey_stone.png
 
 asdadsaaa
 as

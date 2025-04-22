@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/11 15:29:36 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:10:52 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 
 # define WIDTH 800
 # define HEIGHT 600
+# define PLAYER_RADIUS 0.2
+# define MOVE_SPEED 0.3
+# define ROTATION_SPEED 0.1
 
 typedef struct s_vector2 {
 	double	x;
@@ -212,13 +215,15 @@ void		draw_player_position(t_gamedata *config,
 void		draw_player_direction(t_gamedata *config,
 				t_minimap_data minimap_data);
 //renderer/cub3d/renderer.c
-void		init_ray(t_ray *ray, t_player player, double camera_x);
+void init_ray(t_ray *ray, t_player player, double camera_x);
+static void check_and_epsilon(t_ray *ray);
 void		cast_ray_and_draw_wall(t_gamedata *config);
 //renderer/cub3d/background.c
 void		fill_lower_half(mlx_image_t *img, t_color color);
 void		fill_upper_half(mlx_image_t *img, t_color color);
 //renderer/cub3d/dda.c
-void		perform_dda(char **map, t_ray *ray, t_hit_info *hit_info);
+void 		perform_dda(char **map, t_ray *ray, t_hit_info *hit_info);
+void 		determine_side(char **map, t_ray *ray, t_hit_info *hit_info);
 //renderer/cub3d/texture_cast.c
 mlx_image_t	*pick(t_direction side, t_gamedata *config);
 //renderer/color_pixel.c

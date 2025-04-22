@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   locomotion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 18:59:48 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/11 14:56:36 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:01:24 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-#define PLAYER_RADIUS 0.2
-#define MOVE_SPEED 0.3
-#define ROTATION_SPEED 0.1
 
 static bool	ft_is_valid_position(t_gamedata *config, t_vector2 pos)
 {
@@ -31,7 +27,6 @@ static void	ft_player_move_updown(t_gamedata *config, bool up)
 		move_vec = multiplyvector(move_vec, MOVE_SPEED);
 	else
 		move_vec = multiplyvector(move_vec, -MOVE_SPEED);
-	
 	new_pos = addvectors(config->player.pos, move_vec);
 	if (ft_is_valid_position(config, new_pos))
 		config->player.pos = new_pos;
@@ -77,14 +72,4 @@ void	ft_player_movement(mlx_key_data_t keydata, t_gamedata *config)
 		ft_player_move_rl(config, false);
 	else if (keydata.key == MLX_KEY_D)
 		ft_player_move_rl(config, true);
-}
-
-void	ft_player_rotation(mlx_key_data_t keydata, t_gamedata *config)
-{
-	if (keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_Q)
-		config->player.dir = normalizevector
-			(rotatevector(config->player.dir, ROTATION_SPEED));
-	else if (keydata.key == MLX_KEY_RIGHT || keydata.key == MLX_KEY_E)
-		config->player.dir = normalizevector
-			(rotatevector(config->player.dir, -ROTATION_SPEED));
 }

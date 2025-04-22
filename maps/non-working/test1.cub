@@ -5,13 +5,10 @@
            sdasda
             asda
 
-NO /home/mstracke/development/cub3D/test/blue_stone.xpm
-
-SO /home/mstracke/development/cub3D/test/color_stone.xpm
-
-WE /home/mstracke/development/cub3D/test/purple_stone.xpm
-
-EA /home/mstracke/development/cub3D/test/grey_stone.xpm
+NO 	./data/blue_stone.png
+SO 	./data/purple_stone.png
+WE 	./data/color_stone.png
+EA 	./data/grey_stone.png
 
 
 F asda 233 ,asda 0 , 0

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_cast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:43:42 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/11 14:49:29 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:55:28 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,9 @@ void	copy_texture_line(mlx_image_t *render_img, mlx_image_t *texture,
 	tex_x = (int)(wall_slice.wall_x * texture->width);
 	if (tex_x >= texture->width)
 		tex_x = texture->width - 1;
-	
-	// Calculate step for texture coordinate
 	step = 1.0 * texture->height / line.height;
-	
-	// Starting texture coordinate
-	tex_pos = (line.draw_start - render_img->height / 2 + line.height / 2) * step;
-	
+	tex_pos = (line.draw_start - 
+			render_img->height / 2 + line.height / 2) * step;
 	while (line.draw_start < line.draw_end)
 	{
 		tex_y = (int)tex_pos & (texture->height - 1);

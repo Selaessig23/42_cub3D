@@ -1,7 +1,7 @@
-NO ./purple_stone.png
-SO ./grey_stone.png
-WE ./blue_stone.png
-EA ./color_stone.png
+NO ./data/blue_stone.png
+SO ./data/purple_stone.png
+WE ./data/color_stone.png
+EA ./data/grey_stone.png
 
 F 220, 100, 0
 C 20, 100, 150

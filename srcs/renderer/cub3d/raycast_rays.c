@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_rays.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:13:56 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/11 14:49:27 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:11:19 by pvasilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@ static	void	init_ray_direction(t_ray *ray, t_player player, double camera_x)
 {
 	ray->dir.x = player.dir.x + player.dir.y * camera_x * 0.66f;
 	ray->dir.y = player.dir.y - player.dir.x * camera_x * 0.66f;
-	
-	// Handle corner cases in ray direction
-	if (fabs(ray->dir.x) < EPSILON)
-		ray->dir.x = (ray->dir.x < 0) ? -EPSILON : EPSILON;
-	if (fabs(ray->dir.y) < EPSILON)
-		ray->dir.y = (ray->dir.y < 0) ? -EPSILON : EPSILON;
-	
+	check_and_epsilon(ray);
 	ray->map_x = (int)player.pos.x;
 	ray->map_y = (int)player.pos.y;
 	if (ray->dir.x == 0)
@@ -35,6 +29,24 @@ static	void	init_ray_direction(t_ray *ray, t_player player, double camera_x)
 		ray->delta_dist.y = 1e30;
 	else
 		ray->delta_dist.y = fabs(1.0f / ray->dir.y);
+}
+
+void	check_and_epsilon(t_ray *ray)
+{
+	if (fabs(ray->dir.x) < EPSILON)
+	{
+		if (ray->dir.x < 0)
+			ray->dir.x = -EPSILON;
+		else
+			ray->dir.x = EPSILON;
+	}
+	if (fabs(ray->dir.y) < EPSILON)
+	{
+		if (ray->dir.y < 0)
+			ray->dir.y = -EPSILON;
+		else
+			ray->dir.y = EPSILON;
+	}
 }
 
 static	void	init_ray_step_distances(t_ray *ray, t_player player)
