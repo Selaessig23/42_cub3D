@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_rays.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:13:56 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/22 17:11:19 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:03:08 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 #define EPSILON 0.0001
+
+void	check_and_epsilon(t_ray *ray);
 
 static	void	init_ray_direction(t_ray *ray, t_player player, double camera_x)
 {

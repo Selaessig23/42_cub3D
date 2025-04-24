@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/24 10:59:32 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:02:12 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void		draw_player_direction(t_gamedata *config,
 				t_minimap_data minimap_data);
 //renderer/cub3d/renderer.c
 void		init_ray(t_ray *ray, t_player player, double camera_x);
-static void	check_and_epsilon(t_ray *ray);
+// static void	check_and_epsilon(t_ray *ray);
 void		cast_ray_and_draw_wall(t_gamedata *config);
 //renderer/cub3d/background.c
 void		fill_lower_half(mlx_image_t *img, t_color color);
