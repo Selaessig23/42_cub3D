@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:13:56 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/24 11:03:08 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:05:35 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	check_and_epsilon(t_ray *ray);
 
-static	void	init_ray_direction(t_ray *ray, t_player player, double camera_x)
+static void	init_ray_direction(t_ray *ray, t_player player, double camera_x)
 {
 	ray->dir.x = player.dir.x + player.dir.y * camera_x * 0.66f;
 	ray->dir.y = player.dir.y - player.dir.x * camera_x * 0.66f;

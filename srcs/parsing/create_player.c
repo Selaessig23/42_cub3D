@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:28:45 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 16:02:22 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/29 09:27:44 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_vector2	ft_set_players_dir(char dir)
 	}
 	else if (dir == 'E')
 	{
-		player_dir.x = -1;
+		player_dir.x = 1;
 	}
 	else if (dir == 'S')
 	{
@@ -44,7 +44,7 @@ static t_vector2	ft_set_players_dir(char dir)
 	}
 	else if (dir == 'W')
 	{
-		player_dir.x = 1;
+		player_dir.x = -1;
 	}
 	return (player_dir);
 }
