@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/11 16:01:01 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:14:34 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ft_error_parsing_2(int err, char *addinfo)
 	else if (err == 15)
 		ft_dprintf(2, "There is an unknown key in the file. "
 			"Please check:$%s$!\n", addinfo);
+	else if (err == 16)
+		ft_dprintf(2, "Color values are wrong 22\n");
 }
 
 /**

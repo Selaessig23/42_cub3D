@@ -18,11 +18,8 @@ Please execute with ./cub3d [infile.cub]
 ## Map rules
 - map has to be surrounded by walls (1), not floors (0). If there is a space in the outer edge, it will be seen as a cave and checked if these cave is surrounded by walls as well. 
 - if there is a hole of spaces within the map, these spaces will be interpreted as walls. 
-- there must be one player within the map (no dupolicates accepted), defined by one of the direction identifiers (N, S, E, W).
-- if there is a empty line in map content this will cause an error
-
-## to check:
-- what about very big maps?
+- there must be one player within the map (no duplicates accepted), defined by one of the direction identifiers (N, S, E, W).
+- if there is an empty line in map content this will cause an error
 
 ## known bugs
 - if user tries to load a texture with .png extension that is not a valid png-file -- valgrind issues and undefined behaviour

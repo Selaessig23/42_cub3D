@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:37:19 by pvasilan          #+#    #+#             */
-/*   Updated: 2025/04/24 11:02:12 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:44:09 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,9 @@ int			ft_search_map(char *line);
 void		ft_set_texture(t_gamedata **p_config, char *line, int fd_infile);
 //parsing/create_color.c
 void		ft_set_color(t_gamedata **p_config, char *line, int fd);
+//parsing/color_checks.c
+int			check_color(t_gamedata *config, int color, char *line, int fd);
+int			ft_last_color_check(bool blue, char *to_check, int start, int end);
 //parsing/create_map.c
 int			ft_set_map_player(t_gamedata **p_config, char *line, int fd);
 //parsing/map_enlarger.c
