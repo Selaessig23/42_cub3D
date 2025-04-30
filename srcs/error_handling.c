@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/30 15:14:34 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:31:16 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	ft_error_parsing_2(int err, char *addinfo)
 	if (err == 10)
 		ft_dprintf(2, "The map is not surrounded by walls in %s.\n", addinfo);
 	else if (err == 11)
-		ft_dprintf(2, "How will you have fun without "
-			"any player in game, idiot? Check your map, it is invalid!\n");
+		ft_dprintf(2, "How will you have fun without any player "
+			"in game, dear evaluator? Check your map, it is invalid!\n");
 	else if (err == 12)
-		ft_dprintf(2, "How will you play with several players "
-			"at the same time, idiot? Check your map, it is invalid!\n");
+		ft_dprintf(2, "How will you play with several players at the sa"
+			"me time, dear evaluator? Check your map, it is invalid!\n");
 	else if (err == 13)
 		ft_dprintf(2, "Texture requires \'.png\'-extension. "
 			"Please check wrong extension of %s\n", addinfo);
@@ -73,7 +73,10 @@ void	ft_error_parsing_2(int err, char *addinfo)
 		ft_dprintf(2, "There is an unknown key in the file. "
 			"Please check:$%s$!\n", addinfo);
 	else if (err == 16)
-		ft_dprintf(2, "Color values are wrong 22\n");
+		ft_dprintf(2, "Blue color value is wrong\n");
+	else if (err == 17)
+		ft_dprintf(2, "Player was set on the edge of the map in %s, "
+			"this is invalid.\n", addinfo);
 }
 
 /**
