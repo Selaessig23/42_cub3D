@@ -169,6 +169,9 @@ int			ft_search_map(char *line);
 void		ft_set_texture(t_gamedata **p_config, char *line, int fd_infile);
 //parsing/create_color.c
 void		ft_set_color(t_gamedata **p_config, char *line, int fd);
+//parsing/color_checks.c
+int			check_color(t_gamedata *config, int color, char *line, int fd);
+int			ft_last_color_check(bool blue, char *to_check, int start, int end);
 //parsing/create_map.c
 int			ft_set_map_player(t_gamedata **p_config, char *line, int fd);
 //parsing/map_enlarger.c

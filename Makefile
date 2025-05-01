@@ -26,6 +26,7 @@ SRCS =	main.c \
 			parsing/identifier_check.c \
 			parsing/create_texture.c \
 			parsing/create_color.c \
+			parsing/color_checks.c \
 			parsing/create_map.c \
 			parsing/map_enlarger.c \
 			parsing/map_wallcheck.c \

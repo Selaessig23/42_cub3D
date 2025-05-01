@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_color.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvasilan <pvasilan@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:21:13 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/10 19:52:30 by pvasilan         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:47:42 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,48 +47,6 @@ t_color	*ft_connect_color_values(int color_red, int color_green, int color_blue)
 }
 
 /**
- * @brief it validates the color values
- * as there can't be any negative-value (as
- * only digits are accepted to be valid), the
- * negative value
- * -1 was used in ft_extract_color
- * to describe a malloc issue;
- * -2 was used in ft_extract_color
- * to describe values that are bigger than 255;
- * -3 was used in ft_extract_color to
- * describe a missing value
- * in these cases program frees correctly,
- * returns an error and exits in this case
- *
- */
-static int	check_color(t_gamedata *config, int color,
-	char *line, int fd)
-{
-	if (color == -1
-		|| color == -1
-		|| color == -1)
-	{
-		ft_freeing_support(fd, line);
-		ft_error_handling(9, NULL, config);
-	}
-	else if (color == -2
-		|| color == -2
-		|| color == -2)
-	{
-		ft_freeing_support(fd, line);
-		ft_error_handling(6, NULL, config);
-	}
-	else if (color == -3
-		|| color == -3
-		|| color == -3)
-	{
-		ft_freeing_support(fd, line);
-		ft_error_handling(6, NULL, config);
-	}
-	return (color);
-}
-
-/**
  * @brief function to extract the color value from to_extract
  * and transform it from char to an int.
  * function als checks if color-value
@@ -99,7 +57,7 @@ static int	check_color(t_gamedata *config, int color,
  * @return in case there is an malloc issue, function returns -1,
  * otherwise it returns the extracted color value
  */
-static int	extr_color(char *to_extract, int *startindex)
+static int	extr_color(char *to_extract, int *startindex, bool blue)
 {
 	char		*temp;
 	int			endindex;
@@ -113,15 +71,17 @@ static int	extr_color(char *to_extract, int *startindex)
 	while (to_extract[endindex] && to_extract[endindex] != '\n'
 		&& ft_isdigit(to_extract[endindex]))
 		endindex += 1;
+	if (ft_last_color_check(blue, to_extract, *startindex, endindex))
+		return (-4);
 	temp = ft_substr(to_extract, *startindex, endindex);
 	if (!temp)
 		return (-1);
 	color_value = (long long) ft_atoi(temp);
+	free(temp);
 	if (color_value > 255
 		|| color_value > 255
 		|| color_value > 255)
 		return (-2);
-	free(temp);
 	*startindex = endindex;
 	return (color_value);
 }
@@ -146,13 +106,13 @@ t_color	*ft_assign_color(t_gamedata **p_config,
 	long long	color_green;
 	long long	color_blue;
 
-	color_red = check_color(*p_config, extr_color(line, start),
+	color_red = check_color(*p_config, extr_color(line, start, false),
 			line, fd);
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
-	color_green = check_color(*p_config, extr_color(line, start),
+	color_green = check_color(*p_config, extr_color(line, start, false),
 			line, fd);
 	*start += ft_colorjumper(&line[*start], *p_config, line, fd);
-	color_blue = check_color(*p_config, extr_color(line, start),
+	color_blue = check_color(*p_config, extr_color(line, start, true),
 			line, fd);
 	color = ft_connect_color_values(color_red, color_green, color_blue);
 	if (!color)
