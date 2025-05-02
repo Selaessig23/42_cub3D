@@ -6,13 +6,13 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:42:23 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/11 16:01:01 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/05/02 12:08:55 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_error_mlx(int err)
+static void	ft_error_mlx(int err)
 {
 	if (err == 20)
 		ft_dprintf(2, "Problems mlx_init!\n");
@@ -26,7 +26,44 @@ void	ft_error_mlx(int err)
 		ft_dprintf(2, "Problems creating an image out of a texture!\n");
 }
 
-void	ft_error_parsing_1(int err, char *addinfo)
+static void	ft_error_parsing_3(int err, char *addinfo)
+{
+	if (err == 16)
+		ft_dprintf(2, "Color values are wrong.\n");
+	else if (err == 17)
+		ft_dprintf(2, "Player was set on the edge of the map in %s, "
+			"this is invalid.\n", addinfo);
+}
+
+static void	ft_error_parsing_2(int err, char *addinfo)
+{
+	if (err == 10)
+		ft_dprintf(2, "The map is not surrounded by walls in %s.\n", addinfo);
+	else if (err == 11)
+		ft_dprintf(2, "How will you have fun without any player in "
+			"game, dear evaluator? Check your map, it is invalid!\n");
+	else if (err == 12)
+		ft_dprintf(2, "How will you play with several players at the same"
+			" time, dear evaluator? Check your map, it is invalid!\n");
+	else if (err == 13)
+		ft_dprintf(2, "Texture requires \'.png\'-extension. "
+			"Please check wrong extension of %s\n", addinfo);
+	else if (err == 14)
+		ft_dprintf(2, "Map is interrupted by empty lines. Wrong input!\n");
+	else if (err == 15)
+	{
+		if (ft_search_map(addinfo))
+			ft_dprintf(2, "Identifier(s) are missing, they "
+				"should be listed before map-content.\n");
+		else
+			ft_dprintf(2, "There is an unknown key in the file. "
+				"Please check:$%s$!\n", addinfo);
+	}
+	else 
+		ft_error_parsing_3(err, addinfo);
+}
+
+static void	ft_error_parsing_1(int err, char *addinfo)
 {
 	if (err == 0)
 	{
@@ -52,26 +89,6 @@ void	ft_error_parsing_1(int err, char *addinfo)
 		ft_dprintf(2, "Map input is wrong. Wrong character(s).\n");
 	else if (err == 8)
 		ft_dprintf(2, "There are more than one idenitifer for %s.\n", addinfo);
-}
-
-void	ft_error_parsing_2(int err, char *addinfo)
-{
-	if (err == 10)
-		ft_dprintf(2, "The map is not surrounded by walls in %s.\n", addinfo);
-	else if (err == 11)
-		ft_dprintf(2, "How will you have fun without "
-			"any player in game, idiot? Check your map, it is invalid!\n");
-	else if (err == 12)
-		ft_dprintf(2, "How will you play with several players "
-			"at the same time, idiot? Check your map, it is invalid!\n");
-	else if (err == 13)
-		ft_dprintf(2, "Texture requires \'.png\'-extension. "
-			"Please check wrong extension of %s\n", addinfo);
-	else if (err == 14)
-		ft_dprintf(2, "Map is interrupted by empty lines. Wrong input!\n");
-	else if (err == 15)
-		ft_dprintf(2, "There is an unknown key in the file. "
-			"Please check:$%s$!\n", addinfo);
 }
 
 /**

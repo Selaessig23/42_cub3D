@@ -6,7 +6,7 @@
 /*   By: mstracke <mstracke@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:43 by mstracke          #+#    #+#             */
-/*   Updated: 2025/04/11 15:58:57 by mstracke         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:45:33 by mstracke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@
  * and the program exits.
  *
  *
- * PROBLEM to solve: how to close the infile fd
- * in case of an error in one of the subfunctions
- * (by adding it to the frame config struct?)
  *
  */
 
